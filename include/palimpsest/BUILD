@@ -11,4 +11,17 @@ cc_library(
     ],
 )
 
+cc_library(
+    name = "mpack",
+    hdrs = [
+        "mpack_eigen.h",
+        "mpack_read.h",
+        "mpack_write.h",
+    ],
+    deps = [
+        "@eigen",
+        "@mpack",
+    ],
+)
+
 add_lint_tests(enable_clang_format_lint = True)
