@@ -9,6 +9,7 @@ cc_library(
     hdrs = [
         "exceptions.h",
     ],
+    include_prefix = "palimpsest",
 )
 
 cc_library(
