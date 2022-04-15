@@ -12,6 +12,13 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
+ *
+ * This file incorporates work covered by the following copyright and
+ * permission notice:
+ *
+ *     MessagePackBuilder from https://github.com/jrl-umi3218/mc_rtc/
+ *     Copyright 2015-2019 CNRS-UM LIRMM, CNRS-AIST JRL
+ *     License: BSD-2-Clause
  */
 
 #pragma once
