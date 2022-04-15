@@ -49,4 +49,23 @@ class PalimpsestError : public std::runtime_error {
   std::string message_;
 };
 
+/*! Exception thrown when a requested type doesn't match the type of the object
+ * in the dictionary.
+ */
+class TypeError : public PalimpsestError {
+ public:
+  /*! Create a key error.
+   *
+   * \param[in] key Key that was not found.
+   * \param[in] message Error message.
+   */
+  TypeError(const std::string& file, unsigned line, const std::string& message)
+      : PalimpsestError(message, file, line) {}
+
+  TypeError(const TypeError& other, const std::string& extra_message)
+      : PalimpsestError(other, extra_message) {}
+
+  ~TypeError() throw() {}
+};
+
 }  // namespace palimpsest
