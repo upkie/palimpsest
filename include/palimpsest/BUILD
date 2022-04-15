@@ -20,8 +20,17 @@ cc_library(
     ],
     include_prefix = "palimpsest",
     deps = [
+        ":exceptions",
         "@eigen",
         "@mpack",
+    ],
+)
+
+cc_library(
+    name = "palimpsest",
+    deps = [
+        ":exceptions",
+        ":mpack",
     ],
 )
 
