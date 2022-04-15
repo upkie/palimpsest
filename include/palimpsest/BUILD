@@ -18,6 +18,7 @@ cc_library(
         "mpack_read.h",
         "mpack_write.h",
     ],
+    include_prefix = "palimpsest",
     deps = [
         "@eigen",
         "@mpack",
