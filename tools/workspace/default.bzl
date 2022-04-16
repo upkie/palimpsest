@@ -3,6 +3,7 @@
 # Copyright 2022 Stéphane Caron
 
 load("//tools/workspace/eigen:repository.bzl", "eigen_repository")
+load("//tools/workspace/fmt:repository.bzl", "fmt_repository")
 load("//tools/workspace/googletest:repository.bzl", "googletest_repository")
 load("//tools/workspace/mpack:repository.bzl", "mpack_repository")
 load("//tools/workspace/mypy_integration:repository.bzl", "mypy_integration_repository")
@@ -14,6 +15,7 @@ def add_default_repositories():
     be loaded and called from a WORKSPACE file.
     """
     eigen_repository()
+    fmt_repository()
     googletest_repository()
     mpack_repository()
     mypy_integration_repository()
