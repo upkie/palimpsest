@@ -20,6 +20,7 @@
 
 namespace palimpsest {
 
+//! Base class for palimpsest exceptions
 class PalimpsestError : public std::runtime_error {
  public:
   /*! Create a new error.
@@ -57,9 +58,7 @@ class PalimpsestError : public std::runtime_error {
   std::string message_;
 };
 
-/*! Exception thrown when a requested type doesn't match the type of the object
- * in the dictionary.
- */
+//! Exception thrown when a requested type doesn't match the datastructure's.
 class TypeError : public PalimpsestError {
  public:
   /*! Create a type error.
