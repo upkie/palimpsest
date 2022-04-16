@@ -13,6 +13,17 @@ cc_library(
 )
 
 cc_library(
+    name = "json",
+    hdrs = [
+        "json_write.h",
+    ],
+    include_prefix = "palimpsest",
+    deps = [
+        "@eigen",
+    ],
+)
+
+cc_library(
     name = "mpack",
     hdrs = [
         "mpack_eigen.h",
