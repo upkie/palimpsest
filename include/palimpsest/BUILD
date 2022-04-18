@@ -39,9 +39,12 @@ cc_library(
 )
 
 cc_library(
-    name = "palimpsest",
+    name = "message_pack_writer",
+    hdrs = [
+        "MessagePackWriter.h",
+    ],
+    include_prefix = "palimpsest",
     deps = [
-        ":exceptions",
         ":mpack",
     ],
 )
