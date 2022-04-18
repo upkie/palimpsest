@@ -6,15 +6,25 @@ _palimpsest_ is a C++ header-only library that exposes a single ``Dictionary`` t
 
 ### Header-only version
 
-Copy the [include folder](include/palimpsest) to your build tree and use a C++11 compiler.
+TODO(scaron): Copy the [include folder](include/palimpsest) to your build tree and use a C++11 compiler.
 
-### Bazel
+### Static library with Bazel (faster compile times)
 
-...
+Create a git repository rule for palimpsest, for instance:
 
-## Features
+```python
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-...
+def palimpsest_repository():
+    git_repository(
+        name = "palimpsest",
+        remote = "git@github.com:stephane-caron/palimpsest.git",
+        commit = "...",
+        shallow_since = "..."
+    )
+```
+
+Then call this rule from the ``WORKSPACE`` file at the root of your Bazel repository.
 
 ## Performance
 
