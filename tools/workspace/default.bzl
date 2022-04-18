@@ -2,6 +2,7 @@
 #
 # Copyright 2022 Stéphane Caron
 
+load("//tools/workspace/cppcodec:repository.bzl", "cppcodec_repository")
 load("//tools/workspace/eigen:repository.bzl", "eigen_repository")
 load("//tools/workspace/fmt:repository.bzl", "fmt_repository")
 load("//tools/workspace/googletest:repository.bzl", "googletest_repository")
@@ -14,6 +15,7 @@ def add_default_repositories():
     Declare workspace repositories for all dependencies. This function should
     be loaded and called from a WORKSPACE file.
     """
+    cppcodec_repository()
     eigen_repository()
     fmt_repository()
     googletest_repository()
