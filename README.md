@@ -24,6 +24,11 @@ assert(bar == 6);
 ```
 </details>
 
+* Built-in support for [Eigen](https://eigen.tuxfamily.org/)
+* Print to standard output as JSON
+* Serialize to and deserialize from JSON
+* Serialize to and deserialize from [MessagePack](https://msgpack.org/)
+
 ### Non-features
 
 <details>
@@ -43,6 +48,8 @@ can be handled and its value will be deserialized as an ``Eigen::Vector2d``. How
 
 cannot be handled, as the array cannot be deserialized to an Eigen type.
 </details>
+
+* Copy constructors are disabled
 
 ## Install
 
