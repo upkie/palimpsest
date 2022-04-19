@@ -17,6 +17,7 @@ jobs:
         steps:
             - name: "Checkout sources"
               uses: actions/checkout@v2
+
             - name: "Build static version of the library"
               env:
                   BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}

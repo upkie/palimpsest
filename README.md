@@ -4,6 +4,25 @@
 
 _palimpsest_ is a C++ header-only library that exposes a single ``Dictionary`` type meant for fast value updates, with an API similar to Python's ``dict``. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest) because these dictionaries are optimized for frequent rewritings (values change all the time) on the same support (keys change once in a while).
 
+## Features and non-features
+
+All design decisions have their pros and cons. _palimpsest_ was designed for inter-process communication between real-time control programs, so it lies somewhere specific on the spectrum. Check the features and caveats below to see if it is a fit for _your_ use case.
+
+### Features
+
+<details>
+<summary>Direct references to sub-dictionaries or values</summary>
+
+```c++
+Dictionary dict;
+Dictionary& foo = dict("foo");
+foo("bar") = 42;
+const int& bar = dict("foo")("bar");
+foo("bar") /= 7;
+assert(bar == 6);
+```
+</details>
+
 ## Install
 
 ### Header-only version
