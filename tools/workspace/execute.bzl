@@ -6,7 +6,7 @@
 # notice:
 #
 #     Copyright 2012-2016 Robot Locomotion Group @ CSAIL
-#     License: /licenses/LICENSE-drake.
+#     License: BSD-3-Clause
 
 def path(repo_ctx, additional_search_paths = []):
     """Return the value of the PATH environment variable that would be used by

@@ -6,7 +6,7 @@
 # notice:
 #
 #     Copyright 2012-2016 Robot Locomotion Group @ CSAIL
-#     License: /licenses/LICENSE-drake.
+#     License: BSD-3-Clause
 
 load("//tools/workspace:execute.bzl", "path", "which")
 
