@@ -444,7 +444,7 @@ class Dictionary {
    * Also it doesn't return an insertion confirmation boolean.
    */
   template <typename T, typename... ArgsT, typename... Args>
-  T &insert(const std::string &key, Args &&... args) {
+  T &insert(const std::string &key, Args &&...args) {
     if (this->is_value()) {
       throw TypeError(__FILE__, __LINE__,
                       "Cannot insert at key \"" + key +
@@ -478,7 +478,7 @@ class Dictionary {
    * rather than forwarding its arguments directly.
    */
   template <typename T, typename... ArgsT, typename... Args>
-  T &insert_initializer(const std::string &key, Args &&... args) {
+  T &insert_initializer(const std::string &key, Args &&...args) {
     if (this->is_value()) {
       throw TypeError(__FILE__, __LINE__,
                       "Cannot insert at key \"" + key +
@@ -781,7 +781,7 @@ class Dictionary {
 
  protected:
   template <typename T, typename... ArgsT, typename... Args>
-  void become(Args &&... args) {
+  void become(Args &&...args) {
     assert(this->is_empty());
     value_.allocate<T>();
     new (value_.buffer.get()) T(std::forward<Args>(args)...);

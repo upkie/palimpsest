@@ -37,7 +37,6 @@ def _check_clang_format_idempotence(filename):
         ["/usr/bin/diff", "-u", "-", filename],
         stdin=formatter.stdout, stdout=subprocess.PIPE)
     changes = differ.communicate()[0]
-    print(f"changes: {changes}")
     if not changes:
         return 0
     print("ERROR: {} needs clang-format".format(filename))
