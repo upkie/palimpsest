@@ -23,3 +23,9 @@ jobs:
                   BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
               run: |
                   tools/bazelisk build //...
+
+            - name: "Test static version of the library"
+              env:
+                  BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
+              run: |
+                  tools/bazelisk test //...
