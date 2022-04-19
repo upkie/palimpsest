@@ -14,4 +14,15 @@ cc_library(
     ],
 )
 
+cc_library(
+    name = "dictionary",
+    srcs = [
+        "Dictionary.cpp",
+    ],
+    deps = [
+        "//include/palimpsest:dictionary",
+        ":message_pack_writer",
+    ],
+)
+
 add_lint_tests(enable_clang_format_lint = True)

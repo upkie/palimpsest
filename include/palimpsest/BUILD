@@ -49,4 +49,19 @@ cc_library(
     ],
 )
 
+cc_library(
+    name = "dictionary",
+    hdrs = [
+        "Dictionary.h",
+    ],
+    include_prefix = "palimpsest",
+    deps = [
+        ":exceptions",
+        ":json",
+        ":message_pack_writer",
+        ":mpack",
+        "@fmt",
+    ],
+)
+
 add_lint_tests(enable_clang_format_lint = True)

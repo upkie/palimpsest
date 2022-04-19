@@ -11,4 +11,12 @@ exports_files([
     ".clang-format",
 ])
 
+cc_library(
+    name = "palimpsest",
+    deps = [
+        "//include/palimpsest:dictionary",
+        "//src:dictionary",
+    ],
+)
+
 add_lint_tests()
