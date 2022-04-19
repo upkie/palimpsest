@@ -11,7 +11,7 @@ cc_test(
         "**/*.h",
     ]),
     deps = [
-        "//include/palimpsest",
+        "//:palimpsest",
         "@cppcodec",
         "@eigen",
         "@googletest//:main",

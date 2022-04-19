@@ -9,14 +9,10 @@
 #     License: BSD-3-Clause
 
 load("//tools/lint:cpplint.bzl", "cpplint")
-load("//tools/lint:python_lint.bzl", "python_lint")
 
 def add_lint_tests(
         cpplint_data = None,
         cpplint_extra_srcs = None,
-        python_lint_ignore = None,
-        python_lint_exclude = None,
-        python_lint_extra_srcs = None,
         bazel_lint_ignore = None,
         bazel_lint_extra_srcs = None,
         bazel_lint_exclude = None,
@@ -29,7 +25,6 @@ def add_lint_tests(
 
     Refer to the specific linters for their semantics and argument details:
     - cpplint.bzl
-    - python_lint.bzl
     """
     existing_rules = native.existing_rules().values()
     cpplint(
@@ -37,10 +32,4 @@ def add_lint_tests(
         data = cpplint_data,
         extra_srcs = cpplint_extra_srcs,
         enable_clang_format_lint = enable_clang_format_lint,
-    )
-    python_lint(
-        existing_rules = existing_rules,
-        ignore = python_lint_ignore,
-        exclude = python_lint_exclude,
-        extra_srcs = python_lint_extra_srcs,
     )

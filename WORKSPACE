@@ -13,12 +13,3 @@ add_default_repositories()
 
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 rules_foreign_cc_dependencies()
-
-load("@mypy_integration//repositories:repositories.bzl", mypy_integration_repositories = "repositories")
-mypy_integration_repositories()
-
-load("@mypy_integration//:config.bzl", "mypy_configuration")
-mypy_configuration("//tools/mypy:mypy.ini")
-
-load("@mypy_integration//repositories:deps.bzl", mypy_integration_deps = "deps")
-mypy_integration_deps(mypy_requirements_file="//tools/mypy:version.txt")
