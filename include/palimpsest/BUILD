@@ -61,6 +61,7 @@ cc_library(
         ":message_pack_writer",
         ":mpack",
         "@fmt",
+        "@spdlog",
     ],
 )
 
