@@ -75,8 +75,7 @@ def python_lint(
                 if s.endswith(".py") and s not in (exclude or [])
             ]
         else:
-            # The select() syntax returns an object we (apparently) can't
-            # inspect.  TODO(jwnimmer-tri) Figure out how to lint these files.
+            # The select() syntax returns an object we can't inspect.
             files = []
 
         # Add a lint test if necessary.

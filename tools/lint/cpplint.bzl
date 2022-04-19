@@ -38,9 +38,8 @@ def _extract_labels(srcs):
     if type(srcs) == type(()):
         return list(srcs)
 
-    # The select() syntax returns an object we (apparently) can't inspect.
-    # TODO(jwnimmer-tri) Figure out how to cpplint these files.  For now,
-    # folks will have to pass extra_srcs when calling cpplint() macro.
+    # The select() syntax returns an object we can't inspect. For now, folks
+    # will have to pass extra_srcs when calling cpplint() macro.
     return []
 
 def _is_source_label(label):
