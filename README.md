@@ -24,6 +24,26 @@ assert(bar == 6);
 ```
 </details>
 
+### Non-features
+
+<details>
+<summary>Array values are limited to matrices and vectors</summary>
+
+This means arrays of "things" are not allowed, only arrays of numbers. For instance,
+
+```json
+{"foo": [1.0, 2.0]}
+```
+
+can be handled and its value will be deserialized as an ``Eigen::Vector2d``. However,
+
+```json
+{"foo": ["string", {"bar": 42}]}  # not OK
+```
+
+cannot be handled, as the array cannot be deserialized to an Eigen type.
+</details>
+
 ## Install
 
 ### Header-only version
