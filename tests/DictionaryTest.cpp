@@ -257,6 +257,25 @@ TEST(Dictionary, EigenOverloadOperatorNew) {
   EXPECT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
 }
 
+TEST(Dictionary, Quaternions) {
+  Dictionary dict;
+  dict.insert<Eigen::Quaterniond>("orientation");
+  auto &orientation = dict.get<Eigen::Quaterniond>("orientation");
+
+  orientation = {1., 0., 0., 0.};
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").w(), 1.);
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").x(), 0.);
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").y(), 0.);
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").z(), 0.);
+
+  orientation = {0., 0., 12., 0.};
+  orientation.normalize();
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").w(), 0.);
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").x(), 0.);
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").y(), 1.);
+  ASSERT_DOUBLE_EQ(dict.get<Eigen::Quaterniond>("orientation").z(), 0.);
+}
+
 TEST(Dictionary, WriteEmptyJSON) {
   Dictionary dict;
   std::ostringstream oss;
