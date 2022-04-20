@@ -756,4 +756,27 @@ TEST(Dictionary, UpdateSignedInt) {
   ASSERT_EQ(dict("foo").as<int>(), 12);
 }
 
+TEST(Dictionary, Extend) {
+  std::vector<char> buffer;
+  MessagePackWriter writer(buffer);
+  writer.start_map(2);
+  writer.write("compact");
+  writer.write(true);
+  writer.write("schema");
+  writer.write(0u);
+  writer.finish_map();
+  size_t size = writer.finish();
+  ASSERT_GT(buffer.size(), 0);
+
+  Dictionary dict;
+  ASSERT_NO_THROW(dict.extend(buffer.data(), size));
+  ASSERT_EQ(dict("compact").as<bool>(), true);
+  ASSERT_EQ(dict("schema").as<unsigned>(), 0u);
+
+  // extend again, MPack values are ignored
+  dict("compact") = false;
+  ASSERT_NO_THROW(dict.extend(buffer.data(), size));
+  ASSERT_FALSE(dict("compact").as<bool>());
+}
+
 }  // namespace palimpsest
