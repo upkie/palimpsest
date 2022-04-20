@@ -655,4 +655,47 @@ TEST(Dictionary, Clear) {
   ASSERT_FALSE(dict.has("test"));
 }
 
+TEST(Dictionary, ChecksSignedness) {
+  Dictionary foo;
+  foo("bar") = 11111;  // int
+  ASSERT_NO_THROW(foo("bar").as<int>());
+  ASSERT_THROW(foo("bar").as<unsigned>(), std::runtime_error);
+}
+
+TEST(Dictionary, ReturnValue) {
+  auto return_foo_dict = []() -> Dictionary {
+    Dictionary foo;
+    foo("bar") = 11111;
+    foo("nested")("item") = std::string("unique_pointers_on_the_way");
+    return foo;
+  };
+
+  Dictionary bar = return_foo_dict();
+  ASSERT_EQ(bar("bar").as<int>(), 11111);
+  ASSERT_EQ(bar("nested")("item").as<std::string>(),
+            std::string("unique_pointers_on_the_way"));
+}
+
+TEST(Dictionary, NestedInsert) {
+  Dictionary foo;
+  foo("bar")("bar") = 12;
+  ASSERT_EQ(foo("bar")("bar").as<int>(), 12);
+}
+
+TEST(Dictionary, NestedDictionaries) {
+  Dictionary dict;
+  dict.insert<int>("foo", 0);
+  dict.insert<std::string>("bar", "forty-two");
+
+  auto &nested = dict("this")("is")("nested");
+  nested.insert<int>("answer", 42);
+  ASSERT_EQ(dict("this")("is")("nested").get<int>("answer"),
+            nested.get<int>("answer"));
+
+  auto &brother = dict("this")("is")("close");
+  brother.insert<int>("huns_invasion", 11111);
+  ASSERT_EQ(dict("this")("is")("close").get<int>("huns_invasion"), 11111);
+  ASSERT_EQ(dict("this")("is")("nested").get<int>("answer"), 42);
+}
+
 }  // namespace palimpsest
