@@ -619,4 +619,17 @@ TEST(Dictionary, ForbiddenCast) {
   ASSERT_THROW(dict.get<unsigned>("id"), std::runtime_error);
 }
 
+TEST(Dictionary, Clear) {
+  Dictionary dict;
+  // dict("test") = "here goes";  // won't compile, see the doc of operator=
+  dict("test") = std::string("here goes");
+  dict("nested").insert<double>("key", 1.);
+  ASSERT_TRUE(dict.has("test"));
+  ASSERT_TRUE(dict.has("nested"));
+  ASSERT_TRUE(dict("nested").has("key"));
+  ASSERT_DOUBLE_EQ(dict("nested")("key"), 1.);
+  dict.clear();
+  ASSERT_FALSE(dict.has("test"));
+}
+
 }  // namespace palimpsest
