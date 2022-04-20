@@ -257,4 +257,49 @@ TEST(Dictionary, EigenOverloadOperatorNew) {
   EXPECT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
 }
 
+TEST(Dictionary, WriteEmptyJSON) {
+  Dictionary dict;
+  std::ostringstream oss;
+  oss << dict;
+  ASSERT_EQ(oss.str(), "{}");
+}
+
+TEST(Dictionary, WriteJSON) {
+  Dictionary dict;
+  dict.insert<int>("test", 1);
+  std::ostringstream oss;
+  oss << dict;
+  ASSERT_EQ(oss.str(), "{\"test\": 1}");
+}
+
+TEST(Dictionary, WriteMoreJSON) {
+  Dictionary dict;
+  dict.insert<int>("test", 1);
+  dict.insert<int>("nice", 2);
+  std::ostringstream oss;
+  oss << dict;
+  std::string case_1 = "{\"test\": 1, \"nice\": 2}";
+  std::string case_2 = "{\"nice\": 2, \"test\": 1}";
+  ASSERT_TRUE(oss.str() == case_1 || oss.str() == case_2);
+}
+
+TEST(Dictionary, WriteCustomTypeJSON) {
+  Dictionary dict;
+  dict.insert_initializer<Serializable>("foo", 1, "bar");
+  std::ostringstream oss;
+  oss << dict;
+  ASSERT_EQ(oss.str(), "{\"foo\": {\"a\": 1, \"b\": \"bar\"}}");
+}
+
+TEST(Dictionary, WriteUnknownTypeJSON) {
+  struct UnknownType {
+    std::string mystery;
+  };
+  Dictionary dict;
+  dict.insert_initializer<UnknownType>("unknown", "???");
+  std::ostringstream oss;
+  oss << dict;
+  ASSERT_TRUE(oss.str().find("<typeid:") != std::string::npos);
+}
+
 }  // namespace palimpsest
