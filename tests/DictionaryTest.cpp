@@ -321,4 +321,160 @@ TEST(Dictionary, WriteUnknownTypeJSON) {
   ASSERT_TRUE(oss.str().find("<typeid:") != std::string::npos);
 }
 
+TEST_F(DictionaryTest, Serialization) {
+  auto &position = dict_.get<Eigen::Vector3d>("position");
+  auto &orientation = dict_.get<Eigen::Quaterniond>("orientation");
+  auto &inertia = dict_.get<Eigen::Matrix3d>("inertia");
+  auto &longer_vector = dict_.get<Eigen::VectorXd>("longer_vector");
+
+  // Serialize to buffer
+  std::vector<char> buffer;
+  size_t size = dict_.serialize(buffer);
+  ASSERT_GT(buffer.size(), 0);
+  ASSERT_LT(size, buffer.size());  // size is usually < MPACK_BUFFER_SIZE
+
+  Dictionary checker;
+  checker.insert<bool>("sure", false);
+  checker.insert<int>("foo", 0);
+  checker.insert<int8_t>("int8_t", 0);
+  checker.insert<int16_t>("int16_t", 0);
+  checker.insert<int32_t>("int32_t", 0);
+  checker.insert<int64_t>("int64_t", 0);
+  checker.insert<uint8_t>("uint8_t", 0u);
+  checker.insert<uint16_t>("uint16_t", 0u);
+  checker.insert<uint32_t>("uint32_t", 0u);
+  checker.insert<uint64_t>("uint64_t", 0u);
+  checker.insert<float>("huns", 0.f);
+  checker.insert<double>("blah", 0.);
+  checker.insert<std::string>("bar", "");
+  checker.insert<Eigen::Vector2d>("tiny", 0., 0.);
+  checker.insert<Eigen::Vector3d>("position", 0., 0., 0.);
+  checker.insert<Eigen::Quaterniond>("orientation", 0., 0., 0., 0.);
+  checker.insert<Eigen::Matrix3d>("inertia", Eigen::Matrix3d::Zero());
+  checker.insert<Eigen::VectorXd>("longer_vector", Eigen::VectorXd(42));
+
+  // Deserialize and check that recover all serialized values
+  checker.update(buffer.data(), size);
+  ASSERT_TRUE(checker("sure"));
+  ASSERT_EQ(checker("foo").as<int>(), 12);
+  ASSERT_EQ(checker("int8_t").as<int8_t>(), -8);
+  ASSERT_EQ(checker("int16_t").as<int16_t>(), -16);
+  ASSERT_EQ(checker("int32_t").as<int32_t>(), -32);
+  ASSERT_EQ(checker("int64_t").as<int64_t>(), -64);
+  ASSERT_EQ(checker("uint8_t").as<uint8_t>(), 8u);
+  ASSERT_EQ(checker("uint16_t").as<uint16_t>(), 16u);
+  ASSERT_EQ(checker("uint32_t").as<uint32_t>(), 32u);
+  ASSERT_EQ(checker("uint64_t").as<uint64_t>(), 64u);
+  ASSERT_FLOAT_EQ(checker("huns"), 1.f / 9.f);
+  ASSERT_DOUBLE_EQ(checker("blah"), 12.12);
+  ASSERT_EQ(checker("bar").as<std::string>(), "de ligne");
+  ASSERT_TRUE(
+      checker("tiny").as<Eigen::Vector2d>().isApprox(Eigen::Vector2d(6., 4.)));
+  ASSERT_TRUE(checker("position").as<Eigen::Vector3d>().isApprox(position));
+  ASSERT_TRUE(
+      checker("orientation").as<Eigen::Quaterniond>().isApprox(orientation));
+  ASSERT_TRUE(checker("inertia").as<Eigen::Matrix3d>().isApprox(inertia));
+  ASSERT_TRUE(
+      checker("longer_vector").as<Eigen::VectorXd>().isApprox(longer_vector));
+
+  // Insert child dictionaries
+  dict_("child_1").insert<Eigen::Vector3d>("position", -1, 1, 0.);
+  dict_("child_1").insert<Eigen::Quaterniond>("orientation", 12., -1., 4., 5.);
+  dict_("child_2").insert<Eigen::Vector3d>("position", -1, 1, 0.);
+
+  // Serialize to buffer
+  size = dict_.serialize(buffer);
+  ASSERT_GT(buffer.size(), 0);
+  ASSERT_NE(size, buffer.size());
+
+  // Deserialize and check structure
+  checker.clear();
+  checker("child_1").insert<Eigen::Vector3d>("position", 0., 0., 0.);
+  checker("child_1").insert<Eigen::Quaterniond>("orientation", 0., 0., 1., 0.);
+  checker("child_2").insert<Eigen::Vector3d>("position", 0., 0., 0.);
+  checker.update(buffer.data(), size);
+  ASSERT_TRUE(checker.has("child_1"));
+  ASSERT_TRUE(checker.has("child_2"));
+  ASSERT_TRUE(
+      dict_("child_1")
+          .get<Eigen::Vector3d>("position")
+          .isApprox(checker("child_1")("position").as<Eigen::Vector3d>()));
+  ASSERT_TRUE(
+      dict_("child_1")
+          .get<Eigen::Quaterniond>("orientation")
+          .normalized()  // quaternion may be normalized when deserialized
+          .isApprox(checker("child_1")("orientation")
+                        .as<Eigen::Quaterniond>()
+                        .normalized()));
+  ASSERT_TRUE(
+      dict_("child_2")
+          .get<Eigen::Vector3d>("position")
+          .isApprox(checker("child_2")("position").as<Eigen::Vector3d>()));
+}
+
+TEST(Dictionary, AsCastThenSerialize) {
+  Dictionary dict;
+  dict.insert<int>("well", -10);
+  ASSERT_EQ(dict("well").as<int>(), dict.get<int>("well"));
+  ASSERT_EQ(dict("well").as<int>(), -10);
+
+  // Go straight for a deep quaternion!
+  dict("this")("is")("quite")("deep").insert<Eigen::Quaterniond>("quat", 0., 0.,
+                                                                 1., 0.);
+  Eigen::Quaterniond deep_truth = Eigen::Quaterniond(0., 0., 1., 0.);
+  auto &deep_quat =
+      dict("this")("is")("quite")("deep")("quat").as<Eigen::Quaterniond>();
+  const auto &deep_const_quat =
+      dict("this")("is")("quite")("deep")("quat").as<Eigen::Quaterniond>();
+  ASSERT_TRUE(deep_quat.isApprox(deep_truth));
+  ASSERT_TRUE(deep_const_quat.isApprox(deep_truth));
+  ASSERT_TRUE(dict("this")("is")("quite")("deep")("quat")
+                  .as<Eigen::Quaterniond>()
+                  .isApprox(deep_truth));
+
+  // Serialize to buffer
+  std::vector<char> buffer;
+  auto size = dict.serialize(buffer);
+  ASSERT_GT(buffer.size(), 0);
+  ASSERT_NE(size, buffer.size());
+
+  // Deserialize and check structure
+  Dictionary checker;
+  checker("well") = -10;
+  checker("this")("is")("quite")("deep").insert<Eigen::Quaterniond>("quat", 1.,
+                                                                    0., 0., 0.);
+  checker.update(buffer.data(), size);
+  ASSERT_EQ(checker("well").as<int>(), -10);
+  ASSERT_TRUE(checker("this")("is")("quite")("deep")("quat")
+                  .as<Eigen::Quaterniond>()
+                  .isApprox(deep_truth));
+}
+
+TEST(Dictionary, DictionaryCannotCastToValue) {
+  Dictionary dict;
+  dict.insert<int>("well", -10);
+  ASSERT_THROW(dict.as<bool>(), std::runtime_error);
+}
+
+TEST(Dictionary, CastingToIncorrectTypeThrows) {
+  Dictionary dict;
+  dict.insert<int>("well", -10);
+
+  // Check as<T>() cast
+  ASSERT_NO_THROW(dict("well").as<int>());
+  ASSERT_THROW(dict("well").as<bool>(), std::runtime_error);
+
+  // Check get<T>() cast
+  ASSERT_NO_THROW(dict.get<int>("well"));
+  ASSERT_THROW(dict.get<bool>("well"), std::runtime_error);
+
+  // Check implicit conversion
+  int well;
+  bool not_well = false;
+  ASSERT_NO_THROW(well = dict("well"));
+  ASSERT_THROW(not_well = dict("well"), std::runtime_error);
+  ASSERT_EQ(well, -10);    // don't warn about unused variable
+  ASSERT_FALSE(not_well);  // idem
+}
+
 }  // namespace palimpsest
