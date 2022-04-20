@@ -7,7 +7,6 @@ _palimpsest_ is a C++ header-only library that exposes a single ``Dictionary`` t
 
 ## TODO(scaron)
 
-* Unit tests
 * Code coverage
 
 ## Features and non-features
