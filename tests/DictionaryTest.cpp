@@ -707,4 +707,53 @@ TEST(Dictionary, CannotGetValueFromEmpty) {
   ASSERT_DOUBLE_EQ(x, 0.);  // avoid compiler warning
 }
 
+TEST(Dictionary, Update) {
+  std::vector<char> buffer;
+  MessagePackWriter writer(buffer);
+  writer.start_map(2);
+  writer.write("compact");
+  writer.write(true);
+  writer.write("schema");
+  writer.write(0u);
+  writer.finish_map();
+  size_t size = writer.finish();
+  ASSERT_GT(buffer.size(), 0);
+
+  Dictionary dict;
+  dict("compact") = false;
+  dict("schema") = 12u;
+  dict.update(buffer.data(), size);
+  ASSERT_EQ(dict("compact").as<bool>(), true);
+  ASSERT_EQ(dict("schema").as<unsigned>(), 0u);
+
+  Dictionary incomplete;
+  incomplete("compact") = false;
+  incomplete("zebra") = 42;
+
+  // There's extra data, but intersection key types match so we don't throw
+  ASSERT_NO_THROW(incomplete.update(buffer.data(), size));
+  ASSERT_EQ(incomplete("compact").as<bool>(), true);
+
+  // Now types don't match so we throw
+  incomplete("schema")("make_it_a_map") = "foo";
+  ASSERT_THROW(incomplete.update(buffer.data(), size), TypeError);
+}
+
+TEST(Dictionary, UpdateSignedInt) {
+  std::vector<char> buffer;
+  MessagePackWriter writer(buffer);
+  writer.start_map(1);
+  writer.write("foo");
+  writer.write(static_cast<int>(12));
+  writer.finish_map();
+  size_t size = writer.finish();
+  ASSERT_GT(buffer.size(), 0);
+
+  Dictionary dict;
+  dict.insert<int>("foo", 0);
+  ASSERT_EQ(dict("foo").as<int>(), 0);
+  ASSERT_NO_THROW(dict.update(buffer.data(), size));
+  ASSERT_EQ(dict("foo").as<int>(), 12);
+}
+
 }  // namespace palimpsest
