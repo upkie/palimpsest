@@ -811,4 +811,27 @@ TEST(Dictionary, ListKeys) {
               (keys[0] == "bar" && keys[1] == "foo"));
 }
 
+TEST(Dictionary, TypeErrorOnNonValueCast) {
+  Dictionary dict;
+  dict("foo")("bar") = 1.;
+  const Dictionary &const_dict = dict;
+  ASSERT_THROW(dict("foo").as<int>(), TypeError);
+  ASSERT_THROW(const_dict("foo").as<int>(), TypeError);
+}
+
+TEST(Dictionary, GetChecksBothExistenceAndType) {
+  Dictionary dict;
+  dict("foo")("bar") = 1.;
+  ASSERT_THROW(dict.get<int>("blah"), KeyError);
+  ASSERT_THROW(dict.get<int>("foo"), TypeError);
+}
+
+TEST(Dictionary, GetWithDefaultValueChecksType) {
+  Dictionary dict;
+  dict("foo") = std::string("blah");
+  dict("bar")("num") = 12;
+  ASSERT_THROW(dict.get<int>("foo", 12), TypeError);
+  ASSERT_THROW(dict.get<int>("bar", 42), TypeError);
+}
+
 }  // namespace palimpsest
