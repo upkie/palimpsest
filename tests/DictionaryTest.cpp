@@ -194,6 +194,14 @@ TEST(Dictionary, TestDictionary) {
   ASSERT_FALSE(dict.get("has_feature", false));
 }
 
+TEST(Dictionary, GettingChildCreatesBranch) {
+  Dictionary dict;
+  ASSERT_THROW(dict("Roger")("le").get<double>("tavernier"), KeyError);
+  ASSERT_TRUE(dict.has("Roger"));
+  ASSERT_TRUE(dict("Roger").has("le"));
+  ASSERT_FALSE(dict("Roger")("le").has("tavernier"));
+}
+
 TEST(Dictionary, TestDictionaryInheritance) {
   Dictionary dict;
 
