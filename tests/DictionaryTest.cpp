@@ -477,4 +477,146 @@ TEST(Dictionary, CastingToIncorrectTypeThrows) {
   ASSERT_FALSE(not_well);  // idem
 }
 
+TEST(Dictionary, CannotInsertInsideValues) {
+  Dictionary dict;
+  dict.insert<int>("well", -10);
+
+  // Cannot insert a value inside a value
+  ASSERT_THROW(dict("well").insert<int>("aleph", 0), TypeError);
+  ASSERT_THROW(dict("well").insert_initializer<int>("aleph", 0), TypeError);
+
+  // Cannot insert/lookup a dictionary inside a value
+  ASSERT_THROW(dict("well")("well..."), std::runtime_error);
+}
+
+TEST_F(DictionaryTest, ImplicitConversion) {
+  bool sure = dict_("sure");
+  bool &ref_sure = dict_("sure");
+  const bool &const_ref_sure = dict_("sure");
+  ASSERT_EQ(sure, ref_sure);
+  ASSERT_EQ(sure, const_ref_sure);
+}
+
+TEST_F(DictionaryTest, ReinsertionIsIgnored) {
+  ASSERT_TRUE(dict_.get<bool>("sure"));
+  dict_.insert<bool>("sure", false);
+  ASSERT_TRUE(dict_.get<bool>("sure"));
+}
+
+TEST_F(DictionaryTest, ImplicitConversionCopies) {
+  bool sure = dict_("sure");
+  int foo = dict_("foo");
+  int8_t int8 = dict_("int8_t");
+  int16_t int16 = dict_("int16_t");
+  int32_t int32 = dict_("int32_t");
+  int64_t int64 = dict_("int64_t");
+  uint8_t uint8 = dict_("uint8_t");
+  uint16_t uint16 = dict_("uint16_t");
+  uint32_t uint32 = dict_("uint32_t");
+  uint64_t uint64 = dict_("uint64_t");
+  float huns = dict_("huns");
+  double blah = dict_("blah");
+  std::string bar = dict_("bar");
+  Eigen::Vector2d tiny = dict_("tiny");
+  Eigen::Vector3d position = dict_("position");
+  Eigen::Quaterniond orientation = dict_("orientation");
+  Eigen::Matrix3d inertia = dict_("inertia");
+  Eigen::VectorXd longer_vector = dict_("longer_vector");
+
+  // Check that copies all have the right values
+  ASSERT_EQ(sure, dict_.get<bool>("sure"));
+  ASSERT_EQ(foo, dict_.get<int>("foo"));
+  ASSERT_EQ(int8, dict_.get<int8_t>("int8_t"));
+  ASSERT_EQ(int16, dict_.get<int16_t>("int16_t"));
+  ASSERT_EQ(int32, dict_.get<int32_t>("int32_t"));
+  ASSERT_EQ(int64, dict_.get<int64_t>("int64_t"));
+  ASSERT_EQ(uint8, dict_.get<uint8_t>("uint8_t"));
+  ASSERT_EQ(uint16, dict_.get<uint16_t>("uint16_t"));
+  ASSERT_EQ(uint32, dict_.get<uint32_t>("uint32_t"));
+  ASSERT_EQ(uint64, dict_.get<uint64_t>("uint64_t"));
+  ASSERT_EQ(huns, dict_.get<float>("huns"));
+  ASSERT_EQ(blah, dict_.get<double>("blah"));
+  ASSERT_EQ(bar, dict_.get<std::string>("bar"));
+  ASSERT_TRUE(tiny.isApprox(dict_.get<Eigen::Vector2d>("tiny")));
+  ASSERT_TRUE(position.isApprox(dict_.get<Eigen::Vector3d>("position")));
+  ASSERT_TRUE(
+      orientation.isApprox(dict_.get<Eigen::Quaterniond>("orientation")));
+  ASSERT_TRUE(inertia.isApprox(dict_.get<Eigen::Matrix3d>("inertia")));
+  ASSERT_TRUE(
+      longer_vector.isApprox(dict_.get<Eigen::VectorXd>("longer_vector")));
+}
+
+TEST_F(DictionaryTest, ImplicitConversionReferences) {
+  bool &sure = dict_("sure");
+  int &foo = dict_("foo");
+  int8_t &int8 = dict_("int8_t");
+  int16_t &int16 = dict_("int16_t");
+  int32_t &int32 = dict_("int32_t");
+  int64_t &int64 = dict_("int64_t");
+  uint8_t &uint8 = dict_("uint8_t");
+  uint16_t &uint16 = dict_("uint16_t");
+  uint32_t &uint32 = dict_("uint32_t");
+  uint64_t &uint64 = dict_("uint64_t");
+  float &huns = dict_("huns");
+  double &blah = dict_("blah");
+  std::string &bar = dict_("bar");
+  Eigen::Vector2d &tiny = dict_("tiny");
+  Eigen::Vector3d &position = dict_("position");
+  Eigen::Quaterniond &orientation = dict_("orientation");
+  Eigen::Matrix3d &inertia = dict_("inertia");
+  Eigen::VectorXd &longer_vector = dict_("longer_vector");
+
+  // Change them all!
+  sure = !sure;
+  ++foo;
+  --int8;
+  --int16;
+  --int32;
+  --int64;
+  ++uint8;
+  ++uint16;
+  ++uint32;
+  ++uint64;
+  huns *= huns;
+  blah *= blah;
+  bar += " ou pas";
+  tiny.x() = 7.;
+  position.y() = -3.;
+  orientation.w() *= 2;
+  orientation.normalize();
+  inertia /= 3.9321883;
+  inertia(0, 1) = 1.;
+  inertia(1, 0) = 1.;
+  longer_vector.setZero();
+
+  // Check that dictionary values still match
+  ASSERT_EQ(sure, dict_.get<bool>("sure"));
+  ASSERT_EQ(foo, dict_.get<int>("foo"));
+  ASSERT_EQ(int8, dict_.get<int8_t>("int8_t"));
+  ASSERT_EQ(int16, dict_.get<int16_t>("int16_t"));
+  ASSERT_EQ(int32, dict_.get<int32_t>("int32_t"));
+  ASSERT_EQ(int64, dict_.get<int64_t>("int64_t"));
+  ASSERT_EQ(uint8, dict_.get<uint8_t>("uint8_t"));
+  ASSERT_EQ(uint16, dict_.get<uint16_t>("uint16_t"));
+  ASSERT_EQ(uint32, dict_.get<uint32_t>("uint32_t"));
+  ASSERT_EQ(uint64, dict_.get<uint64_t>("uint64_t"));
+  ASSERT_EQ(huns, dict_.get<float>("huns"));
+  ASSERT_EQ(blah, dict_.get<double>("blah"));
+  ASSERT_EQ(bar, dict_.get<std::string>("bar"));
+  ASSERT_TRUE(tiny.isApprox(dict_.get<Eigen::Vector2d>("tiny")));
+  ASSERT_TRUE(position.isApprox(dict_.get<Eigen::Vector3d>("position")));
+  ASSERT_TRUE(
+      orientation.isApprox(dict_.get<Eigen::Quaterniond>("orientation")));
+  ASSERT_TRUE(inertia.isApprox(dict_.get<Eigen::Matrix3d>("inertia")));
+  ASSERT_TRUE(
+      longer_vector.isApprox(dict_.get<Eigen::VectorXd>("longer_vector")));
+}
+
+TEST(Dictionary, ForbiddenCast) {
+  Dictionary dict;
+  dict.insert<int>("id", 1);
+  ASSERT_NO_THROW(dict.get<int>("id"));
+  ASSERT_THROW(dict.get<unsigned>("id"), std::runtime_error);
+}
+
 }  // namespace palimpsest
