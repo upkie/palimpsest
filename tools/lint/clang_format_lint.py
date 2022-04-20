@@ -29,7 +29,7 @@ def _is_cxx(filename):
 
 
 def _check_clang_format_idempotence(filename):
-    clang_format = "/usr/bin/clang-format"
+    clang_format = "clang-format"
     formatter = subprocess.Popen(
         [clang_format, "-style=file", filename],
         stdout=subprocess.PIPE)
