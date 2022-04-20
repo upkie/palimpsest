@@ -842,4 +842,20 @@ TEST(Dictionary, GetWithDefaultValueChecksType) {
   ASSERT_THROW(dict.get<int>("bar", 42), TypeError);
 }
 
+TEST(Dictionary, UpdateFromNilNode) {
+  mpack_tree_t tree;
+  mpack_node_t nil_node;
+  nil_node.data = &tree.nil_node;
+  nil_node.tree = &tree;
+  ASSERT_EQ(mpack_node_type(nil_node), mpack_type_nil);
+
+  Dictionary dict;
+  // shapes match, nothing happens
+  ASSERT_NO_THROW(dict.update(nil_node));
+
+  dict("foo") = "bar";
+  // shapes don't match, TypeError thrown
+  ASSERT_THROW(dict.update(nil_node), TypeError);
+}
+
 }  // namespace palimpsest
