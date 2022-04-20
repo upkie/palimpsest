@@ -698,4 +698,13 @@ TEST(Dictionary, NestedDictionaries) {
   ASSERT_EQ(dict("this")("is")("nested").get<int>("answer"), 42);
 }
 
+TEST(Dictionary, CannotGetValueFromEmpty) {
+  Dictionary foo;
+  double x = 0.;
+  ASSERT_THROW(x = foo, std::runtime_error);
+  ASSERT_THROW(x = foo("bar"), std::runtime_error);
+  ASSERT_THROW(x = foo("bar")("blah"), std::runtime_error);
+  ASSERT_DOUBLE_EQ(x, 0.);  // avoid compiler warning
+}
+
 }  // namespace palimpsest
