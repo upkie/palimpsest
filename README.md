@@ -59,7 +59,7 @@ cannot be handled, as the array cannot be deserialized to an Eigen type.
 
 ### Header-only version
 
-TODO(scaron): Copy the [include folder](include/palimpsest) to your build tree and use a C++11 compiler.
+TODO(scaron): Copy the [include folder](include/palimpsest) to your build tree and use a C++17 compiler.
 
 ### Static library with Bazel (faster compile times)
 
