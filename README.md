@@ -78,7 +78,25 @@ def palimpsest_repository():
     )
 ```
 
-Then call this rule from the ``WORKSPACE`` file at the root of your Bazel repository.
+Then call this rule from the ``WORKSPACE`` file at the root of your Bazel repository, and use the ``@palimpsest`` dependency:
+
+```python
+cc_binary(
+    name = "my_dictionary_loving_program",
+    srcs = ["MyDictionaryLovingProgram.cpp"],
+    deps = [
+        "@palimpsest",
+    ],
+)
+```
+
+### Usage
+
+```c++
+#include <palimpsest/Dictionary.h>
+
+using palimpsest::Dictionary;
+```
 
 ## Performance
 
