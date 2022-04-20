@@ -802,4 +802,13 @@ TEST(Dictionary, Extend) {
   ASSERT_FALSE(dict("compact").as<bool>());
 }
 
+TEST(Dictionary, ListKeys) {
+  Dictionary dict;
+  dict.insert<int>("foo", 99.1);
+  dict.insert<int>("bar", true);
+  auto keys = dict.keys();
+  ASSERT_TRUE((keys[0] == "foo" && keys[1] == "bar") ||
+              (keys[0] == "bar" && keys[1] == "foo"));
+}
+
 }  // namespace palimpsest
