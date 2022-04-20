@@ -450,6 +450,29 @@ TEST(Dictionary, AsCastThenSerialize) {
                   .isApprox(deep_truth));
 }
 
+TEST(Dictionary, KnownMessagePackSize) {
+  Dictionary dict;
+  dict("id") = 12;
+  std::vector<char> buffer;
+  size_t size = dict.serialize(buffer);
+  ASSERT_EQ(size, 5);
+}
+
+TEST(Dictionary, SerializeUnknownType) {
+  struct UnknownType {
+    std::string mystery;
+  };
+  Dictionary dict;
+  dict.insert_initializer<UnknownType>("unknown", "???");
+  std::vector<char> buffer;
+  auto size = dict.serialize(buffer);
+  Dictionary checker;
+  checker("unknown") = std::string("");
+  checker.update(buffer.data(), size);
+  ASSERT_TRUE(checker("unknown").as<std::string>().find("<typeid:") !=
+              std::string::npos);
+}
+
 TEST(Dictionary, DictionaryCannotCastToValue) {
   Dictionary dict;
   dict.insert<int>("well", -10);
