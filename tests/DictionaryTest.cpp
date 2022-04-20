@@ -257,6 +257,16 @@ TEST(Dictionary, EigenOverloadOperatorNew) {
   EXPECT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
 }
 
+TEST(Dictionary, Strings) {
+  Dictionary dict;
+  dict("foo") = "bar";
+  dict("bar") = "foo";
+  ASSERT_EQ(dict("foo").as<std::string>(), "bar");
+  ASSERT_EQ(dict("bar").as<std::string>(), "foo");
+  ASSERT_THROW(dict("foo").as<const char *>(), TypeError);
+  ASSERT_THROW(dict("bar").as<const char *>(), TypeError);
+}
+
 TEST(Dictionary, Quaternions) {
   Dictionary dict;
   dict.insert<Eigen::Quaterniond>("orientation");
