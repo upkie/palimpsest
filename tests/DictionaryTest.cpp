@@ -473,6 +473,19 @@ TEST(Dictionary, SerializeUnknownType) {
               std::string::npos);
 }
 
+TEST(Dictionary, DeserializeUnsignedWhenPossible) {
+  // >>> config = {"int": -1, "maybe_uint": 1}
+  // >>> print(base64.b64encode(msgpack.packb(config)).decode("utf-8"))
+  const std::string packed = "gqNpbnT/qm1heWJlX3VpbnQB";
+  std::vector<char> decoded = base64::decode<std::vector<char>>(packed);
+
+  Dictionary dict;
+  dict.extend(decoded.data(), decoded.size());
+  ASSERT_EQ(dict.get<int>("int"), -1);
+  ASSERT_EQ(dict.get<unsigned>("maybe_uint"), 1);
+  ASSERT_THROW(dict.get<int>("maybe_uint"), TypeError);
+}
+
 TEST(Dictionary, DictionaryCannotCastToValue) {
   Dictionary dict;
   dict.insert<int>("well", -10);
