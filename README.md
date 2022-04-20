@@ -63,7 +63,13 @@ TODO(scaron): Copy the [include folder](include/palimpsest) to your build tree a
 
 ### Static library with Bazel (faster compile times)
 
-Create a git repository rule for palimpsest, for instance:
+You can build _palimpsest_ straight from the repository by:
+
+```console
+./tools/bazelisk build //...
+```
+
+To use it in your project, create a git repository rule such as:
 
 ```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -77,25 +83,7 @@ def palimpsest_repository():
     )
 ```
 
-Then call this rule from the ``WORKSPACE`` file at the root of your Bazel repository, and use the ``@palimpsest`` dependency:
-
-```python
-cc_binary(
-    name = "my_dictionary_loving_program",
-    srcs = ["MyDictionaryLovingProgram.cpp"],
-    deps = [
-        "@palimpsest",
-    ],
-)
-```
-
-### Usage
-
-```c++
-#include <palimpsest/Dictionary.h>
-
-using palimpsest::Dictionary;
-```
+Then call this rule from the ``WORKSPACE`` file at the root of your Bazel repository, and use the ``@palimpsest`` dependency in your C++ rules.
 
 ## Performance
 
