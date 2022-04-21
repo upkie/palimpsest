@@ -21,7 +21,7 @@
 namespace palimpsest {
 
 //! Error with file and line references to the calling code.
-class Error : public std::runtime_error {
+class InternalError : public std::runtime_error {
  public:
   /*! Create a new error.
    *
@@ -29,7 +29,8 @@ class Error : public std::runtime_error {
    * \param[in] line Line of code in that file where the throw originates from.
    * \param[in] message Error message.
    */
-  Error(const std::string& file, unsigned line, const std::string& message)
+  InternalError(const std::string& file, unsigned line,
+                const std::string& message)
       : std::runtime_error(message) {
     std::ostringstream out;
     out << "[" << file << ":" << line << "] " << message;
@@ -41,12 +42,12 @@ class Error : public std::runtime_error {
    * \param[in] other Existing error.
    * \param[in] extra_message Additional error message.
    */
-  Error(const Error& other, const std::string& extra_message)
+  InternalError(const InternalError& other, const std::string& extra_message)
       : std::runtime_error(other.message_ + extra_message),
         message_(other.message_ + extra_message) {}
 
   //! Empty destructor
-  ~Error() throw() {}
+  ~InternalError() throw() {}
 
   //! Error message
   const char* what() const throw() { return message_.c_str(); }
@@ -57,7 +58,7 @@ class Error : public std::runtime_error {
 };
 
 //! Requested type doesn't match the one already in the dictionary.
-class TypeError : public Error {
+class TypeError : public InternalError {
  public:
   /*! Create a type error.
    *
@@ -66,7 +67,7 @@ class TypeError : public Error {
    * \param[in] message Error message.
    */
   TypeError(const std::string& file, unsigned line, const std::string& message)
-      : Error(file, line, message) {}
+      : InternalError(file, line, message) {}
 
   /*! Copy an existing error, adding to the error message.
    *
@@ -74,14 +75,14 @@ class TypeError : public Error {
    * \param[in] extra_message Additional error message.
    */
   TypeError(const TypeError& other, const std::string& extra_message)
-      : Error(other, extra_message) {}
+      : InternalError(other, extra_message) {}
 
   //! Empty destructor
   ~TypeError() throw() {}
 };
 
 //! Requested dictionary key is not found.
-class KeyError : public Error {
+class KeyError : public InternalError {
  public:
   /*! Create a key error.
    *
@@ -92,8 +93,8 @@ class KeyError : public Error {
    */
   KeyError(const std::string& key, const std::string& file, unsigned line,
            const std::string& message)
-      : Error(file, line,
-              std::string("Key \"") + key + "\" not found. " + message),
+      : InternalError(file, line,
+                      std::string("Key \"") + key + "\" not found. " + message),
         key_(key) {}
 
   //! Empty destructor
