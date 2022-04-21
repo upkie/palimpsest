@@ -37,7 +37,7 @@
 #include <utility>
 #include <vector>
 
-namespace palimpsest {
+namespace palimpsest::internal {
 
 /*! Write MessagePack (using MPack's Write API) to a vector of bytes.
  *
@@ -55,7 +55,7 @@ class MessagePackWriter {
    */
   explicit MessagePackWriter(std::vector<char> &buffer);
 
-  /*! Destructor. */
+  //! Destructor.
   ~MessagePackWriter();
 
   /*! Add data to the MessagePack (basic)
@@ -63,88 +63,88 @@ class MessagePackWriter {
    * These overload set allows to write basic data to the MessagePack
    */
 
-  /*! Write null */
+  //! Write null.
   void write();
 
-  /*! Write a bool */
+  //! Write a bool.
   void write(bool b);
 
-  /*! Write an int8_t */
+  //! Write an int8_t.
   void write(int8_t i);
 
-  /*! Write an int16_t */
+  //! Write an int16_t.
   void write(int16_t i);
 
-  /*! Write an int32_t */
+  //! Write an int32_t.
   void write(int32_t i);
 
-  /*! Write an int64_t */
+  //! Write an int64_t.
   void write(int64_t i);
 
-  /*! Write a uint8_t */
+  //! Write a uint8_t.
   void write(uint8_t i);
 
-  /*! Write a uint16_t */
+  //! Write a uint16_t.
   void write(uint16_t i);
 
-  /*! Write a uint32_t */
+  //! Write a uint32_t.
   void write(uint32_t i);
 
-  /*! Write a uint64_t */
+  //! Write a uint64_t.
   void write(uint64_t i);
 
-  /*! Write a float */
+  //! Write a float.
   void write(float f);
 
-  /*! Write a double */
+  //! Write a double.
   void write(double d);
 
-  /*! Write an std::string */
+  //! Write an std::string.
   void write(const std::string &s);
 
-  /*! Write a C-style string */
+  //! Write a C-style string.
   void write(const char *s);
 
-  /*! Write a C-style string with available size */
+  //! Write a C-style string with available size.
   void write(const char *s, size_t len);
 
-  /*! Write an Eigen::Vector2d
+  /*! Write an Eigen::Vector2d.
    *
-   * Serializes as an array of size 2
+   * Serializes as an array of size 2.
    */
   void write(const Eigen::Vector2d &v);
 
-  /*! Write an Eigen::Vector3d
+  /*! Write an Eigen::Vector3d.
    *
-   * Serializes as an array of size 3
+   * Serializes as an array of size 3.
    */
   void write(const Eigen::Vector3d &v);
 
-  /*! Write an Eigen::VectorXd
+  /*! Write an Eigen::VectorXd.
    *
-   * Serializes as an array of size X
+   * Serializes as an array of size X.
    */
   void write(const Eigen::VectorXd &v);
 
-  /*! Write an Eigen::Quaterniond
+  /*! Write an Eigen::Quaterniond.
    *
-   * Serializes as an array of size X
+   * Serializes as an array of size X.
    */
   void write(const Eigen::Quaterniond &q);
 
-  /*! Write an Eigen::Matrix3d
+  /*! Write an Eigen::Matrix3d.
    *
-   * Serializes as an array of size 9
+   * Serializes as an array of size 9.
    */
   void write(const Eigen::Matrix3d &m);
 
-  /*! Add data to the MessagePack (containers)
+  /*! Add data to the MessagePack (containers).
    *
    * These functions support the serialization of standard containers of
    * serializable objects.
    */
 
-  /*! Write an std::vector<T, A> */
+  //! Write an std::vector<T, A>.
   template <typename T, typename A>
   void write(const std::vector<T, A> &v) {
     start_array(v.size());
@@ -154,7 +154,7 @@ class MessagePackWriter {
     finish_array();
   }
 
-  /*! Write an std::array<T, N> */
+  //! Write an std::array<T, N>.
   template <typename T, std::size_t N>
   void write(const std::array<T, N> &a) {
     start_array(N);
@@ -164,7 +164,7 @@ class MessagePackWriter {
     finish_array();
   }
 
-  /*! Write an std::pair<T1, T2> */
+  //! Write an std::pair<T1, T2>.
   template <typename T1, typename T2>
   void write(const std::pair<T1, T2> &p) {
     start_array(2);
@@ -173,7 +173,7 @@ class MessagePackWriter {
     finish_array();
   }
 
-  /*! Write an std::map<KeyT, T, C, A> */
+  //! Write an std::map<KeyT, T, C, A>.
   template <typename KeyT, typename T, typename C, typename A>
   void write(const std::map<KeyT, T, C, A> &m) {
     start_map(m.count());
@@ -184,7 +184,7 @@ class MessagePackWriter {
     finish_map();
   }
 
-  /*! Write an std::set<T, C, A> */
+  //! Write an std::set<T, C, A>.
   template <typename T, typename C, typename A>
   void write(const std::set<T, C, A> &s) {
     start_array(s.size());
@@ -194,7 +194,7 @@ class MessagePackWriter {
     finish_array();
   }
 
-  /*! Write an std::tuple<Args...> */
+  //! Write an std::tuple<Args...>.
   template <typename... Args>
   void write(const std::tuple<Args...> &t) {
     start_array(sizeof...(Args));
@@ -202,18 +202,19 @@ class MessagePackWriter {
     finish_array();
   }
 
-  /*! Start serializing an array
+  /*! Start serializing an array.
    *
-   * \param size Size of the array
+   * \param[in] size Size of the array.
    */
   void start_array(size_t size);
 
-  /*! Finished serializing an array */
+  //! Finished serializing an array.
   void finish_array();
 
-  /*! Start serializing a map
+  /*! Start serializing a map.
    *
-   * \param size Size of the map, the map must then contains 2*size elements
+   * \param[in] size Size of the map, the map must then contains 2 * size
+   *     elements.
    */
   void start_map(size_t size);
 
@@ -222,26 +223,26 @@ class MessagePackWriter {
 
   /*! Write an existing object into the object being constructed.
    *
-   * \param data Data written into the object
-   * \param size Size of the data
+   * \param[in] data Data written into the object
+   * \param[in] size Size of the data
    */
   void write_object(const char *data, size_t s);
 
   /*! Finish building the message. Data cannot be appended afterwards.
    *
-   * \return Effective size of MessagePack data. Note that buffer.size() is
-   * likely different.
+   * \return Effective size of MessagePack data. Note that ``buffer.size()`` is
+   *     likely different.
    */
   size_t finish();
 
-  //! Get pointer to the MPack writer for use with the C API
+  //! Get pointer to the MPack writer for use with the C API.
   mpack_writer_t *mpack_writer() { return &writer_; }
 
  private:
-  //! Internal MPack writer
+  //! Internal MPack writer.
   mpack_writer_t writer_;
 
-  //! Internal write function for tuples
+  //! Internal write function for tuples.
   template <size_t i, typename... Args,
             typename std::enable_if<i<sizeof...(Args), int>::type = 0> void
                 write_impl(const std::tuple<Args...> &t) {
@@ -249,10 +250,10 @@ class MessagePackWriter {
     write_impl<i + 1>(t);
   }
 
-  //! Internal write function for tuples
+  //! Internal write function for tuples.
   template <size_t i, typename... Args,
             typename std::enable_if<i >= sizeof...(Args), int>::type = 0>
   void write_impl(const std::tuple<Args...> &) {}
 };
 
-}  // namespace palimpsest
+}  // namespace palimpsest::internal

@@ -68,6 +68,17 @@ Then call this rule from the ``WORKSPACE`` file at the root of your Bazel reposi
 
 ...
 
+## Q and A
+
+Why isn't _palimpsest_ distributed as a header-only library?
+
+> The only reason is that we set a custom flush function
+> ``mpack_std_vector_writer_flush`` to our internal MPack writers. The [MPack
+> Write API](https://ludocode.github.io/mpack/group__writer.html) requires a
+> function pointer for that, and we define that function in
+> [`MessagePackWriter.cpp`](src/internal/MessagePackWriter.cpp). Open a PR if
+> you have ideas to go around that!
+
 ## Details
 
 This means arrays of "things" are not allowed, only arrays of numbers. For instance,

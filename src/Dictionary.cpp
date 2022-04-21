@@ -207,12 +207,12 @@ const Dictionary &Dictionary::operator()(const std::string &key) const {
 }
 
 size_t Dictionary::serialize(std::vector<char> &buffer) const {
-  MessagePackWriter writer(buffer);
+  internal::MessagePackWriter writer(buffer);
   serialize(writer);
   return writer.finish();
 }
 
-void Dictionary::serialize(MessagePackWriter &writer) const {
+void Dictionary::serialize(internal::MessagePackWriter &writer) const {
   if (this->is_value()) {
     value_.serialize(writer);
     return;

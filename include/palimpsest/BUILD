@@ -39,27 +39,18 @@ cc_library(
 )
 
 cc_library(
-    name = "message_pack_writer",
-    hdrs = [
-        "MessagePackWriter.h",
-    ],
-    include_prefix = "palimpsest",
-    deps = [
-        ":mpack",
-    ],
-)
-
-cc_library(
     name = "dictionary",
     hdrs = [
         "Dictionary.h",
     ],
     include_prefix = "palimpsest",
     deps = [
-        "//include/palimpsest/internal",
+        "//include/palimpsest/internal:allocator",
+        "//include/palimpsest/internal:is_valid_hash",
+        "//include/palimpsest/internal:message_pack_writer",
+        "//include/palimpsest/internal:type_name",
         ":exceptions",
         ":json",
-        ":message_pack_writer",
         ":mpack",
         "@fmt",
         "@spdlog",

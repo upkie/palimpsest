@@ -34,9 +34,9 @@
 #include <utility>
 #include <vector>
 
-#include "palimpsest/MessagePackWriter.h"
 #include "palimpsest/exceptions.h"
 #include "palimpsest/internal/Allocator.h"
+#include "palimpsest/internal/MessagePackWriter.h"
 #include "palimpsest/internal/is_valid_hash.h"
 #include "palimpsest/internal/type_name.h"
 #include "palimpsest/json_write.h"
@@ -156,7 +156,7 @@ class Dictionary {
      *
      * \param[out] writer Writer to serialize to.
      */
-    void serialize(MessagePackWriter &writer) const {
+    void serialize(internal::MessagePackWriter &writer) const {
       serialize_(*this, writer.mpack_writer());
     }
 
@@ -544,12 +544,6 @@ class Dictionary {
    */
   size_t serialize(std::vector<char> &buffer) const;
 
-  /*! Serialize to a MessagePackWriter.
-   *
-   * \param[out] writer Writer to serialize to.
-   */
-  void serialize(MessagePackWriter &writer) const;
-
   /*! Update dictionary from raw MessagePack data.
    *
    * \param[in] data Buffer to read MessagePack from.
@@ -768,6 +762,12 @@ class Dictionary {
    * \throw TypeError if there is an object at this key but it is not a value.
    */
   const Value &get_child_value(const std::string &key) const;
+
+  /*! Serialize to a MessagePack writer.
+   *
+   * \param[out] writer Writer to serialize to.
+   */
+  void serialize(internal::MessagePackWriter &writer) const;
 
  protected:
   //! Internal value, used if we are a value.

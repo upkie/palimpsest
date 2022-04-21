@@ -21,7 +21,7 @@
  *     License: BSD-2-Clause
  */
 
-#include "palimpsest/MessagePackWriter.h"
+#include "palimpsest/internal/MessagePackWriter.h"
 
 #include <mpack.h>
 
@@ -113,7 +113,7 @@ static void mpack_std_vector_writer_flush(mpack_writer_t *writer,
             static_cast<int>(mpack_writer_buffer_used(writer)));
 }
 
-namespace palimpsest {
+namespace palimpsest::internal {
 
 MessagePackWriter::MessagePackWriter(std::vector<char> &buffer) {
   if (buffer.size() == 0) {
@@ -236,4 +236,4 @@ size_t MessagePackWriter::finish() {
   return mpack_writer_buffer_used(&writer_);
 }
 
-}  // namespace palimpsest
+}  // namespace palimpsest::internal

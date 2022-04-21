@@ -31,10 +31,10 @@
 
 #include "cppcodec/base64_rfc4648.hpp"
 #include "palimpsest/Dictionary.h"
-#include "palimpsest/MessagePackWriter.h"
+#include "palimpsest/internal/MessagePackWriter.h"
 
 using base64 = cppcodec::base64_rfc4648;
-using palimpsest::MessagePackWriter;
+using palimpsest::internal::MessagePackWriter;
 
 // This is only used in EigenOverloadOperatorNew but we need to overload the
 // Eigen::aligned_allocator for this type.
