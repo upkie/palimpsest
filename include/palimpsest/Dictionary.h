@@ -141,20 +141,20 @@ class Dictionary {
 
     /*! Update value from an MPack node.
      *
-     * \param node MPack tree node.
+     * \param[in] node MPack tree node.
      * \throw TypeError if the deserialized type does not match.
      */
     void deserialize(mpack_node_t node) { deserialize_(*this, node); }
 
     /*! Print value to an output stream;
      *
-     * \param stream Output stream to print to.
+     * \param[out] stream Output stream to print to.
      */
     void print(std::ostream &stream) const { print_(*this, stream); }
 
     /*! Serialize value to a MessagePack writer.
      *
-     * \param writer Writer to serialize to.
+     * \param[out] writer Writer to serialize to.
      */
     void serialize(MessagePackWriter &writer) const {
       serialize_(*this, writer.mpack_writer());
@@ -190,7 +190,8 @@ class Dictionary {
 
     /*! Cast value to its object's type after checking that it matches T.
      *
-     * \param value Value to cast.
+     * \param[out] value Value to cast.
+     *
      * \throw TypeError if the object's type does not match T.
      */
     template <typename T>
@@ -263,7 +264,8 @@ class Dictionary {
 
   /*! Check whether a key is in the dictionary.
    *
-   * \param key Key to look for.
+   * \param[in] key Key to look for.
+   *
    * \return true when the key is in the dictionary.
    */
   bool has(const std::string &key) const noexcept {
@@ -305,8 +307,10 @@ class Dictionary {
 
   /*! Get reference to the object at a given key.
    *
-   * \param key Key to the object.
+   * \param[in] key Key to the object.
+   *
    * \return Reference to the object.
+   *
    * \throw KeyError if there is no object at this key.
    * \throw TypeError if there is an object at this key, but its type is not T.
    */
@@ -317,8 +321,10 @@ class Dictionary {
 
   /*! Const variant of \ref get.
    *
-   * \param key Key to the object.
+   * \param[in] key Key to the object.
+   *
    * \return Reference to the object.
+   *
    * \throw KeyError if there is no object at this key.
    * \throw TypeError if there is an object at this key, but its type is not T.
    */
@@ -329,9 +335,12 @@ class Dictionary {
 
   /*! Get object at a given key if it exists, or a default value otherwise.
    *
-   * \param key Key to look for.
-   * \param default_value Default value used if there is no value at this key.
+   * \param[in] key Key to look for.
+   * \param[in] default_value Default value used if there is no value at this
+   * key.
+   *
    * \return Reference to the object if it exists, default_value otherwise.
+   *
    * \throw TypeError if the object at this key is not a value, or it is but
    *     its type does is not T.
    */
@@ -363,9 +372,11 @@ class Dictionary {
   /*! Create an object at a given key and return a reference to it. If there is
    * already a value at this key, return the existing object instead.
    *
-   * \param key Key to create the object at.
+   * \param[in] key Key to create the object at.
    * \param args Parameters passed to the object's constructor.
+   *
    * \return Reference to the constructed object.
+   *
    * \throw TypeError if the dictionary is not a map, and therefore we cannot
    *     insert at a given key inside it.
    *
@@ -398,9 +409,11 @@ class Dictionary {
 
   /*! Create an object using list initialization and return a reference to it.
    *
-   * \param key Key to create the object at.
+   * \param[in] key Key to create the object at.
    * \param args Parameters to the constructor passed by list initialization.
+   *
    * \return A reference to the constructed object
+   *
    * \throw TypeError if the dictionary is not a map, and therefore we cannot
    *     insert at a given key inside it.
    *
@@ -431,7 +444,8 @@ class Dictionary {
 
   /*! Assign value directly.
    *
-   * \param new_value New value to assign.
+   * \param[in] new_value New value to assign.
+   *
    * \throw TypeError if the object was already a value of a different type.
    *
    * If the object was a dictionary, all entries are cleared and it becomes a
@@ -454,7 +468,7 @@ class Dictionary {
 
   /*! Assignment operator for C-style strings.
    *
-   * \param new_value C-style string to assign.
+   * \param[in] new_value C-style string to assign.
    *
    * \throw TypeError if the object was already a value of a different type.
    *
@@ -467,7 +481,7 @@ class Dictionary {
 
   /*! Remove a key-value pair from the dictionary.
    *
-   * \param key Key to remove.
+   * \param[in] key Key to remove.
    */
   void remove(const std::string &key) noexcept;
 
@@ -477,7 +491,7 @@ class Dictionary {
   /*! Return a reference to the dictionary at key, performing an insertion if
    * such a key does not already exist.
    *
-   * \param key Key to look at.
+   * \param[in] key Key to look at.
    *
    * \return Reference to the new dictionary at this key if there was none, or
    *     to the existing dictionary otherwise.
@@ -507,7 +521,7 @@ class Dictionary {
   /*! Return a reference to the dictionary at key, performing an insertion if
    * such a key does not already exist.
    *
-   * \param key Key to look at.
+   * \param[in] key Key to look at.
    *
    * \return Reference to the dictionary at this key.
    *
@@ -523,7 +537,8 @@ class Dictionary {
 
   /*! Serialize to raw MessagePack data.
    *
-   * \param buffer Buffer that will hold the message data.
+   * \param[out] buffer Buffer that will hold the message data.
+   *
    * \return Size of the message. Note that it is not the same as
    *     the size of the buffer after execution.
    */
@@ -531,14 +546,14 @@ class Dictionary {
 
   /*! Serialize to a MessagePackWriter.
    *
-   * \param writer Writer to serialize to.
+   * \param[out] writer Writer to serialize to.
    */
   void serialize(MessagePackWriter &writer) const;
 
   /*! Update dictionary from raw MessagePack data.
    *
-   * \param data Buffer to read MessagePack from.
-   * \param size Buffer size.
+   * \param[in] data Buffer to read MessagePack from.
+   * \param[in] size Buffer size.
    *
    * \throw TypeError if deserialized data types don't match those of the
    *     corresponding objects in the dictionary.
@@ -565,8 +580,8 @@ class Dictionary {
 
   /*! Extend dictionary from raw MessagePack data.
    *
-   * \param data Buffer to read MessagePack from.
-   * \param size Buffer size.
+   * \param[in] data Buffer to read MessagePack from.
+   * \param[in] size Buffer size.
    *
    * \throw TypeError if deserialized data types don't match those of the
    *     corresponding objects in the dictionary.
@@ -703,8 +718,8 @@ class Dictionary {
 
   /*! Output stream operator for printing.
    *
-   * \param stream Output stream.
-   * \param dict Dictionary to print.
+   * \param[out] stream Output stream.
+   * \param[in] dict Dictionary to print.
    *
    * \return Updated output stream.
    */
@@ -722,8 +737,10 @@ class Dictionary {
  private:
   /*! Get a const reference to the object at a given key.
    *
-   * \param key Key to the object.
+   * \param[in] key Key to the object.
+   *
    * \return Const reference to the object.
+   *
    * \throw KeyError if there is no object at this key.
    * \throw TypeError if there is an object at this key, but its type is not T.
    */
@@ -743,8 +760,10 @@ class Dictionary {
 
   /*! Get a const reference to the child value at a given key.
    *
-   * \param key Key to the object.
+   * \param[in] key Key to the object.
+   *
    * \return Const reference to the value wrapper.
+   *
    * \throw KeyError if there is no object at this key.
    * \throw TypeError if there is an object at this key but it is not a value.
    */
