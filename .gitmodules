@@ -1,0 +1,6 @@
+[submodule "third_party/mpack"]
+	path = third_party/mpack
+	url = https://github.com/ludocode/mpack
+[submodule "third_party/cppcodec"]
+	path = third_party/cppcodec
+	url = https://github.com/tplgy/cppcodec

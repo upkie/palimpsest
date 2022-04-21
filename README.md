@@ -59,6 +59,10 @@ Then call this rule from your Bazel ``WORKSPACE``, and use the ``@palimpsest`` d
 
 ...
 
+```console
+sudo apt install libeigen3-dev
+```
+
 ## Performance
 
 ...
