@@ -22,9 +22,7 @@
 #include <string>
 #include <vector>
 
-namespace palimpsest {
-
-namespace json {
+namespace palimpsest::json {
 
 /*
  * Internal templated functions to serialize values as JSON to a standard output
@@ -256,6 +254,4 @@ inline void write(std::ostream &stream, const std::vector<T> &vector) {
   stream << "]";
 }
 
-}  // namespace json
-
-}  // namespace palimpsest
+}  // namespace palimpsest::json
