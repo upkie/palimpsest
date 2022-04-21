@@ -31,7 +31,7 @@ foo("bar") /= 7;  // now dict("foo")("bar") == 6
 
 ## Install
 
-### Bazel (faster compile times)
+### Bazel (recommended)
 
 You can build _palimpsest_ straight from the repository by:
 
@@ -57,11 +57,22 @@ Then call this rule from your Bazel ``WORKSPACE``, and use the ``@palimpsest`` d
 
 ### CMake
 
-...
+Make sure Eigen is installed system-wise, for instance on Debian-based distributions:
 
 ```console
 sudo apt install libeigen3-dev
 ```
+
+Then follow the standard CMake procedure:
+
+```console
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j4
+make install
+```
+
+Note that by default MPack will be built and installed from the [``third_party``](third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack installed on your system.
 
 ## Performance
 

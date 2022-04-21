@@ -22,6 +22,7 @@ set(PROJECT_VERSION 1.0.0)
 
 # CMake options
 option(BUILD_TESTS "Build unit tests" OFF)
+option(BUILD_MPACK "Build and install MPack from third_party/mpack" ON)
 
 # C++17 or later
 set(CMAKE_CXX_STANDARD 17)
@@ -29,7 +30,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
-add_subdirectory(third_party)  # provides mpack
+if(BUILD_MPACK)
+    add_subdirectory(third_party)
+endif()
 
 # Library
 add_library(palimpsest SHARED
