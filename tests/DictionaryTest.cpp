@@ -846,6 +846,7 @@ TEST(Dictionary, UpdateFromNilNode) {
   mpack_tree_t tree;
   mpack_node_t nil_node;
   nil_node.data = &tree.nil_node;
+  nil_node.data->type = mpack_type_nil;
   nil_node.tree = &tree;
   ASSERT_EQ(mpack_node_type(nil_node), mpack_type_nil);
 
