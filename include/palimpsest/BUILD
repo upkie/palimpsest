@@ -56,6 +56,7 @@ cc_library(
     ],
     include_prefix = "palimpsest",
     deps = [
+        "//include/palimpsest/internal",
         ":exceptions",
         ":json",
         ":message_pack_writer",

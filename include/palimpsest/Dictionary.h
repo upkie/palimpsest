@@ -36,83 +36,14 @@
 
 #include "palimpsest/MessagePackWriter.h"
 #include "palimpsest/exceptions.h"
+#include "palimpsest/internal/Allocator.h"
+#include "palimpsest/internal/is_valid_hash.h"
+#include "palimpsest/internal/type_name.h"
 #include "palimpsest/json_write.h"
 #include "palimpsest/mpack_read.h"
 #include "palimpsest/mpack_write.h"
 
 namespace palimpsest {
-
-namespace internal {
-
-/*! Return a human-readable type name
- *
- * Only use for displaying messages as the name is not guaranteed to be the
- * same across compilers and invokation
- */
-template <typename T>
-const char *type_name() {
-  return typeid(T).name();
-}
-
-/*! Check if hash code matches that of the template type parameter.
- *
- * \param hash Hash code to check.
- */
-template <typename T>
-bool is_valid_hash(std::size_t hash) {
-  return (hash == typeid(T).hash_code());
-}
-
-/*! Check if hash code matches that of the template type parameter.
- *
- * \param hash Hash code to check.
- */
-template <typename T, typename U, typename... Args>
-bool is_valid_hash(std::size_t hash) {
-  return is_valid_hash<T>(hash) || is_valid_hash<U, Args...>(hash);
-}
-
-/*! Extract return type and argument types from a lambda by accessing
- * ::operator() */
-template <typename T>
-struct lambda_traits : public lambda_traits<decltype(&T::operator())> {};
-
-/*! Specialization that matches non-mutable lambda */
-template <typename C, typename RetT, typename... Args>
-struct lambda_traits<RetT (C::*)(Args...) const> {
-  using fn_t = std::function<RetT(Args...)>;
-};
-
-/*! Specialization that matches mutable lambda */
-template <typename C, typename RetT, typename... Args>
-struct lambda_traits<RetT (C::*)(Args...)> {
-  using fn_t = std::function<RetT(Args...)>;
-};
-
-/*! Bend usual C++ rules to deduct the argument types in call
- *
- * Normally when passing an lvalue to a template function, T && will be T &. In
- * our case, for arithmetic types (typically double) we far more often want T
- * so this traits changes the deduction rule for those types
- */
-template <typename T>
-struct args_t {
-  using decay_t = typename std::decay<T>::type;
-  static constexpr bool is_arithmetic = std::is_arithmetic<decay_t>::value;
-  using type = typename std::conditional<is_arithmetic, decay_t, T>::type;
-};
-
-/*! Allocator<T> is std::allocator<T> for usual types */
-template <typename T, typename = void>
-struct Allocator : public std::allocator<T> {};
-
-/*! Allocator<T> is Eigen::aligned_allocator for EIGEN_MAKE_ALIGNED_OPERATOR_NEW
- * types */
-template <typename T>
-struct Allocator<T, typename T::eigen_aligned_operator_new_marker_type>
-    : public Eigen::aligned_allocator<T> {};
-
-}  // namespace internal
 
 /*! Dictionary of values and sub-dictionaries.
  *
@@ -831,6 +762,7 @@ class Dictionary {
 
 namespace fmt {
 
+//! Dictionary formatter.
 template <>
 struct formatter<palimpsest::Dictionary> : public formatter<string_view> {
   template <typename FormatContext>
