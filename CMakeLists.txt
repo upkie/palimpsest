@@ -32,17 +32,17 @@ find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 add_subdirectory(third_party)
 
 # Library
-add_library(palimpsest
+add_library(palimpsest SHARED
     src/Dictionary.cpp
     src/mpack/Writer.cpp
 )
 
-target_include_directories(palimpsest PUBLIC
+target_include_directories(${PROJECT_NAME} PUBLIC
     include
     third_party/mpack/src/mpack
 )
 
-target_link_libraries(palimpsest PUBLIC
+target_link_libraries(${PROJECT_NAME} PUBLIC
     Eigen3::Eigen
     third_party_mpack
 )
@@ -52,11 +52,11 @@ if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-# Install
-# install(TARGETS palimpsest DESTINATION lib)
-# install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
-include(GNUInstallDirs)
-
+# Install shared library
 install(TARGETS palimpsest
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+# Install headers
+install(DIRECTORY include
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
+    FILES_MATCHING REGEX ".h$")
