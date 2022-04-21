@@ -41,6 +41,9 @@ namespace palimpsest {
 
 /*! Write MessagePack (using MPack's Write API) to a vector of bytes.
  *
+ * This is an internal class used to separate, to some extent, writing to bytes
+ * from the rest of the serialization process in \ref Dictionary.
+ *
  * \note After a message has been written, the writer instance must be
  * discarded to create a new message.
  */
