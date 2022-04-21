@@ -15,10 +15,12 @@ All design decisions have their pros and cons. _palimpsest_ was designed for int
 
 ### Features
 
-<details>
-<summary>Direct references to sub-dictionaries or values</summary>
+* References to sub-dictionaries or values to avoid future key lookups
+* Built-in support for [Eigen](https://eigen.tuxfamily.org/)
+* Serialize to and deserialize from [MessagePack](https://msgpack.org/)
+* Print dictionaries to standard output as JSON
 
-```c++
+```cpp
 Dictionary dict;
 Dictionary& foo = dict("foo");
 foo("bar") = 42;
@@ -26,33 +28,10 @@ const int& bar = dict("foo")("bar");
 foo("bar") /= 7;
 assert(bar == 6);
 ```
-</details>
-
-* Built-in support for [Eigen](https://eigen.tuxfamily.org/)
-* Print to standard output as JSON
-* Serialize to and deserialize from JSON
-* Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 
 ### Non-features
 
-<details>
-<summary>Array values are limited to matrices and vectors</summary>
-
-This means arrays of "things" are not allowed, only arrays of numbers. For instance,
-
-```json
-{"foo": [1.0, 2.0]}
-```
-
-can be handled and its value will be deserialized as an ``Eigen::Vector2d``. However,
-
-```json
-{"foo": ["string", {"bar": 42}]}  # not OK
-```
-
-cannot be handled, as the array cannot be deserialized to an Eigen type.
-</details>
-
+* Array values are limited to matrices and vectors
 * Copy constructors are disabled
 
 ## Install
@@ -88,3 +67,19 @@ Then call this rule from the ``WORKSPACE`` file at the root of your Bazel reposi
 ## Performance
 
 ...
+
+## Details
+
+This means arrays of "things" are not allowed, only arrays of numbers. For instance,
+
+```json
+{"foo": [1.0, 2.0]}
+```
+
+can be handled and its value will be deserialized as an ``Eigen::Vector2d``. However,
+
+```json
+{"foo": ["string", {"bar": 42}]}  # not OK
+```
+
+cannot be handled, as the array cannot be deserialized to an Eigen type.
