@@ -21,7 +21,7 @@
 namespace palimpsest {
 
 //! Base class for palimpsest exceptions
-class PalimpsestError : public std::runtime_error {
+class Error : public std::runtime_error {
  public:
   /*! Create a new error.
    *
@@ -29,8 +29,7 @@ class PalimpsestError : public std::runtime_error {
    * \param[in] line Line of code in that file where the throw originates from.
    * \param[in] message Error message.
    */
-  PalimpsestError(const std::string& file, unsigned line,
-                  const std::string& message)
+  Error(const std::string& file, unsigned line, const std::string& message)
       : std::runtime_error(message) {
     std::ostringstream out;
     out << "[" << file << ":" << line << "] " << message;
@@ -42,13 +41,12 @@ class PalimpsestError : public std::runtime_error {
    * \param[in] other Existing error.
    * \param[in] extra_message Additional error message.
    */
-  PalimpsestError(const PalimpsestError& other,
-                  const std::string& extra_message)
+  Error(const Error& other, const std::string& extra_message)
       : std::runtime_error(other.message_ + extra_message),
         message_(other.message_ + extra_message) {}
 
   //! Empty destructor
-  ~PalimpsestError() throw() {}
+  ~Error() throw() {}
 
   //! Error message
   const char* what() const throw() { return message_.c_str(); }
@@ -58,8 +56,8 @@ class PalimpsestError : public std::runtime_error {
   std::string message_;
 };
 
-//! Exception thrown when a requested type doesn't match the datastructure's.
-class TypeError : public PalimpsestError {
+//! Requested type doesn't match the one already in the dictionary.
+class TypeError : public Error {
  public:
   /*! Create a type error.
    *
@@ -68,7 +66,7 @@ class TypeError : public PalimpsestError {
    * \param[in] message Error message.
    */
   TypeError(const std::string& file, unsigned line, const std::string& message)
-      : PalimpsestError(file, line, message) {}
+      : Error(file, line, message) {}
 
   /*! Copy an existing error, adding to the error message.
    *
@@ -76,14 +74,14 @@ class TypeError : public PalimpsestError {
    * \param[in] extra_message Additional error message.
    */
   TypeError(const TypeError& other, const std::string& extra_message)
-      : PalimpsestError(other, extra_message) {}
+      : Error(other, extra_message) {}
 
   //! Empty destructor
   ~TypeError() throw() {}
 };
 
-//! Exception thrown when a dictionary key is not found.
-class KeyError : public PalimpsestError {
+//! Requested dictionary key is not found.
+class KeyError : public Error {
  public:
   /*! Create a key error.
    *
@@ -94,9 +92,8 @@ class KeyError : public PalimpsestError {
    */
   KeyError(const std::string& key, const std::string& file, unsigned line,
            const std::string& message)
-      : PalimpsestError(
-            file, line,
-            std::string("Key \"") + key + "\" not found. " + message),
+      : Error(file, line,
+              std::string("Key \"") + key + "\" not found. " + message),
         key_(key) {}
 
   //! Empty destructor
