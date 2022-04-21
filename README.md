@@ -26,7 +26,7 @@ foo("bar") /= 7;  // now dict("foo")("bar") == 6
 
 ### Non-features
 
-* Array values are limited to matrices and vectors
+* Array values are limited to Eigen tensors (matrix, quaternion, vector)
 * Copy constructors are disabled
 
 ## Install
@@ -90,6 +90,13 @@ can be handled and its value will be deserialized as an ``Eigen::Vector2d``. How
 
 cannot be handled, as the array cannot be deserialized to an Eigen type.
 
-## 👷 Contribute
+## Alternatives
+
+* [nlohmann::json](https://github.com/nlohmann/json) - ...
+* [RapidJSON](https://github.com/Tencent/rapidjson/) - ...
+* [std::map](https://www.cplusplus.com/reference/map/map/) - if your values all have the same type, you might as well use a standard map directly.
+* [std::unordered\_map](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant can perform faster.
+
+## Contribute 👷
 
 All contributions big and small are welcome! Make sure you read the [contribution guidelines](CONTRIBUTING.md).
