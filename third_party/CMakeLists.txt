@@ -14,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-add_library(third_party_mpack
+add_library(third_party_mpack SHARED
     mpack/src/mpack/mpack-common.c
     mpack/src/mpack/mpack-common.h
+    mpack/src/mpack/mpack-defaults.h
     mpack/src/mpack/mpack-expect.c
     mpack/src/mpack/mpack-expect.h
     mpack/src/mpack/mpack-node.c
@@ -27,4 +28,23 @@ add_library(third_party_mpack
     mpack/src/mpack/mpack-reader.h
     mpack/src/mpack/mpack-writer.c
     mpack/src/mpack/mpack-writer.h
+    mpack/src/mpack/mpack.h
 )
+
+target_sources(third_party_mpack PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack-common.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack-defaults.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack-expect.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack-node.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack-platform.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack-reader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack-writer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/mpack/src/mpack/mpack.h
+)
+
+get_target_property(MPACK_PUBLIC_HEADERS third_party_mpack INTERFACE_SOURCES)
+set_target_properties(third_party_mpack PROPERTIES PUBLIC_HEADER "${MPACK_PUBLIC_HEADERS}")
+
+install(TARGETS third_party_mpack
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
