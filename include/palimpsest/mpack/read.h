@@ -22,7 +22,7 @@
 #include <Eigen/Geometry>
 #include <string>
 
-#include "palimpsest/exceptions.h"
+#include "palimpsest/TypeError.h"
 
 namespace palimpsest::mpack {
 

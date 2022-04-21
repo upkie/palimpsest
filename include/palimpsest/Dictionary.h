@@ -34,7 +34,7 @@
 #include <utility>
 #include <vector>
 
-#include "palimpsest/exceptions.h"
+#include "palimpsest/TypeError.h"
 #include "palimpsest/internal/Allocator.h"
 #include "palimpsest/internal/is_valid_hash.h"
 #include "palimpsest/internal/type_name.h"

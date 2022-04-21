@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 
+#include "palimpsest/KeyError.h"
 #include "palimpsest/mpack/eigen.h"
 
 namespace palimpsest {

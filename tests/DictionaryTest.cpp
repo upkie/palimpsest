@@ -31,6 +31,7 @@
 
 #include "cppcodec/base64_rfc4648.hpp"
 #include "palimpsest/Dictionary.h"
+#include "palimpsest/KeyError.h"
 #include "palimpsest/mpack/Writer.h"
 
 using base64 = cppcodec::base64_rfc4648;
