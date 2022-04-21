@@ -11,7 +11,7 @@ cc_library(
     ],
     deps = [
         "//include/palimpsest:dictionary",
-        "//src/internal:message_pack_writer",
+        "//src/mpack",
     ],
 )
 

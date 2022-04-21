@@ -24,9 +24,7 @@
 
 #include "palimpsest/exceptions.h"
 
-namespace palimpsest {
-
-namespace mpack {
+namespace palimpsest::mpack {
 
 /*! Read a value from MessagePack.
  *
@@ -313,6 +311,4 @@ inline void read(mpack_node_t node, Eigen::Matrix3d& value) {
   }
 }
 
-}  // namespace mpack
-
-}  // namespace palimpsest
+}  // namespace palimpsest::mpack

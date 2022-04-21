@@ -21,7 +21,7 @@
  *     License: BSD-2-Clause
  */
 
-#include "palimpsest/internal/MessagePackWriter.h"
+#include "palimpsest/mpack/Writer.h"
 
 #include <mpack.h>
 
@@ -113,9 +113,9 @@ static void mpack_std_vector_writer_flush(mpack_writer_t *writer,
             static_cast<int>(mpack_writer_buffer_used(writer)));
 }
 
-namespace palimpsest::internal {
+namespace palimpsest::mpack {
 
-MessagePackWriter::MessagePackWriter(std::vector<char> &buffer) {
+Writer::Writer(std::vector<char> &buffer) {
   if (buffer.size() == 0) {
     buffer.resize(MPACK_BUFFER_SIZE);
   }
@@ -124,38 +124,38 @@ MessagePackWriter::MessagePackWriter(std::vector<char> &buffer) {
   mpack_writer_set_flush(&writer_, mpack_std_vector_writer_flush);
 }
 
-MessagePackWriter::~MessagePackWriter() {}
+Writer::~Writer() {}
 
-void MessagePackWriter::write() { mpack_write_nil(&writer_); }
+void Writer::write() { mpack_write_nil(&writer_); }
 
-void MessagePackWriter::write(bool b) { mpack_write_bool(&writer_, b); }
+void Writer::write(bool b) { mpack_write_bool(&writer_, b); }
 
-void MessagePackWriter::write(int8_t i) { mpack_write_i8(&writer_, i); }
+void Writer::write(int8_t i) { mpack_write_i8(&writer_, i); }
 
-void MessagePackWriter::write(int16_t i) { mpack_write_i16(&writer_, i); }
+void Writer::write(int16_t i) { mpack_write_i16(&writer_, i); }
 
-void MessagePackWriter::write(int32_t i) { mpack_write_i32(&writer_, i); }
+void Writer::write(int32_t i) { mpack_write_i32(&writer_, i); }
 
-void MessagePackWriter::write(int64_t i) { mpack_write_i64(&writer_, i); }
+void Writer::write(int64_t i) { mpack_write_i64(&writer_, i); }
 
-void MessagePackWriter::write(uint8_t i) { mpack_write_u8(&writer_, i); }
+void Writer::write(uint8_t i) { mpack_write_u8(&writer_, i); }
 
-void MessagePackWriter::write(uint16_t i) { mpack_write_u16(&writer_, i); }
+void Writer::write(uint16_t i) { mpack_write_u16(&writer_, i); }
 
-void MessagePackWriter::write(uint32_t i) { mpack_write_u32(&writer_, i); }
+void Writer::write(uint32_t i) { mpack_write_u32(&writer_, i); }
 
-void MessagePackWriter::write(uint64_t i) { mpack_write_u64(&writer_, i); }
+void Writer::write(uint64_t i) { mpack_write_u64(&writer_, i); }
 
-void MessagePackWriter::write(float f) { mpack_write_float(&writer_, f); }
+void Writer::write(float f) { mpack_write_float(&writer_, f); }
 
-void MessagePackWriter::write(double d) { mpack_write_double(&writer_, d); }
+void Writer::write(double d) { mpack_write_double(&writer_, d); }
 
-void MessagePackWriter::write(const std::string &s) {
+void Writer::write(const std::string &s) {
   mpack_write_str(&writer_, s.c_str(), static_cast<uint32_t>(s.size()));
 }
-void MessagePackWriter::write(const char *s) { mpack_write_cstr(&writer_, s); }
+void Writer::write(const char *s) { mpack_write_cstr(&writer_, s); }
 
-void MessagePackWriter::write(const char *s, size_t len) {
+void Writer::write(const char *s, size_t len) {
   mpack_write_str(&writer_, s, static_cast<uint32_t>(len));
 }
 
@@ -179,25 +179,25 @@ inline void write_matrix(mpack_writer_t *writer, const T &m) {
 
 }  // namespace
 
-void MessagePackWriter::write(const Eigen::Vector2d &v) {
+void Writer::write(const Eigen::Vector2d &v) {
   start_array(2);
   write_vector(&writer_, v);
   finish_array();
 }
 
-void MessagePackWriter::write(const Eigen::Vector3d &v) {
+void Writer::write(const Eigen::Vector3d &v) {
   start_array(3);
   write_vector(&writer_, v);
   finish_array();
 }
 
-void MessagePackWriter::write(const Eigen::VectorXd &v) {
+void Writer::write(const Eigen::VectorXd &v) {
   start_array(static_cast<size_t>(v.size()));
   write_vector(&writer_, v);
   finish_array();
 }
 
-void MessagePackWriter::write(const Eigen::Quaterniond &q) {
+void Writer::write(const Eigen::Quaterniond &q) {
   start_array(4);
   write(q.w());
   write(q.x());
@@ -206,29 +206,29 @@ void MessagePackWriter::write(const Eigen::Quaterniond &q) {
   finish_array();
 }
 
-void MessagePackWriter::write(const Eigen::Matrix3d &m) {
+void Writer::write(const Eigen::Matrix3d &m) {
   start_array(9);
   write_matrix(&writer_, m);
   finish_array();
 }
 
-void MessagePackWriter::start_array(size_t s) {
+void Writer::start_array(size_t s) {
   mpack_start_array(&writer_, static_cast<uint32_t>(s));
 }
 
-void MessagePackWriter::finish_array() { mpack_finish_array(&writer_); }
+void Writer::finish_array() { mpack_finish_array(&writer_); }
 
-void MessagePackWriter::start_map(size_t s) {
+void Writer::start_map(size_t s) {
   mpack_start_map(&writer_, static_cast<uint32_t>(s));
 }
 
-void MessagePackWriter::finish_map() { mpack_finish_map(&writer_); }
+void Writer::finish_map() { mpack_finish_map(&writer_); }
 
-void MessagePackWriter::write_object(const char *data, size_t s) {
+void Writer::write_object(const char *data, size_t s) {
   mpack_write_object_bytes(&writer_, data, s);
 }
 
-size_t MessagePackWriter::finish() {
+size_t Writer::finish() {
   if (mpack_writer_destroy(&writer_) != mpack_ok) {
     mpack_log("Failed to write to MessagePack");
     return 0;
@@ -236,4 +236,4 @@ size_t MessagePackWriter::finish() {
   return mpack_writer_buffer_used(&writer_);
 }
 
-}  // namespace palimpsest::internal
+}  // namespace palimpsest::mpack

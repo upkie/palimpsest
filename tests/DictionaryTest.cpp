@@ -31,10 +31,9 @@
 
 #include "cppcodec/base64_rfc4648.hpp"
 #include "palimpsest/Dictionary.h"
-#include "palimpsest/internal/MessagePackWriter.h"
+#include "palimpsest/mpack/Writer.h"
 
 using base64 = cppcodec::base64_rfc4648;
-using palimpsest::internal::MessagePackWriter;
 
 // This is only used in EigenOverloadOperatorNew but we need to overload the
 // Eigen::aligned_allocator for this type.
@@ -740,7 +739,7 @@ TEST(Dictionary, CannotGetValueFromEmpty) {
 
 TEST(Dictionary, Update) {
   std::vector<char> buffer;
-  MessagePackWriter writer(buffer);
+  mpack::Writer writer(buffer);
   writer.start_map(2);
   writer.write("compact");
   writer.write(true);
@@ -772,7 +771,7 @@ TEST(Dictionary, Update) {
 
 TEST(Dictionary, UpdateSignedInt) {
   std::vector<char> buffer;
-  MessagePackWriter writer(buffer);
+  mpack::Writer writer(buffer);
   writer.start_map(1);
   writer.write("foo");
   writer.write(static_cast<int>(12));
@@ -789,7 +788,7 @@ TEST(Dictionary, UpdateSignedInt) {
 
 TEST(Dictionary, Extend) {
   std::vector<char> buffer;
-  MessagePackWriter writer(buffer);
+  mpack::Writer writer(buffer);
   writer.start_map(2);
   writer.write("compact");
   writer.write(true);

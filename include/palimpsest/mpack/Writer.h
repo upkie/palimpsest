@@ -37,7 +37,7 @@
 #include <utility>
 #include <vector>
 
-namespace palimpsest::internal {
+namespace palimpsest::mpack {
 
 /*! Write MessagePack (using MPack's Write API) to a vector of bytes.
  *
@@ -47,16 +47,16 @@ namespace palimpsest::internal {
  * \note After a message has been fully written, the writer instance must be
  * discarded to create a new message.
  */
-class MessagePackWriter {
+class Writer {
  public:
   /*! Constructor.
    *
    * \param buffer Buffer used to store the data. It may grow if needed.
    */
-  explicit MessagePackWriter(std::vector<char> &buffer);
+  explicit Writer(std::vector<char> &buffer);
 
   //! Destructor.
-  ~MessagePackWriter();
+  ~Writer();
 
   /*! Add data to the MessagePack (basic)
    *
@@ -256,4 +256,4 @@ class MessagePackWriter {
   void write_impl(const std::tuple<Args...> &) {}
 };
 
-}  // namespace palimpsest::internal
+}  // namespace palimpsest::mpack

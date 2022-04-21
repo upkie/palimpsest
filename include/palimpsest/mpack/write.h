@@ -27,9 +27,7 @@
 
 #include <string>
 
-namespace palimpsest {
-
-namespace mpack {
+namespace palimpsest::mpack {
 
 /*
  * Templated functions to serialize values to an mpack_writer_t. This allows
@@ -191,6 +189,4 @@ inline void write(mpack_writer_t* writer, const Eigen::Matrix3d& value) {
   mpack_finish_array(writer);
 }
 
-}  // namespace mpack
-
-}  // namespace palimpsest
+}  // namespace palimpsest::mpack

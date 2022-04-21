@@ -28,7 +28,7 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
-namespace palimpsest {
+namespace palimpsest::mpack {
 
 /*! Deserialize an Eigen matrix.
  *
@@ -99,4 +99,4 @@ inline Eigen::VectorXd mpack_node_vectorXd(mpack_node_t node) {
   return vector;
 }
 
-}  // namespace palimpsest
+}  // namespace palimpsest::mpack

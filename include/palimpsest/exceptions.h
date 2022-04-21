@@ -20,7 +20,7 @@
 
 namespace palimpsest {
 
-//! Base class for palimpsest exceptions
+//! Error with file and line references to the calling code.
 class Error : public std::runtime_error {
  public:
   /*! Create a new error.

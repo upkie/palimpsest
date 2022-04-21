@@ -13,45 +13,16 @@ cc_library(
 )
 
 cc_library(
-    name = "json",
-    hdrs = [
-        "json_write.h",
-    ],
-    include_prefix = "palimpsest",
-    deps = [
-        "@eigen",
-    ],
-)
-
-cc_library(
-    name = "mpack",
-    hdrs = [
-        "mpack_eigen.h",
-        "mpack_read.h",
-        "mpack_write.h",
-    ],
-    include_prefix = "palimpsest",
-    deps = [
-        ":exceptions",
-        "@eigen",
-        "@mpack",
-    ],
-)
-
-cc_library(
     name = "dictionary",
     hdrs = [
         "Dictionary.h",
     ],
     include_prefix = "palimpsest",
     deps = [
-        "//include/palimpsest/internal:allocator",
-        "//include/palimpsest/internal:is_valid_hash",
-        "//include/palimpsest/internal:message_pack_writer",
-        "//include/palimpsest/internal:type_name",
+        "//include/palimpsest/internal",
+        "//include/palimpsest/json",
+        "//include/palimpsest/mpack",
         ":exceptions",
-        ":json",
-        ":mpack",
         "@fmt",
         "@spdlog",
     ],

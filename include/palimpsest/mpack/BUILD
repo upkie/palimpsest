@@ -5,13 +5,19 @@ load("//tools/lint:lint.bzl", "add_lint_tests")
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
-    name = "internal",
+    name = "mpack",
     hdrs = [
-        "Allocator.h",
-        "is_valid_hash.h",
-        "type_name.h",
+        "eigen.h",
+        "read.h",
+        "write.h",
+        "Writer.h",
     ],
-    include_prefix = "palimpsest/internal",
+    include_prefix = "palimpsest/mpack",
+    deps = [
+        "@eigen",
+        "@mpack",
+    ],
 )
 
 add_lint_tests(enable_clang_format_lint = True)
+

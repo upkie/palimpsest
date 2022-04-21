@@ -27,7 +27,7 @@
 #include <string>
 #include <vector>
 
-#include "palimpsest/mpack_eigen.h"
+#include "palimpsest/mpack/eigen.h"
 
 namespace palimpsest {
 
@@ -96,6 +96,12 @@ void Dictionary::extend(const char *data, size_t size) {
 }
 
 void Dictionary::extend(mpack_node_t node) {
+  using mpack::mpack_node_matrix3d;
+  using mpack::mpack_node_quaterniond;
+  using mpack::mpack_node_vector2d;
+  using mpack::mpack_node_vector3d;
+  using mpack::mpack_node_vectorXd;
+
   if (!this->is_map()) {
     throw TypeError(__FILE__, __LINE__, "Dictionary is not a map");
   }
@@ -104,6 +110,7 @@ void Dictionary::extend(mpack_node_t node) {
                     std::string("Argument should be a map, not ") +
                         mpack_type_to_string(mpack_node_type(node)));
   }
+
   for (size_t i = 0; i < mpack_node_map_count(node); ++i) {
     const auto key_node = mpack_node_map_key_at(node, i);
     const auto value = mpack_node_map_value_at(node, i);
@@ -207,12 +214,12 @@ const Dictionary &Dictionary::operator()(const std::string &key) const {
 }
 
 size_t Dictionary::serialize(std::vector<char> &buffer) const {
-  internal::MessagePackWriter writer(buffer);
+  mpack::Writer writer(buffer);
   serialize(writer);
   return writer.finish();
 }
 
-void Dictionary::serialize(internal::MessagePackWriter &writer) const {
+void Dictionary::serialize(mpack::Writer &writer) const {
   if (this->is_value()) {
     value_.serialize(writer);
     return;

@@ -36,12 +36,12 @@
 
 #include "palimpsest/exceptions.h"
 #include "palimpsest/internal/Allocator.h"
-#include "palimpsest/internal/MessagePackWriter.h"
 #include "palimpsest/internal/is_valid_hash.h"
 #include "palimpsest/internal/type_name.h"
-#include "palimpsest/json_write.h"
-#include "palimpsest/mpack_read.h"
-#include "palimpsest/mpack_write.h"
+#include "palimpsest/json/write.h"
+#include "palimpsest/mpack/Writer.h"
+#include "palimpsest/mpack/read.h"
+#include "palimpsest/mpack/write.h"
 
 namespace palimpsest {
 
@@ -156,7 +156,7 @@ class Dictionary {
      *
      * \param[out] writer Writer to serialize to.
      */
-    void serialize(internal::MessagePackWriter &writer) const {
+    void serialize(mpack::Writer &writer) const {
       serialize_(*this, writer.mpack_writer());
     }
 
@@ -767,7 +767,7 @@ class Dictionary {
    *
    * \param[out] writer Writer to serialize to.
    */
-  void serialize(internal::MessagePackWriter &writer) const;
+  void serialize(mpack::Writer &writer) const;
 
  protected:
   //! Internal value, used if we are a value.
