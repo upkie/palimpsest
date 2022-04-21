@@ -5,10 +5,6 @@
 
 _palimpsest_ is a C++ header-only library that exposes a single ``Dictionary`` type meant for fast value updates, with an API similar to Python's ``dict``. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest) because these dictionaries are optimized for frequent rewritings (values change all the time) on the same support (keys change once in a while).
 
-## TODO(scaron)
-
-* Code coverage
-
 ## Features and non-features
 
 All design decisions have their pros and cons. _palimpsest_ was designed for inter-process communication between real-time control programs, so it lies somewhere specific on the spectrum. Check the features and caveats below to see if it is a fit for _your_ use case.
@@ -25,8 +21,7 @@ Dictionary dict;
 Dictionary& foo = dict("foo");
 foo("bar") = 42;
 const int& bar = dict("foo")("bar");
-foo("bar") /= 7;
-assert(bar == 6);
+foo("bar") /= 7;  // now dict("foo")("bar") == 6
 ```
 
 ### Non-features
@@ -36,11 +31,7 @@ assert(bar == 6);
 
 ## Install
 
-### Header-only version
-
-TODO(scaron): Copy the [include folder](include/palimpsest) to your build tree and use a C++17 compiler.
-
-### Static library with Bazel (faster compile times)
+### Bazel (faster compile times)
 
 You can build _palimpsest_ straight from the repository by:
 
@@ -62,7 +53,11 @@ def palimpsest_repository():
     )
 ```
 
-Then call this rule from the ``WORKSPACE`` file at the root of your Bazel repository, and use the ``@palimpsest`` dependency in your C++ rules.
+Then call this rule from your Bazel ``WORKSPACE``, and use the ``@palimpsest`` dependency in your C++ rules.
+
+### CMake
+
+...
 
 ## Performance
 
@@ -70,9 +65,9 @@ Then call this rule from the ``WORKSPACE`` file at the root of your Bazel reposi
 
 ## Q and A
 
-Why isn't _palimpsest_ distributed as a header-only library?
+Why isn't _palimpsest_ also distributed as a header-only library?
 
-> The only reason is that we set a custom flush function
+> The main blocker so far is that we set a custom flush function
 > ``mpack_std_vector_writer_flush`` to our internal MPack writers. The [MPack
 > Write API](https://ludocode.github.io/mpack/group__writer.html) requires a
 > function pointer for that, and we define that function in
@@ -94,3 +89,7 @@ can be handled and its value will be deserialized as an ``Eigen::Vector2d``. How
 ```
 
 cannot be handled, as the array cannot be deserialized to an Eigen type.
+
+## 👷 Contribute
+
+All contributions big and small are welcome! Make sure you read the [contribution guidelines](CONTRIBUTING.md).
