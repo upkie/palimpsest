@@ -29,7 +29,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
-add_subdirectory(third_party)
+add_subdirectory(third_party)  # provides mpack
 
 # Library
 add_library(palimpsest SHARED
@@ -44,7 +44,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     Eigen3::Eigen
-    third_party_mpack
+    mpack
 )
 
 # Unit tests
