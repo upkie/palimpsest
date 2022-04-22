@@ -26,6 +26,17 @@ LFLAGS=-L$(MY_CMAKE_INSTALL_PREFIX)/lib -lmpack -lpalimpsest
 %: %.cpp
 	$(CPP) $(IFLAGS) $< $(LFLAGS) -o $@
 
-all: readme
-	@echo "README example:\n"
+all: readme cpp_to_python
+	@echo ""
+	@echo "README example"
+	@echo "=============="
 	@./readme
+	@echo ""
+	@echo "cpp_to_python: C++ writer"
+	@echo "========================="
+	@./cpp_to_python
+	@echo ""
+	@echo "cpp_to_python: Python reader"
+	@echo "============================"
+	@python cpp_to_python.py
+	@echo ""

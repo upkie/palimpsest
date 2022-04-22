@@ -33,13 +33,9 @@ int main() {
   bodies("truck")("orientation") = Eigen::Quaterniond::Identity();
   bodies("truck")("position") = Eigen::Vector3d{42.0, 0.5, 0.0};
 
-  std::cout << world << std::endl;
-
   world.write("serialized.mpack");
+  std::cout << "Serialized dictionary: " << world << std::endl;
 
-  Dictionary world_bis;
-  world_bis.read("serialized.mpack");
-  std::cout << world_bis << std::endl;
-
+  // You can now run the `cpp_to_python.py` reader
   return EXIT_SUCCESS;
 }
