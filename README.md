@@ -64,6 +64,7 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 
 ### Features
 
+* Prioritizes speed (over user-friendliness)
 * References to sub-dictionaries or values to avoid future key lookups
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
@@ -72,6 +73,7 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 
 ### Non-features
 
+* (Prioritizes speed) over user-friendliness
 * Array values are mostly limited to Eigen tensors (matrix, quaternion, vector)
 * Copy constructors are disabled
 * (Extensible to new types) as long as they deserialize unambiguously
