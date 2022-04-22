@@ -10,7 +10,7 @@ REMOTEDIR    = scaron.info:public_html/doc/palimpsest
 .PHONY: clean html open upload
 
 html:
-	@$(DOXYGEN) Doxyfile
+	(cd .. && $(DOXYGEN) Doxyfile)
 
 clean:
 	rm -rf $(HTMLDIR)
