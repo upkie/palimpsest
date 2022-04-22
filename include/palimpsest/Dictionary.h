@@ -468,7 +468,7 @@ class Dictionary {
 
   /*! Assignment operator for C-style strings.
    *
-   * \param[in] new_value C-style string to assign.
+   * \param[in] c_string C-style string to assign.
    *
    * \throw TypeError if the object was already a value of a different type.
    *
@@ -531,7 +531,7 @@ class Dictionary {
    *
    * Since we cannot insert a new element in a const object, this const
    * operator will throw if the key is not already in the dictionary. See the
-   * documentation for the non-const variant \ref operator()(key).
+   * documentation for the non-const variant of this operator.
    */
   const Dictionary &operator()(const std::string &key) const;
 
