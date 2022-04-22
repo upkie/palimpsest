@@ -217,8 +217,9 @@ const Dictionary &Dictionary::operator()(const std::string &key) const {
 
 void Dictionary::read(const std::string &filename) {
   std::ifstream input;
-  input.open(filename, std::ifstream::binary);
+  input.open(filename, std::ifstream::binary | std::ios::ate);
   std::streamsize size = input.tellg();
+  input.seekg(0, std::ios::beg);
   std::vector<char> buffer(size);
   input.read(buffer.data(), size);
   input.close();
