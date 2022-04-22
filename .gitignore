@@ -1,3 +1,4 @@
+*.mpack
 bazel-bin
 bazel-out
 bazel-palimpsest
