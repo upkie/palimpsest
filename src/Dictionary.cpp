@@ -23,6 +23,7 @@
 
 #include "palimpsest/Dictionary.h"
 
+#include <fstream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -212,6 +213,26 @@ const Dictionary &Dictionary::operator()(const std::string &key) const {
                    "Since the dictionary is const it cannot be created.");
   }
   return *it->second;
+}
+
+void Dictionary::read(const std::string &filename) {
+  std::ifstream input;
+  input.open(filename, std::ifstream::binary);
+  std::streamsize size = input.tellg();
+  std::vector<char> buffer(size);
+  input.read(buffer.data(), size);
+  input.close();
+  this->extend(buffer.data(), size);
+}
+
+void Dictionary::write(const std::string &filename) const {
+  std::vector<char> buffer;
+  size_t size = this->serialize(buffer);
+
+  std::ofstream output;
+  output.open(filename, std::ofstream::binary);
+  output.write(buffer.data(), static_cast<int>(size));
+  output.close();
 }
 
 size_t Dictionary::serialize(std::vector<char> &buffer) const {

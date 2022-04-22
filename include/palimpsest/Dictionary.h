@@ -544,6 +544,18 @@ class Dictionary {
    */
   size_t serialize(std::vector<char> &buffer) const;
 
+  /*! Write MessagePack serialization to a binary file.
+   *
+   * \param[in] filename Path to the output file.
+   */
+  void write(const std::string &filename) const;
+
+  /*! Extend content from a MessagePack binary file.
+   *
+   * \param[in] filename Path to the input file.
+   */
+  void read(const std::string &filename);
+
   /*! Update dictionary from raw MessagePack data.
    *
    * \param[in] data Buffer to read MessagePack from.
