@@ -27,5 +27,5 @@ LFLAGS=-L$(MY_CMAKE_INSTALL_PREFIX)/lib -lmpack -lpalimpsest
 	$(CPP) $(IFLAGS) $< $(LFLAGS) -o $@
 
 all: readme
-	@echo -n "- README example: "
+	@echo "README example:\n"
 	@./readme
