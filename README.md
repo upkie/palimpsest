@@ -134,7 +134,7 @@ Why isn't _palimpsest_ also distributed as a header-only library?
 > [`Writer.cpp`](src/mpack/Writer.cpp). Open a PR if you have ideas to go
 > around that!
 
-## Details
+## Usage
 
 ### Serialization to bytes
 
