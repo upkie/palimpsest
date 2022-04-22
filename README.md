@@ -173,6 +173,6 @@ A single dictionary can be extended multiple times from different sources. The c
 * [std::map](https://www.cplusplus.com/reference/map/map/) - if your values all have the same type, you might as well use a standard map directly.
 * [std::unordered\_map](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant can perform faster.
 
-## Contribute {#contribute}
+## Contribute
 
 There are many open leads to improve this project, as you already know if you landed here from a link in this README 😉 All contributions are welcome, big or small! Make sure you read the 👷 [contribution guidelines](CONTRIBUTING.md).
