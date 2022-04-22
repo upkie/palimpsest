@@ -84,7 +84,7 @@ Check out the [alternatives](#alternatives) below if any of these is a no-go for
 
 ### Bazel (recommended)
 
-You can build _palimpsest_ straight from the repository by running ``./tools/bazelisk build //...`` from the root folder. To use it in your project, create a git repository rule such as:
+You can build _palimpsest_ straight from the repository by running ``./tools/bazelisk build //...`` from its root. To use it in your project, create a git repository rule such as:
 
 ```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -180,10 +180,10 @@ Updates thus behave complementarily to extensions: updating ``{"a": 12}`` with `
 
 Adding a new custom type ``MyType`` boils down to:
 
-* Add a read function specializations to ``mpack/read.h``
-* Add a write function specializations to ``json/write.h``
-* Add a write function specializations to ``mpack/Writer.h``
-* Add a write function specializations to ``mpack/write.h``
+* Add a read function specialization to ``mpack/read.h``
+* Add a write function specialization to ``json/write.h``
+* Add a write function specialization to ``mpack/Writer.h``
+* Add a write function specialization to ``mpack/write.h``
 * Add implicit type conversions to ``Dictionary.h``
 
 Take a look at the existing types in these files and in unit tests for inspiration.
