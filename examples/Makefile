@@ -23,20 +23,34 @@ CPP=g++
 IFLAGS=-I$(MY_CMAKE_INSTALL_PREFIX)/include $(shell pkg-config eigen3 --cflags)
 LFLAGS=-L$(MY_CMAKE_INSTALL_PREFIX)/lib -lmpack -lpalimpsest
 
-%: %.cpp
-	$(CPP) $(IFLAGS) $< $(LFLAGS) -o $@
+.PHONY: all clean cpp_to_python help readme
 
-all: readme cpp_to_python
+%.out: %.cpp
+	@$(CPP) $(IFLAGS) $< $(LFLAGS) -o $@
+
+# Help snippet from https://github.com/fzaninotto/Faker/blob/master/Makefile
+help:  ## print this help
+	@grep -P '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+.DEFAULT_GOAL := help
+
+all: readme cpp_to_python  ## run all examples
+	@echo ""
+
+readme: readme.out  ## README example
 	@echo ""
 	@echo "README example"
 	@echo "=============="
-	@./readme
+	@./readme.out
+
+cpp_to_python: cpp_to_python.out  ## send a Dictionary from C++ to Python
 	@echo ""
 	@echo "cpp_to_python: C++ writer"
 	@echo "========================="
-	@./cpp_to_python
+	@./cpp_to_python.out
 	@echo ""
 	@echo "cpp_to_python: Python reader"
 	@echo "============================"
 	@python cpp_to_python.py
-	@echo ""
+
+clean:  ## clean compiled binaries
+	rm -f $(wildcard *.out)
