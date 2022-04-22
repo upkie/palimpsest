@@ -4,7 +4,7 @@
 | [**Documentation**](https://scaron.info/doc/palimpsest/)
 | [**Example**](https://github.com/stephane-caron/palimpsest#overview)
 | [**Features**](https://github.com/stephane-caron/palimpsest#features-and-non-features)
-| [**Contributing**](https://github.com/stephane-caron/palimpsest#contribute)
+| [**Contributing**](https://github.com/stephane-caron/palimpsest#contributing)
 
 [![Build](https://img.shields.io/github/workflow/status/stephane-caron/palimpsest/CI)](https://github.com/stephane-caron/palimpsest/actions)
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
@@ -75,8 +75,8 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 * Array values are mostly limited to Eigen tensors (matrix, quaternion, vector)
 * Copy constructors are disabled
 * (Extensible to new types) as long as they deserialize unambiguously
-* [WIP](#contribute): key collisions are pretty much left up to the user
-* [WIP](#contribute): shallow and deep copies are not implemented yet
+* [WIP](#contributing): key collisions are pretty much left up to the user
+* [WIP](#contributing): shallow and deep copies are not implemented yet
 
 Check out the [alternatives](#alternatives) below if any of these is a no-go for you.
 
@@ -162,7 +162,7 @@ Dictionary dict;
 dict.extend(buffer.data(), size);
 ```
 
-A single dictionary can be extended multiple times from different sources. The catch is that key collisions are ignored [for now](#contribute), so that extending ``{"a": 12}`` with ``{"a": 42, "b": 1}`` will result in ``{"a": 12, "b": 1}`` (and a warning).
+A single dictionary can be extended multiple times from different sources. The catch is that key collisions are ignored [for now](#contributing), so that extending ``{"a": 12}`` with ``{"a": 42, "b": 1}`` will result in ``{"a": 12, "b": 1}`` (and a warning).
 
 ### Updates
 
@@ -179,6 +179,6 @@ A single dictionary can be extended multiple times from different sources. The c
 * [std::map](https://www.cplusplus.com/reference/map/map/) - if your values all have the same type and you have no nested dictionaries, you might as well use a standard map.
 * [std::unordered\_map](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant usually perform faster on average.
 
-## Contribute
+## Contributing
 
 There are many open leads to improve this project, as you already know if you landed here from a link in this README 😉 All contributions are welcome, big or small! Make sure you read the 👷 [contribution guidelines](CONTRIBUTING.md).
