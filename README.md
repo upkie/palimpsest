@@ -8,6 +8,7 @@
 
 [![Build](https://img.shields.io/github/workflow/status/stephane-caron/palimpsest/CI)](https://github.com/stephane-caron/palimpsest/actions)
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
+[![Release](https://img.shields.io/github/v/release/stephane-caron/palimpsest.svg?sort=semver)](https://github.com/stephane-caron/palimpsest/releases)
 
 _palimpsest_ is a small C++ library that provides a ``Dictionary`` type meant for fast value updates and serialization, with an API similar to Python's ``dict``. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because these dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
 
