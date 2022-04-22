@@ -18,5 +18,5 @@ clean:
 open:
 	firefox $(HTMLDIR)/index.html
 
-upload: clean html latexpdf
+upload: clean html
 	rsync -auvz --delete-after $(HTMLDIR)/ $(REMOTEDIR)/
