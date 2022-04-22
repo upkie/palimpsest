@@ -140,7 +140,7 @@ Why isn't _palimpsest_ also distributed as a header-only library?
 
 #### Serialization
 
-Dictionaries can be serialized to vectors of bytes via the serialize function:
+Dictionaries can be [serialized](\ref palimpsest::Dictionary::serialize) to vectors of bytes via the serialize function:
 
 ```cpp
 Dictionary world;
@@ -152,7 +152,7 @@ The function call will resize the buffer automatically if needed.
 
 #### Deserialization
 
-Dictionaries can be *extended* from byte vectors:
+Dictionaries can be [extended](\ref palimpsest::Dictionary::extend) from byte vectors:
 
 ```cpp
 std::vector<char> buffer(size);
