@@ -69,11 +69,11 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 
 * Prioritizes speed (over user-friendliness)
 * References to sub-dictionaries or values help avoid key lookups
+* Built for fast dictionary exchange with [Python](https://www.python.org/)
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 * Print dictionaries to standard output as [JSON](https://www.json.org/json-en.html)
 * [Extensible](#adding-custom-types) to new types (as long as they deserialize unambiguously)
-* Ready to exchange dictionaries with [Python](https://www.python.org/)
 
 ### Non-features
 
@@ -84,7 +84,7 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 * [WIP](#contributing): key collisions are pretty much left up to the user
 * [WIP](#contributing): shallow and deep copies are not implemented yet
 
-Check out the [alternatives](#alternatives) below if any of these is a no-go for you.
+Check out the existing [alternatives](https://github.com/stephane-caron/palimpsest#alternatives) if any of these points is a no-go for you.
 
 ## Installation
 
@@ -208,6 +208,7 @@ Why isn't _palimpsest_ also distributed as a header-only library?
 ## Alternatives
 
 * [mc\_rtc::DataStore](https://github.com/jrl-umi3218/mc_rtc/blob/master/include/mc_rtc/DataStore.h) - can hold more general value types, like lambda functions, but does not serialize.
+* [mjlib::telemetry](https://github.com/mjbots/mjlib/tree/master/mjlib/telemetry#readme) - if your use case is more specifically telemetry in robotics or embedded systems.
 * [nlohmann::json](https://github.com/nlohmann/json) - most user-friendly library of this list, serializes to MessagePack and other binary formats, but not designed for speed.
 * [Protocol Buffers](https://developers.google.com/protocol-buffers/) - good fit if you have a fixed schema (keys don't change at all) that you want to serialize to and from.
 * [RapidJSON](https://github.com/Tencent/rapidjson/) - low memory footprint, can serialize to MessagePack using other [related projects](https://github.com/Tencent/rapidjson/wiki/Related-Projects), but has linear lookup complexity as it stores dictionaries [as lists of key-value pairs](https://github.com/Tencent/rapidjson/issues/102).
