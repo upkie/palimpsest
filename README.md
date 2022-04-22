@@ -68,11 +68,12 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 ### Features
 
 * Prioritizes speed (over user-friendliness)
-* References to sub-dictionaries or values to avoid future key lookups
+* References to sub-dictionaries or values help avoid key lookups
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 * Print dictionaries to standard output as [JSON](https://www.json.org/json-en.html)
 * [Extensible](#adding-custom-types) to new types (as long as they deserialize unambiguously)
+* Ready to exchange dictionaries with [Python](https://www.python.org/)
 
 ### Non-features
 
@@ -206,8 +207,9 @@ Why isn't _palimpsest_ also distributed as a header-only library?
 
 ## Alternatives
 
-* [mc_rtc::DataStore](https://github.com/jrl-umi3218/mc_rtc/blob/master/include/mc_rtc/DataStore.h) - can hold more general value types, like lambda functions, but does not serialize.
+* [mc\_rtc::DataStore](https://github.com/jrl-umi3218/mc_rtc/blob/master/include/mc_rtc/DataStore.h) - can hold more general value types, like lambda functions, but does not serialize.
 * [nlohmann::json](https://github.com/nlohmann/json) - most user-friendly library of this list, serializes to MessagePack and other binary formats, but not designed for speed.
+* [Protocol Buffers](https://developers.google.com/protocol-buffers/) - good fit if you have a fixed schema (keys don't change at all) that you want to serialize to and from.
 * [RapidJSON](https://github.com/Tencent/rapidjson/) - low memory footprint, can serialize to MessagePack using other [related projects](https://github.com/Tencent/rapidjson/wiki/Related-Projects), but has linear lookup complexity as it stores dictionaries [as lists of key-value pairs](https://github.com/Tencent/rapidjson/issues/102).
 * [std::map](https://www.cplusplus.com/reference/map/map/) - best pick if your values all have the same type and you don't need nested dictionaries.
 * [std::unordered\_map](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant usually perform faster on average.
