@@ -36,7 +36,7 @@ This example outputs:
 {"bodies": {"truck": {"position": [42, 0.5, 0], "orientation": [1, 0, 0, 0]}, "plane": {"position": [0.1, 0, 100], "orientation": [0.9239, 0.3827, 0, 0]}}, "temperature": 28, "name": "example"}
 ```
 
-We can serialize the dictionary to a file using the convenience write function:
+We can serialize the dictionary to a file using the convenience [write](\ref palimpsest::Dictionary::write) function:
 
 ```cpp
 world.write("world.mpack");
@@ -50,7 +50,7 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-While single-shot writing to files can be useful, dictionaries can be more generally [serialized to bytes](#serialization-to-bytes) for transmission over *e.g.* a TCP connection, shared memory mapping, transcontinental telegraph line, etc.
+While one-time writing to files can be useful, dictionaries can be more generally [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium, be it a TCP connection, shared memory mapping, transcontinental telegraph line, etc.
 
 ## Features and non-features
 
@@ -173,6 +173,6 @@ A single dictionary can be extended multiple times from different sources. The c
 * [std::map](https://www.cplusplus.com/reference/map/map/) - if your values all have the same type, you might as well use a standard map directly.
 * [std::unordered\_map](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant can perform faster.
 
-## Contribute
+## Contribute {#contribute}
 
-There are many open leads to improve this project, as you know if you landed here by clicking on a link in this README 😉 All contributions are welcome, big or small! Make sure you read the 👷 [contribution guidelines](CONTRIBUTING.md).
+There are many open leads to improve this project, as you already know if you landed here from a link in this README 😉 All contributions are welcome, big or small! Make sure you read the 👷 [contribution guidelines](CONTRIBUTING.md).
