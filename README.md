@@ -3,11 +3,40 @@
 [![Build](https://img.shields.io/github/workflow/status/stephane-caron/palimpsest/CI)](https://github.com/stephane-caron/palimpsest/actions)
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
 
-_palimpsest_ is a C++ header-only library that exposes a single ``Dictionary`` type meant for fast value updates, with an API similar to Python's ``dict``. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest) because these dictionaries are optimized for frequent rewritings (values change all the time) on the same support (keys change once in a while).
+_palimpsest_ is a small C++ library that provides a ``Dictionary`` type meant for fast value updates and serialization, with an API similar to Python's ``dict``. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest) because these dictionaries are optimized for frequent rewritings (values change all the time) on the same support (keys change once in a while).
 
 ## Features and non-features
 
-All design decisions have their pros and cons. _palimpsest_ was designed for inter-process communication between real-time control programs, so it lies somewhere specific on the spectrum. Check the features and caveats below to see if it is a fit for _your_ use case.
+There are two main assumptions in _palimpsest_ dictionaries:
+
+* **Keys** are strings.
+* **Values** hold either a sub-dictionary or a type that can be unambiguously serialized/deserialized.
+
+They allow us to write straightforwardly structures like:
+
+```cpp
+using palimpsest::Dictionary;
+
+Dictionary world;
+world("name") = "example";
+world("temperature") = 28.0;
+
+auto& bodies = world("bodies");
+bodies("plane")("orientation") = Eigen::Quaterniond{0.9239, 0.3827, 0., 0.};
+bodies("plane")("position") = Eigen::Vector3d{0.0, 0.0, 100.0};
+bodies("truck")("orientation") = Eigen::Quaterniond::Identity();
+bodies("truck")("position") = Eigen::Vector3d{42.0, 0.0, 0.0};
+
+std::cout << world << std::endl;
+```
+
+This example outputs:
+
+```json
+{"bodies": {"truck": {"position": [42, 0, 0], "orientation": [1, 0, 0, 0]}, "plane": {"position": [0, 0, 100], "orientation": [0.9239, 0.3827, 0, 0]}}, "temperature": 28, "name": "example"}
+```
+
+_palimpsest_'s design decisions are rooted in the robotics applications that prompted its development. Since all design decisions have their pros and cons, check the detailed features and non-features below to decide if it is a fit for _your_ use case.
 
 ### Features
 
@@ -15,14 +44,7 @@ All design decisions have their pros and cons. _palimpsest_ was designed for int
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 * Print dictionaries to standard output as JSON
-
-```cpp
-Dictionary dict;
-Dictionary& foo = dict("foo");
-foo("bar") = 42;
-const int& bar = dict("foo")("bar");
-foo("bar") /= 7;  // now dict("foo")("bar") == 6
-```
+* Extensible to new types
 
 ### Non-features
 
@@ -104,6 +126,10 @@ can be handled and its value will be deserialized as an ``Eigen::Vector2d``. How
 ```
 
 cannot be handled, as the array cannot be deserialized to an Eigen type.
+
+### Adding custom types
+
+...
 
 ## Alternatives
 
