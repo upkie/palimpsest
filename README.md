@@ -68,7 +68,7 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 * Print dictionaries to standard output as [JSON](https://www.json.org/json-en.html)
-* [Extensible](#adding-new-types) to new types (as long as they deserialize unambiguously)
+* [Extensible](#adding-custom-types) to new types (as long as they deserialize unambiguously)
 
 ### Non-features
 
@@ -123,8 +123,6 @@ Note that by default MPack will be built and installed from the [``third_party``
 
 ### Serialization to bytes
 
-#### Serialization
-
 Dictionaries can be serialized (``palimpsest::Dictionary::serialize``) to vectors of bytes via the serialize function:
 
 ```cpp
@@ -135,7 +133,9 @@ size_t size = world.serialize(buffer);
 
 The function call will resize the buffer automatically if needed.
 
-#### Deserialization
+### Deserialization from bytes
+
+#### Extensions
 
 Dictionaries can be extended (``palimpsest::Dictionary::extend``) from byte vectors:
 
@@ -149,17 +149,44 @@ dict.extend(buffer.data(), size);
 
 A single dictionary can be extended multiple times from different sources. The catch is that key collisions are ignored [for now](#contributing), so that extending ``{"a": 12}`` with ``{"a": 42, "b": 1}`` will result in ``{"a": 12, "b": 1}`` (and a warning).
 
-### Updates
+#### Updates
 
-...
+Dictionaries can be updated (``palimpsest::Dictionary::update``) from byte vectors rather than extended. In that case only the keys that are already in the original dictionary get new values:
 
-### Adding new types
+```cpp
+Dictionary foo;
+foo("bar") = 1;
+foo("foo") = 2;
 
-...
+Dictionary bar;
+bar("bar") = 3;
+std::vector<char> buffer;
+size_t size = bar.serialize(buffer);
 
-## Performance
+foo.update(buffer.data(), size);  // OK, now foo("bar") == 3
+```
 
-...
+Keys in the update stream that are not already in the dictionary are ignored:
+
+```cpp
+bar("new") = 4;
+size_t size = bar.serialize(buffer);
+foo.update(buffer.data(), size);  // no effect
+```
+
+Updates thus behave complementarily to extensions: updating ``{"a": 12}`` with ``{"a": 42, "b": 1}`` results in ``{"a": 42}`` rather than ``{"a": 12, "b": 1}``.
+
+### Adding custom types
+
+Adding a new custom type ``MyType`` boils down to:
+
+* Add a read function specializations to ``mpack/read.h``
+* Add a write function specializations to ``json/write.h``
+* Add a write function specializations to ``mpack/Writer.h``
+* Add a write function specializations to ``mpack/write.h``
+* Add implicit type conversions to ``Dictionary.h``
+
+Take a look at the existing types in these files and in unit tests for inspiration.
 
 ## Q and A
 
