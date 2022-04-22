@@ -40,10 +40,12 @@ std::cout << world << std::endl;
 This example outputs:
 
 ```json
-{"bodies": {"truck": {"position": [42, 0.5, 0], "orientation": [1, 0, 0, 0]}, "plane": {"position": [0.1, 0, 100], "orientation": [0.9239, 0.3827, 0, 0]}}, "temperature": 28, "name": "example"}
+{"bodies": {"truck": {"position": [42, 0.5, 0], "orientation": [1, 0, 0, 0]},
+"plane": {"position": [0.1, 0, 100], "orientation": [0.9239, 0.3827, 0, 0]}},
+"temperature": 28, "name": "example"}
 ```
 
-We can serialize this dictionary to a file using the convenience ``write`` function:
+We can serialize this dictionary to a binary file using the convenience ``write`` function:
 
 ```cpp
 world.write("world.mpack");
@@ -57,7 +59,7 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-While one-time serialization to a file can be useful, dictionaries can be more generally [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium, be it a TCP connection, shared memory mapping, transcontinental telegraph line, etc.
+While one-time serialization to a file can be useful, dictionaries can be more generally [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files, transcontinental telegraph line, …).
 
 ## Features and non-features
 
