@@ -101,7 +101,7 @@ def palimpsest_repository():
     )
 ```
 
-Call this rule from your Bazel ``WORKSPACE``, and use the ``@palimpsest`` dependency in your C++ rule ``deps``.
+Complete this rull and call it from your Bazel ``WORKSPACE``. You can then use the ``@palimpsest`` dependency in your C++ rule ``deps``.
 
 ### CMake
 
@@ -120,7 +120,7 @@ make -j4
 make install
 ```
 
-Note that by default MPack will be built and installed from the [``third_party``](https://github.com/stephane-caron/palimpsest/tree/main/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack installed on your system.
+Note that by default [MPack](https://github.com/ludocode/mpack) will be built and installed from the [``third_party``](https://github.com/stephane-caron/palimpsest/tree/main/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack 1.1 or later installed on your system.
 
 ## Usage
 
