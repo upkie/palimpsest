@@ -205,6 +205,7 @@ inline void write(std::ostream &stream, const Eigen::VectorXd &vector) {
  * \param[out] stream Output stream.
  * \param[in] quat Quaternion.
  */
+template <>
 inline void write(std::ostream &stream, const Eigen::Quaterniond &quat) {
   stream << "[" << quat.w() << ", " << quat.x() << ", " << quat.y() << ", "
          << quat.z() << "]";

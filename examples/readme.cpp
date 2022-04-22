@@ -17,6 +17,6 @@ int main() {
   bodies("truck")("orientation") = Eigen::Quaterniond::Identity();
   bodies("truck")("position") = Eigen::Vector3d{42.0, 0.0, 0.0};
 
-  std::cout << "world = " << world << std::endl;
+  std::cout << world << std::endl;
   return EXIT_SUCCESS;
 }
