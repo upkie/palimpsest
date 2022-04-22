@@ -168,10 +168,10 @@ A single dictionary can be extended multiple times from different sources. The c
 
 ## Alternatives
 
-* [nlohmann::json](https://github.com/nlohmann/json) - ...
-* [RapidJSON](https://github.com/Tencent/rapidjson/) - ...
-* [std::map](https://www.cplusplus.com/reference/map/map/) - if your values all have the same type, you might as well use a standard map directly.
-* [std::unordered\_map](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant can perform faster.
+* [nlohmann::json](https://github.com/nlohmann/json) - most convenient to use, serializes to MessagePack and other binary formats, but not designed for speed.
+* [RapidJSON](https://github.com/Tencent/rapidjson/) - low memory footprint, can serialize to MessagePack using other [related projects](https://github.com/Tencent/rapidjson/wiki/Related-Projects), but has linear lookup complexity as it stores dictionaries [as lists of key-value pairs](https://github.com/Tencent/rapidjson/issues/102).
+* [std::map](https://www.cplusplus.com/reference/map/map/) - if your values all have the same type and you have no nested dictionaries, you might as well use a standard map.
+* [std::unordered\_map](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant usually perform faster on average.
 
 ## Contribute
 
