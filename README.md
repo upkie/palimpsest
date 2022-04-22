@@ -42,7 +42,7 @@ This example outputs:
 {"bodies": {"truck": {"position": [42, 0.5, 0], "orientation": [1, 0, 0, 0]}, "plane": {"position": [0.1, 0, 100], "orientation": [0.9239, 0.3827, 0, 0]}}, "temperature": 28, "name": "example"}
 ```
 
-We can serialize the dictionary to a file using the convenience [write](\ref palimpsest::Dictionary::write) function:
+We can serialize the dictionary to a file using the convenience ``write`` function:
 
 ```cpp
 world.write("world.mpack");
@@ -56,7 +56,7 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-While one-time writing to files can be useful, dictionaries can be more generally [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium, be it a TCP connection, shared memory mapping, transcontinental telegraph line, etc.
+While one-time serialization to a file can be useful, dictionaries can be more generally [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium, be it a TCP connection, shared memory mapping, transcontinental telegraph line, etc.
 
 ## Features and non-features
 
@@ -117,7 +117,7 @@ make -j4
 make install
 ```
 
-Note that by default MPack will be built and installed from the [``third_party``](third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack installed on your system.
+Note that by default MPack will be built and installed from the [``third_party``](https://github.com/stephane-caron/palimpsest/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack installed on your system.
 
 ## Performance
 
@@ -140,7 +140,7 @@ Why isn't _palimpsest_ also distributed as a header-only library?
 
 #### Serialization
 
-Dictionaries can be [serialized](\ref palimpsest::Dictionary::serialize) to vectors of bytes via the serialize function:
+Dictionaries can be serialized (``palimpsest::Dictionary::serialize``) to vectors of bytes via the serialize function:
 
 ```cpp
 Dictionary world;
@@ -152,7 +152,7 @@ The function call will resize the buffer automatically if needed.
 
 #### Deserialization
 
-Dictionaries can be [extended](\ref palimpsest::Dictionary::extend) from byte vectors:
+Dictionaries can be extended (``palimpsest::Dictionary::extend``) from byte vectors:
 
 ```cpp
 std::vector<char> buffer(size);
