@@ -43,7 +43,7 @@ This example outputs:
 {"bodies": {"truck": {"position": [42, 0.5, 0], "orientation": [1, 0, 0, 0]}, "plane": {"position": [0.1, 0, 100], "orientation": [0.9239, 0.3827, 0, 0]}}, "temperature": 28, "name": "example"}
 ```
 
-We can serialize the dictionary to a file using the convenience ``write`` function:
+We can serialize this dictionary to a file using the convenience ``write`` function:
 
 ```cpp
 world.write("world.mpack");
