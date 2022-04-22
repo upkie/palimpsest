@@ -120,7 +120,7 @@ make -j4
 make install
 ```
 
-Note that by default MPack will be built and installed from the [``third_party``](https://github.com/stephane-caron/palimpsest/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack installed on your system.
+Note that by default MPack will be built and installed from the [``third_party``](https://github.com/stephane-caron/palimpsest/tree/main/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack installed on your system.
 
 ## Usage
 
