@@ -859,4 +859,19 @@ TEST(Dictionary, UpdateFromNilNode) {
   ASSERT_THROW(dict.update(nil_node), TypeError);
 }
 
+TEST(Dictionary, WriteAndRead) {
+  Dictionary dict;
+  dict("foo") = std::string("blah");
+  dict("bar")("num") = 12u;
+
+  std::string tmp_file = ::tmpnam(nullptr);
+  dict.write(tmp_file);
+
+  Dictionary check;
+  check.read(tmp_file);
+  ASSERT_EQ(dict.get<std::string>("foo"), check.get<std::string>("foo"));
+  ASSERT_EQ(dict("bar").get<unsigned>("num"),
+            check("bar").get<unsigned>("num"));
+}
+
 }  // namespace palimpsest
