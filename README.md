@@ -119,21 +119,6 @@ make install
 
 Note that by default MPack will be built and installed from the [``third_party``](https://github.com/stephane-caron/palimpsest/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack installed on your system.
 
-## Performance
-
-...
-
-## Q and A
-
-Why isn't _palimpsest_ also distributed as a header-only library?
-
-> The main blocker so far is that we set a custom flush function
-> ``mpack_std_vector_writer_flush`` to our internal MPack writers. The [MPack
-> Write API](https://ludocode.github.io/mpack/group__writer.html) requires a
-> function pointer for that, and we define that function in
-> [`Writer.cpp`](src/mpack/Writer.cpp). Open a PR if you have ideas to go
-> around that!
-
 ## Usage
 
 ### Serialization to bytes
@@ -171,6 +156,21 @@ A single dictionary can be extended multiple times from different sources. The c
 ### Adding new types
 
 ...
+
+## Performance
+
+...
+
+## Q and A
+
+Why isn't _palimpsest_ also distributed as a header-only library?
+
+> The main blocker so far is that we set a custom flush function
+> ``mpack_std_vector_writer_flush`` to our internal MPack writers. The [MPack
+> Write API](https://ludocode.github.io/mpack/group__writer.html) requires a
+> function pointer for that, and we define that function in
+> [`Writer.cpp`](src/mpack/Writer.cpp). Open a PR if you have ideas to go
+> around that!
 
 ## Alternatives
 
