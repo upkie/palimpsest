@@ -59,7 +59,7 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-While one-time serialization to a file can be useful, dictionaries can be more generally [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files, transcontinental telegraph line, …).
+While one-time serialization to a file can be useful, dictionaries are more generally meant to be [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files, transcontinental telegraph line, …).
 
 ## Features and non-features
 
@@ -90,7 +90,7 @@ Check out the existing [alternatives](https://github.com/stephane-caron/palimpse
 
 ### Bazel (recommended)
 
-You can build _palimpsest_ straight from the repository by running ``./tools/bazelisk build //...`` from its root. To use it in your project, create a git repository rule such as:
+You can build _palimpsest_ by running ``./tools/bazelisk build //...`` straight from the repository. To use it in your project, create a git repository rule such as:
 
 ```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -129,7 +129,7 @@ Note that by default [MPack](https://github.com/ludocode/mpack) will be built an
 
 ### Serialization to bytes
 
-Dictionaries can be serialized (``palimpsest::Dictionary::serialize``) to vectors of bytes via the serialize function:
+Dictionaries can be serialized (``palimpsest::Dictionary::serialize``) to vectors of bytes:
 
 ```cpp
 Dictionary world;
@@ -137,7 +137,7 @@ std::vector<char> buffer;
 size_t size = world.serialize(buffer);
 ```
 
-The function call will resize the buffer automatically if needed.
+The function resizes the buffer automatically if needed, and returns the number of bytes of the serialized message.
 
 ### Deserialization from bytes
 
@@ -180,17 +180,17 @@ size_t size = bar.serialize(buffer);
 foo.update(buffer.data(), size);  // no effect
 ```
 
-Updates thus behave complementarily to extensions: updating ``{"a": 12}`` with ``{"a": 42, "b": 1}`` results in ``{"a": 42}`` rather than ``{"a": 12, "b": 1}``.
+Updates therefore behave complementarily to extensions: updating ``{"a": 12}`` with ``{"a": 42, "b": 1}`` results in ``{"a": 42}`` rather than ``{"a": 12, "b": 1}``.
 
 ### Adding custom types
 
-Adding a new custom type ``MyType`` boils down to:
+Adding a new custom type boils down to the following steps:
 
+* Add implicit type conversions to ``Dictionary.h``
 * Add a read function specialization to ``mpack/read.h``
-* Add a write function specialization to ``json/write.h``
 * Add a write function specialization to ``mpack/Writer.h``
 * Add a write function specialization to ``mpack/write.h``
-* Add implicit type conversions to ``Dictionary.h``
+* Add a write function specialization to ``json/write.h``
 
 Take a look at the existing types in these files and in unit tests for inspiration.
 
@@ -198,10 +198,10 @@ Take a look at the existing types in these files and in unit tests for inspirati
 
 Why isn't _palimpsest_ also distributed as a header-only library?
 
-> The main blocker so far is that we set a custom flush function
+> The main blocker is that we set a custom flush function
 > ``mpack_std_vector_writer_flush`` to our internal MPack writers. The [MPack
-> Write API](https://ludocode.github.io/mpack/group__writer.html) requires a
-> function pointer for that, and we define that function in
+> Write API](https://ludocode.github.io/mpack/group__writer.html) requires
+> a function pointer for that, and we define that function in
 > [`Writer.cpp`](src/mpack/Writer.cpp). Open a PR if you have ideas to go
 > around that!
 
@@ -217,4 +217,4 @@ Why isn't _palimpsest_ also distributed as a header-only library?
 
 ## Contributing
 
-There are many open leads to improve this project, as you already know if you landed here from a link in this README 😉 All contributions are welcome, big or small! Make sure you read the 👷 [contribution guidelines](CONTRIBUTING.md).
+There are many open leads to improve this project, as you already know if you landed here from a link in the README 😉 All contributions are welcome, big or small! Make sure you read the 👷 [contribution guidelines](CONTRIBUTING.md).
