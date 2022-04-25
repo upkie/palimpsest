@@ -59,7 +59,7 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-While one-time serialization to a file can be useful, dictionaries are more generally meant to be [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files, transcontinental telegraph line, …).
+While one-time serialization to a file can be useful, dictionaries are more generally meant to be [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files for Python-C++ inter-process communication, transcontinental telegraph line, …).
 
 ## Features and non-features
 
