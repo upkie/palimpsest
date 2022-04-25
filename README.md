@@ -59,7 +59,7 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-While one-time serialization to a file can be useful, dictionaries are more generally meant to be [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files for Python-C++ inter-process communication, transcontinental telegraph line, …).
+While one-time serialization to a file can be useful, dictionaries are more generally meant to be [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files, transcontinental telegraph line, …).
 
 ## Features and non-features
 
@@ -69,7 +69,7 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 
 * Prioritizes speed (over user-friendliness)
 * References to sub-dictionaries or values help avoid key lookups
-* Built for fast dictionary exchange with [Python](https://www.python.org/)
+* Built for fast inter-process communication with [Python](https://www.python.org/)
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 * Print dictionaries to standard output as [JSON](https://www.json.org/json-en.html)
