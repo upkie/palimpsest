@@ -108,10 +108,10 @@ Complete this rull and call it from your Bazel ``WORKSPACE``. You can then use t
 
 ### CMake
 
-Make sure Eigen is installed system-wise, for instance on Debian-based distributions:
+Make sure Eigen, fmt and spdlog are installed system-wise, for instance on Debian-based distributions:
 
 ```console
-sudo apt install libeigen3-dev
+sudo apt install libeigen3-dev libfmt-dev libspdlog-dev
 ```
 
 Then follow the standard CMake procedure:
