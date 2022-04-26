@@ -21,13 +21,19 @@ jobs:
             - name: "Install Eigen"
               run: sudo apt-get install -y libeigen3-dev
 
-            - name: "Build static version of the library"
+            - name: "Build the library"
               env:
                   BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
               run: |
                   tools/bazelisk build //...
 
-            - name: "Test static version of the library"
+            - name: "Check code formatting"
+              env:
+                  BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
+              run: |
+                  tools/bazelisk test --config lint //...
+
+            - name: "Check unit tests"
               env:
                   BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
               run: |
