@@ -81,4 +81,20 @@ TEST_F(WriterTest, EigenTypes) {
   ASSERT_GT(buffer_.size(), size);
 }
 
+TEST_F(WriterTest, Integers) {
+  ASSERT_NO_THROW(writer_->write(int8_t(42)));
+  ASSERT_NO_THROW(writer_->write(int16_t(42)));
+  ASSERT_NO_THROW(writer_->write(int32_t(42)));
+  ASSERT_NO_THROW(writer_->write(int64_t(42)));
+  ASSERT_NO_THROW(writer_->write(uint8_t(42)));
+  ASSERT_NO_THROW(writer_->write(uint16_t(42)));
+  ASSERT_NO_THROW(writer_->write(uint32_t(42)));
+  ASSERT_NO_THROW(writer_->write(uint64_t(42)));
+}
+
+TEST_F(WriterTest, FloatingPoint) {
+  ASSERT_NO_THROW(writer_->write(42.0f));
+  ASSERT_NO_THROW(writer_->write(42.0));
+}
+
 }  // namespace palimpsest::mpack
