@@ -221,13 +221,6 @@ class Writer {
   //! Finished serializing a map.
   void finish_map();
 
-  /*! Write an existing object into the object being constructed.
-   *
-   * \param[in] data Data written into the object
-   * \param[in] size Size of the data
-   */
-  void write_object(const char *data, size_t s);
-
   /*! Finish building the message. Data cannot be appended afterwards.
    *
    * \return Effective size of MessagePack data. Note that ``buffer.size()`` is

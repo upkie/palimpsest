@@ -224,10 +224,6 @@ void Writer::start_map(size_t s) {
 
 void Writer::finish_map() { mpack_finish_map(&writer_); }
 
-void Writer::write_object(const char *data, size_t s) {
-  mpack_write_object_bytes(&writer_, data, s);
-}
-
 size_t Writer::finish() {
   if (mpack_writer_destroy(&writer_) != mpack_ok) {
     mpack_log("Failed to write to MessagePack");
