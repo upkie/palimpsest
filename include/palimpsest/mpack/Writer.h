@@ -102,7 +102,10 @@ class Writer {
   //! Write an std::string.
   void write(const std::string &s);
 
-  //! Write a C-style string.
+  /*! Write a C-style string.
+   *
+   * \param[in] s C-style string.
+   */
   void write(const char *s);
 
   //! Write a C-style string with available size.
@@ -110,11 +113,15 @@ class Writer {
 
   /*! Write an Eigen::Vector2d.
    *
+   * \param[in] v Two-dimensional vector.
+   *
    * Serializes as an array of size 2.
    */
   void write(const Eigen::Vector2d &v);
 
   /*! Write an Eigen::Vector3d.
+   *
+   * \param[in] v Three-dimensional vector.
    *
    * Serializes as an array of size 3.
    */
@@ -122,17 +129,23 @@ class Writer {
 
   /*! Write an Eigen::VectorXd.
    *
+   * \param[in] v Vector.
+   *
    * Serializes as an array of size X.
    */
   void write(const Eigen::VectorXd &v);
 
   /*! Write an Eigen::Quaterniond.
    *
+   * \param[in] q Quaternion.
+   *
    * Serializes as an array of size X.
    */
   void write(const Eigen::Quaterniond &q);
 
   /*! Write an Eigen::Matrix3d.
+   *
+   * \param[in] m Three-by-three matrix.
    *
    * Serializes as an array of size 9.
    */
