@@ -97,4 +97,12 @@ TEST_F(WriterTest, FloatingPoint) {
   ASSERT_NO_THROW(writer_->write(42.0));
 }
 
+TEST_F(WriterTest, GrowBufferAsNeeded) {
+  ASSERT_LE(buffer_.size(), MPACK_BUFFER_SIZE);
+  for (unsigned bytes = 0; bytes < MPACK_BUFFER_SIZE + 1; ++bytes) {
+    writer_->write(int8_t(42));
+  }
+  ASSERT_GT(buffer_.size(), MPACK_BUFFER_SIZE);
+}
+
 }  // namespace palimpsest::mpack
