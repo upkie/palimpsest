@@ -58,14 +58,23 @@ TEST_F(WriterTest, MessagePackExample) {
 TEST_F(WriterTest, EigenTypes) {
   Eigen::Matrix3d morpheus;
   morpheus << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0;
+
+  Eigen::VectorXd cypher(4);
+  cypher(0) = 4.0;
+  cypher(1) = 3.0;
+  cypher(2) = 2.0;
+  cypher(3) = 1.0;
+
   writer_->start_map(2);
-  writer_->write("foo");
+  writer_->write("Vector2d");
   writer_->write(Eigen::Vector2d{1.0, 2.0});
-  writer_->write("bar");
+  writer_->write("Vector3d");
   writer_->write(Eigen::Vector3d{1.0, 2.0, 3.0});
-  writer_->write("morpheus");
+  writer_->write("Matrix3d");
   writer_->write(morpheus);
-  writer_->write("orientation");
+  writer_->write("VectorXd");
+  writer_->write(cypher);
+  writer_->write("Quaterniond");
   writer_->write(Eigen::Quaterniond::Identity());
   writer_->finish_map();
   size_t size = writer_->finish();
