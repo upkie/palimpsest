@@ -864,7 +864,8 @@ TEST(Dictionary, WriteAndRead) {
   dict("foo") = std::string("blah");
   dict("bar")("num") = 12u;
 
-  std::string tmp_file = ::tmpnam(nullptr);
+  char tmp_file[] = "/tmp/dictXXXXXX";
+  int fd = ::mkstemp(tmp_file);
   dict.write(tmp_file);
 
   Dictionary check;
@@ -872,6 +873,9 @@ TEST(Dictionary, WriteAndRead) {
   ASSERT_EQ(dict.get<std::string>("foo"), check.get<std::string>("foo"));
   ASSERT_EQ(dict("bar").get<unsigned>("num"),
             check("bar").get<unsigned>("num"));
+
+  ::close(fd);
+  ::unlink(tmp_file);
 }
 
 }  // namespace palimpsest
