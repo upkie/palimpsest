@@ -126,8 +126,6 @@ Writer::Writer(std::vector<char> &buffer) {
 
 Writer::~Writer() {}
 
-void Writer::write() { mpack_write_nil(&writer_); }
-
 void Writer::write(bool b) { mpack_write_bool(&writer_, b); }
 
 void Writer::write(int8_t i) { mpack_write_i8(&writer_, i); }

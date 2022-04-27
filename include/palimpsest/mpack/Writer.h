@@ -63,9 +63,6 @@ class Writer {
    * These overload set allows to write basic data to the MessagePack
    */
 
-  //! Write null.
-  void write();
-
   //! Write a bool.
   void write(bool b);
 
