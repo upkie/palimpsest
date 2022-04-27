@@ -153,11 +153,8 @@ void Writer::write(double d) { mpack_write_double(&writer_, d); }
 void Writer::write(const std::string &s) {
   mpack_write_str(&writer_, s.c_str(), static_cast<uint32_t>(s.size()));
 }
-void Writer::write(const char *s) { mpack_write_cstr(&writer_, s); }
 
-void Writer::write(const char *s, size_t len) {
-  mpack_write_str(&writer_, s, static_cast<uint32_t>(len));
-}
+void Writer::write(const char *s) { mpack_write_cstr(&writer_, s); }
 
 namespace {
 

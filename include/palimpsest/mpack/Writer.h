@@ -108,9 +108,6 @@ class Writer {
    */
   void write(const char *s);
 
-  //! Write a C-style string with available size.
-  void write(const char *s, size_t len);
-
   /*! Write an Eigen::Vector2d.
    *
    * \param[in] v Two-dimensional vector.
