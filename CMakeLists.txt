@@ -52,6 +52,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 
 # Unit tests
 if(BUILD_TESTS)
+    enable_testing()
     add_subdirectory(tests)
 endif()
 
