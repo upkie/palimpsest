@@ -105,7 +105,7 @@ def palimpsest_repository():
     )
 ```
 
-Complete this rull and call it from your Bazel ``WORKSPACE``. You can then use the ``@palimpsest`` dependency in your C++ rule ``deps``.
+Complete this rull and call it from your Bazel ``WORKSPACE``. You can then use the ``@palimpsest`` dependency in your C++ targets.
 
 ### CMake
 

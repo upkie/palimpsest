@@ -6,7 +6,10 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- CMake workflow alongside Bazel in CI
 - Lint-only test config
+- Report unit test coverage
+- Unit tests for ``mpack::Writer``
 
 ## [1.0.0] - 2022/04/25
 
