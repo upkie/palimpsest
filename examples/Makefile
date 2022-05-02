@@ -33,7 +33,7 @@ help:  ## print this help
 	@grep -P '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 .DEFAULT_GOAL := help
 
-all: readme cpp_to_python simple_logger  ## run all examples
+all: cpp_to_python readme simple_logger  ## run all examples
 	@echo ""
 
 clean:  ## clean compiled binaries
