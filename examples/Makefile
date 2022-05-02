@@ -23,7 +23,7 @@ CPP=g++
 IFLAGS=-I$(MY_CMAKE_INSTALL_PREFIX)/include $(shell pkg-config eigen3 --cflags)
 LFLAGS=-L$(MY_CMAKE_INSTALL_PREFIX)/lib -lmpack -lpalimpsest
 
-.PHONY: all clean cpp_to_python help readme
+.PHONY: all clean cpp_to_python help readme simple_logger
 
 %.out: %.cpp
 	@$(CPP) $(IFLAGS) $< $(LFLAGS) -o $@
@@ -33,14 +33,11 @@ help:  ## print this help
 	@grep -P '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 .DEFAULT_GOAL := help
 
-all: readme cpp_to_python  ## run all examples
+all: readme cpp_to_python simple_logger  ## run all examples
 	@echo ""
 
-readme: readme.out  ## README example
-	@echo ""
-	@echo "README example"
-	@echo "=============="
-	@./readme.out
+clean:  ## clean compiled binaries
+	rm -f $(wildcard *.out)
 
 cpp_to_python: cpp_to_python.out  ## send a Dictionary from C++ to Python
 	@echo ""
@@ -52,5 +49,14 @@ cpp_to_python: cpp_to_python.out  ## send a Dictionary from C++ to Python
 	@echo "============================"
 	@python cpp_to_python.py
 
-clean:  ## clean compiled binaries
-	rm -f $(wildcard *.out)
+readme: readme.out  ## README example
+	@echo ""
+	@echo "README example"
+	@echo "=============="
+	@./readme.out
+
+simple_logger: simple_logger.out  ## logger template that writes dictionaries to file
+	@echo ""
+	@echo "Simle logger example"
+	@echo "===================="
+	@./simple_logger.out
