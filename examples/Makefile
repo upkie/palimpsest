@@ -57,6 +57,6 @@ readme: readme.out  ## README example
 
 simple_logger: simple_logger.out  ## logger template that writes dictionaries to file
 	@echo ""
-	@echo "Simle logger example"
-	@echo "===================="
+	@echo "Simple logger example"
+	@echo "====================="
 	@./simple_logger.out

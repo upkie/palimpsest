@@ -23,14 +23,14 @@ const std::string output_file = "simple_logger.mpack";
 
 using palimpsest::Dictionary;
 
-//! Simple dictionary logger to file.
-class Logger {
+//! Log dictionaries to file.
+class SimpleLogger {
  public:
   /*! Open file to log to.
    *
    * \param[in] path Path to log file.
    */
-  explicit Logger(const std::string &path) {
+  explicit SimpleLogger(const std::string &path) {
     file_.open(path, std::ofstream::binary);
     if (!file_) {
       throw std::runtime_error("Cannot open " + path + " for writing");
@@ -38,7 +38,7 @@ class Logger {
   }
 
   //! Close log file.
-  ~Logger() { file_.close(); }
+  ~SimpleLogger() { file_.close(); }
 
   /*! Write a dictionary to the log.
    *
@@ -60,7 +60,7 @@ class Logger {
 
 int main() {
   Dictionary world;
-  Logger logger(output_file);
+  SimpleLogger logger(output_file);
   world("temperature") = 28.0;
   for (unsigned iter = 0; iter < 42; ++iter) {
     double &temperature = world("temperature");
