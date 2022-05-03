@@ -1,12 +1,4 @@
 # -*- python -*-
-#
-# Copyright 2022 Stéphane Caron
-#
-# This file incorporates work covered by the following copyright and permission
-# notice:
-#
-#     Copyright 2012-2016 Robot Locomotion Group @ CSAIL
-#     License: BSD-3-Clause
 
 package(default_visibility = ["//visibility:public"])
 
