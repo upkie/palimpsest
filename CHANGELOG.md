@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Lint-only test config
 - Report unit test coverage
 - Unit tests for ``mpack::Writer``
+- Unit tests for ``mpack::read`` functions
 
 ## [1.0.0] - 2022/04/25
 
