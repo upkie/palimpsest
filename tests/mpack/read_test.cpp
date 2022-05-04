@@ -14,6 +14,8 @@
  * under the License.
  */
 
+#include "palimpsest/mpack/read.h"
+
 #include <gtest/gtest.h>
 #include <mpack.h>
 
@@ -21,8 +23,6 @@
 #include <Eigen/Geometry>
 #include <fstream>
 #include <string>
-
-#include "palimpsest/json/write.h"
 
 namespace palimpsest::mpack {
 
@@ -64,6 +64,16 @@ TEST_F(ReadTest, ExampleIntegrity) {
   mpack_node_t map = mpack_tree_root(&example_tree_);
   ASSERT_EQ(mpack_node_bool(mpack_node_map_cstr(map, "compact")), true);
   ASSERT_EQ(mpack_node_u8(mpack_node_map_cstr(map, "schema")), 0);
+}
+
+TEST_F(ReadTest, ReadBool) {
+  mpack_node_t map = mpack_tree_root(&example_tree_);
+  auto bool_node = mpack_node_map_cstr(map, "compact");
+  ASSERT_EQ(mpack_node_bool(bool_node), true);
+
+  bool output = false;
+  mpack::read(bool_node, output);
+  ASSERT_EQ(output, true);
 }
 
 }  // namespace palimpsest::mpack
