@@ -86,4 +86,44 @@ TEST_F(ReadTest, ReadBoolFromTree) {
   ASSERT_EQ(output, true);
 }
 
+TEST_F(ReadTest, ReadBool) {
+  data_.type = mpack_type_bool;
+  data_.value.b = true;
+  bool output = false;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, true);
+}
+
+TEST_F(ReadTest, ReadInt8) {
+  data_.type = mpack_type_int;
+  data_.value.i = 42;
+  int8_t output = 11111;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42);
+}
+
+TEST_F(ReadTest, ReadInt16) {
+  data_.type = mpack_type_int;
+  data_.value.i = 42;
+  int16_t output = 11111;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42);
+}
+
+TEST_F(ReadTest, ReadInt32) {
+  data_.type = mpack_type_int;
+  data_.value.i = 42;
+  int32_t output = 11111;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42);
+}
+
+TEST_F(ReadTest, ReadInt64) {
+  data_.type = mpack_type_int;
+  data_.value.i = 42;
+  int64_t output = 11111;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42);
+}
+
 }  // namespace palimpsest::mpack
