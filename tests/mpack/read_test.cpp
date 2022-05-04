@@ -158,4 +158,20 @@ TEST_F(ReadTest, ReadUInt64) {
   ASSERT_EQ(output, 42u);
 }
 
+TEST_F(ReadTest, ReadFloat) {
+  data_.type = mpack_type_float;
+  data_.value.f = 42.0f;
+  float output = 11111.0f;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42.0f);
+}
+
+TEST_F(ReadTest, ReadDouble) {
+  data_.type = mpack_type_double;
+  data_.value.d = 42.0;
+  double output = 11111.0;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42.0);
+}
+
 }  // namespace palimpsest::mpack
