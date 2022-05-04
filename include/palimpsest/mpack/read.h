@@ -34,10 +34,11 @@ namespace palimpsest::mpack {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <typename T>
-void read(mpack_node_t node, T& value) {
+void read(const mpack_node_t node, T& value) {
   throw TypeError(
+      __FILE__, __LINE__,
       std::string("No known deserialization function for typeid \"") +
-      typeid(T).name() + "\"");
+          typeid(T).name() + "\"");
 }
 
 /*! Specialization of \ref mpack_read<T>(node, value)
@@ -48,7 +49,7 @@ void read(mpack_node_t node, T& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, bool& value) {
+inline void read(const mpack_node_t node, bool& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_bool) {
     throw TypeError(
@@ -68,7 +69,7 @@ inline void read(mpack_node_t node, bool& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, int8_t& value) {
+inline void read(const mpack_node_t node, int8_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
@@ -89,7 +90,7 @@ inline void read(mpack_node_t node, int8_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, int16_t& value) {
+inline void read(const mpack_node_t node, int16_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
@@ -110,7 +111,7 @@ inline void read(mpack_node_t node, int16_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, int32_t& value) {
+inline void read(const mpack_node_t node, int32_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
@@ -131,7 +132,7 @@ inline void read(mpack_node_t node, int32_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, int64_t& value) {
+inline void read(const mpack_node_t node, int64_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
@@ -152,7 +153,7 @@ inline void read(mpack_node_t node, int64_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, uint8_t& value) {
+inline void read(const mpack_node_t node, uint8_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -172,7 +173,7 @@ inline void read(mpack_node_t node, uint8_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, uint16_t& value) {
+inline void read(const mpack_node_t node, uint16_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -192,7 +193,7 @@ inline void read(mpack_node_t node, uint16_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, uint32_t& value) {
+inline void read(const mpack_node_t node, uint32_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -212,7 +213,7 @@ inline void read(mpack_node_t node, uint32_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, uint64_t& value) {
+inline void read(const mpack_node_t node, uint64_t& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -232,7 +233,7 @@ inline void read(mpack_node_t node, uint64_t& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, float& value) {
+inline void read(const mpack_node_t node, float& value) {
 #ifndef NDEBUG
   switch (mpack_node_type(node)) {
     case mpack_type_int:
@@ -258,7 +259,7 @@ inline void read(mpack_node_t node, float& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, double& value) {
+inline void read(const mpack_node_t node, double& value) {
 #ifndef NDEBUG
   switch (mpack_node_type(node)) {
     case mpack_type_int:
@@ -284,7 +285,7 @@ inline void read(mpack_node_t node, double& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, std::string& value) {
+inline void read(const mpack_node_t node, std::string& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_str) {
     throw TypeError(
@@ -304,7 +305,7 @@ inline void read(mpack_node_t node, std::string& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, Eigen::Vector2d& value) {
+inline void read(const mpack_node_t node, Eigen::Vector2d& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
@@ -326,7 +327,7 @@ inline void read(mpack_node_t node, Eigen::Vector2d& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, Eigen::Vector3d& value) {
+inline void read(const mpack_node_t node, Eigen::Vector3d& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
@@ -349,7 +350,7 @@ inline void read(mpack_node_t node, Eigen::Vector3d& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, Eigen::VectorXd& value) {
+inline void read(const mpack_node_t node, Eigen::VectorXd& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
@@ -373,7 +374,7 @@ inline void read(mpack_node_t node, Eigen::VectorXd& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, Eigen::Quaterniond& value) {
+inline void read(const mpack_node_t node, Eigen::Quaterniond& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
@@ -397,7 +398,7 @@ inline void read(mpack_node_t node, Eigen::Quaterniond& value) {
  * \throw TypeError if there is no deserialization for type T.
  */
 template <>
-inline void read(mpack_node_t node, Eigen::Matrix3d& value) {
+inline void read(const mpack_node_t node, Eigen::Matrix3d& value) {
 #ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
