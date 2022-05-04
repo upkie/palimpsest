@@ -35,20 +35,23 @@ class ReadTest : public ::testing::Test {
         "compact\xC3\xA6"
         "schema\x00\xC1";
 
-    mpack_tree_init(&example_tree_, msgpack_example,
-                    sizeof(msgpack_example) - 1);
-    mpack_tree_parse(&example_tree_);
-    auto error = mpack_tree_error(&example_tree_);
+    mpack_tree_init(&tree_, msgpack_example, sizeof(msgpack_example) - 1);
+    mpack_tree_parse(&tree_);
+    auto error = mpack_tree_error(&tree_);
     if (error != mpack_ok) {
       FAIL() << "Tree is in error state " << static_cast<int>(error) << " ("
              << mpack_error_to_string(error) << ")";
     }
-    ASSERT_EQ(mpack_tree_error(&example_tree_), mpack_ok);
-    ASSERT_EQ(mpack_tree_size(&example_tree_), sizeof(msgpack_example) - 2);
+    ASSERT_EQ(mpack_tree_error(&tree_), mpack_ok);
+    ASSERT_EQ(mpack_tree_size(&tree_), sizeof(msgpack_example) - 2);
+
+    data_.len = 0u;
+    node_.data = &data_;
+    node_.tree = &tree_;
   }
 
   void TearDown() override {
-    mpack_error_t error = mpack_tree_destroy(&example_tree_);
+    mpack_error_t error = mpack_tree_destroy(&tree_);
     if (error != mpack_ok) {
       FAIL() << "Tree is in error state " << static_cast<int>(error) << " ("
              << mpack_error_to_string(error) << ")";
@@ -57,17 +60,24 @@ class ReadTest : public ::testing::Test {
   }
 
  protected:
-  mpack_tree_t example_tree_;
+  //! Sample tree.
+  mpack_tree_t tree_;
+
+  //! Data field used to manipulate the internal node.
+  mpack_node_data_t data_;
+
+  //! Internal node.
+  mpack_node_t node_;
 };
 
 TEST_F(ReadTest, ExampleIntegrity) {
-  mpack_node_t map = mpack_tree_root(&example_tree_);
+  mpack_node_t map = mpack_tree_root(&tree_);
   ASSERT_EQ(mpack_node_bool(mpack_node_map_cstr(map, "compact")), true);
   ASSERT_EQ(mpack_node_u8(mpack_node_map_cstr(map, "schema")), 0);
 }
 
-TEST_F(ReadTest, ReadBool) {
-  mpack_node_t map = mpack_tree_root(&example_tree_);
+TEST_F(ReadTest, ReadBoolFromTree) {
+  mpack_node_t map = mpack_tree_root(&tree_);
   auto bool_node = mpack_node_map_cstr(map, "compact");
   ASSERT_EQ(mpack_node_bool(bool_node), true);
 
