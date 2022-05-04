@@ -97,7 +97,7 @@ TEST_F(ReadTest, ReadBool) {
 TEST_F(ReadTest, ReadInt8) {
   data_.type = mpack_type_int;
   data_.value.i = -42;
-  int8_t output = 11111;
+  int8_t output = 111;
   mpack::read(node_, output);
   ASSERT_EQ(output, -42);
 }
@@ -129,7 +129,7 @@ TEST_F(ReadTest, ReadInt64) {
 TEST_F(ReadTest, ReadUInt8) {
   data_.type = mpack_type_uint;
   data_.value.i = 42u;
-  uint8_t output = 11111u;
+  uint8_t output = 111u;
   mpack::read(node_, output);
   ASSERT_EQ(output, 42u);
 }
