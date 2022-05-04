@@ -96,34 +96,66 @@ TEST_F(ReadTest, ReadBool) {
 
 TEST_F(ReadTest, ReadInt8) {
   data_.type = mpack_type_int;
-  data_.value.i = 42;
+  data_.value.i = -42;
   int8_t output = 11111;
   mpack::read(node_, output);
-  ASSERT_EQ(output, 42);
+  ASSERT_EQ(output, -42);
 }
 
 TEST_F(ReadTest, ReadInt16) {
   data_.type = mpack_type_int;
-  data_.value.i = 42;
+  data_.value.i = -42;
   int16_t output = 11111;
   mpack::read(node_, output);
-  ASSERT_EQ(output, 42);
+  ASSERT_EQ(output, -42);
 }
 
 TEST_F(ReadTest, ReadInt32) {
   data_.type = mpack_type_int;
-  data_.value.i = 42;
+  data_.value.i = -42;
   int32_t output = 11111;
   mpack::read(node_, output);
-  ASSERT_EQ(output, 42);
+  ASSERT_EQ(output, -42);
 }
 
 TEST_F(ReadTest, ReadInt64) {
   data_.type = mpack_type_int;
-  data_.value.i = 42;
+  data_.value.i = -42;
   int64_t output = 11111;
   mpack::read(node_, output);
-  ASSERT_EQ(output, 42);
+  ASSERT_EQ(output, -42);
+}
+
+TEST_F(ReadTest, ReadUInt8) {
+  data_.type = mpack_type_uint;
+  data_.value.i = 42u;
+  uint8_t output = 11111u;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42u);
+}
+
+TEST_F(ReadTest, ReadUInt16) {
+  data_.type = mpack_type_uint;
+  data_.value.i = 42u;
+  uint16_t output = 11111u;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42u);
+}
+
+TEST_F(ReadTest, ReadUInt32) {
+  data_.type = mpack_type_uint;
+  data_.value.i = 42u;
+  uint32_t output = 11111u;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42u);
+}
+
+TEST_F(ReadTest, ReadUInt64) {
+  data_.type = mpack_type_uint;
+  data_.value.i = 42u;
+  uint64_t output = 11111u;
+  mpack::read(node_, output);
+  ASSERT_EQ(output, 42u);
 }
 
 }  // namespace palimpsest::mpack
