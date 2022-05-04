@@ -234,4 +234,58 @@ TEST_F(ReadTest, ReadDouble) {
   ASSERT_EQ(output, 42.0);
 }
 
+TEST_F(ReadTest, ReadDoubleTypeError) {
+  data_.type = mpack_type_bool;
+  double output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadStringTypeError) {
+  data_.type = mpack_type_bool;
+  std::string output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadEigenVector2dTypeError) {
+  data_.type = mpack_type_bool;
+  Eigen::Vector2d output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadEigenVector3dTypeError) {
+  data_.type = mpack_type_bool;
+  Eigen::Vector3d output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadEigenVectorXdTypeError) {
+  data_.type = mpack_type_bool;
+  Eigen::VectorXd output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadEigenMatrix3dTypeError) {
+  data_.type = mpack_type_bool;
+  Eigen::Matrix3d output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadEigenQuaterniondTypeError) {
+  data_.type = mpack_type_bool;
+  Eigen::Quaterniond output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+struct UnknownType {
+  bool its;
+  int only;
+  float mystery;
+};
+
+TEST_F(ReadTest, ReadUnknownTypeError) {
+  data_.type = mpack_type_bool;
+  UnknownType output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
 }  // namespace palimpsest::mpack
