@@ -10,7 +10,7 @@ def styleguide_repository(
     its targets available for binding.
 
     Args:
-        version: commit of the guide to download.
+        commit: commit of the guide to download.
         sha256: SHA-256 checksum of the downloaded archive.
     """
     github_archive(
