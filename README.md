@@ -99,9 +99,8 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 def palimpsest_repository():
     git_repository(
         name = "palimpsest",
-        remote = "git@github.com:stephane-caron/palimpsest.git",
-        commit = "...",
-        shallow_since = "..."
+        remote = "https://github.com/stephane-caron/palimpsest.git",
+        tag = "v1.0.0",
     )
 ```
 
