@@ -91,20 +91,19 @@ Check out the existing [alternatives](https://github.com/stephane-caron/palimpse
 
 ### Bazel (recommended)
 
-You can build _palimpsest_ by running ``./tools/bazelisk build //...`` straight from the repository. To use it in your project, create a git repository rule such as:
+Call a [git\_repository](https://bazel.build/rules/lib/repo/git#git_repository) rule in your Bazel ``WORKSPACE``:
 
 ```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-def palimpsest_repository():
-    git_repository(
-        name = "palimpsest",
-        remote = "https://github.com/stephane-caron/palimpsest.git",
-        tag = "v1.0.0",
-    )
+git_repository(
+    name = "palimpsest",
+    remote = "https://github.com/stephane-caron/palimpsest.git",
+    tag = "v1.0.0",
+)
 ```
 
-Complete this rull and call it from your Bazel ``WORKSPACE``. You can then use the ``@palimpsest`` dependency in your C++ targets.
+You can then use the ``@palimpsest`` dependency in your C++ targets.
 
 ### CMake
 
