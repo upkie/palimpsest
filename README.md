@@ -13,14 +13,7 @@
 
 _palimpsest_ is a small C++ library that provides a ``Dictionary`` type meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because these dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
 
-## Overview
-
-The two main assumptions in _palimpsest_ dictionaries are that:
-
-* **Keys** are strings.
-* **Values** hold either a sub-dictionary or a type that can be unambiguously serialized.
-
-Numbers, strings and tensors can be readily serialized, so we can straightforwardly write structures like:
+## Example
 
 ```cpp
 using palimpsest::Dictionary;
@@ -38,7 +31,14 @@ bodies("truck")("position") = Eigen::Vector3d{42.0, 0.0, 0.0};
 std::cout << world << std::endl;
 ```
 
-This example outputs:
+## Overview
+
+The two main assumptions in _palimpsest_ dictionaries are that:
+
+* **Keys** are strings.
+* **Values** hold either a sub-dictionary or a type that can be unambiguously serialized.
+
+Numbers, strings and tensors can be readily serialized, so we can straightforwardly write nested dictionaries like in the example above. This example outputs:
 
 ```json
 {"bodies": {"truck": {"position": [42, 0.5, 0], "orientation": [1, 0, 0, 0]},
