@@ -19,19 +19,25 @@ _palimpsest_ is a small C++ library that provides a ``Dictionary`` type meant fo
 Let's build a dictionary:
 
 ```cpp
-using palimpsest::Dictionary;
+#include <iostream>
 
-Dictionary world;
-world("name") = "example";
-world("temperature") = 28.0;
+#include <palimpsest/Dictionary.h>
 
-auto& bodies = world("bodies");
-bodies("plane")("orientation") = Eigen::Quaterniond{0.9239, 0.3827, 0., 0.};
-bodies("plane")("position") = Eigen::Vector3d{0.0, 0.0, 100.0};
-bodies("truck")("orientation") = Eigen::Quaterniond::Identity();
-bodies("truck")("position") = Eigen::Vector3d{42.0, 0.0, 0.0};
+int main() {
+  using palimpsest::Dictionary;
 
-std::cout << world << std::endl;
+  Dictionary world;
+  world("name") = "example";
+  world("temperature") = 28.0;
+
+  auto& bodies = world("bodies");
+  bodies("plane")("orientation") = Eigen::Quaterniond{0.9239, 0.3827, 0., 0.};
+  bodies("plane")("position") = Eigen::Vector3d{0.0, 0.0, 100.0};
+  bodies("truck")("orientation") = Eigen::Quaterniond::Identity();
+  bodies("truck")("position") = Eigen::Vector3d{42.0, 0.0, 0.0};
+
+  std::cout << world << std::endl;
+}
 ```
 
 This snippet outputs:
