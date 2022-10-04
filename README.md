@@ -82,8 +82,8 @@ All design decisions have their pros and cons, and the ones in _palimpsest_ are 
 * Array values are mostly limited to Eigen tensors (matrix, quaternion, vector)
 * Copy constructors are disabled
 * (Extensible to new types) as long as they deserialize unambiguously
-* [WIP](#contributing): key collisions are pretty much left up to the user
-* [WIP](#contributing): shallow and deep copies are not implemented yet
+* [PRs welcome](#contributing): key collisions are pretty much left up to the user
+* [PRs welcome](#contributing): shallow and deep copies are not implemented
 
 Check out the existing [alternatives](https://github.com/stephane-caron/palimpsest#alternatives) if any of these points is a no-go for you.
 
