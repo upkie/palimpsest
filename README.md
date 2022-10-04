@@ -3,6 +3,7 @@
 [**Installation**](https://github.com/stephane-caron/palimpsest/#installation)
 | [**Example**](https://github.com/stephane-caron/palimpsest#overview)
 | [**Features**](https://github.com/stephane-caron/palimpsest#features-and-non-features)
+| [**Usage**](https://github.com/stephane-caron/palimpsest#usage)
 | [**Contributing**](https://github.com/stephane-caron/palimpsest#contributing)
 
 [![Build](https://img.shields.io/github/workflow/status/stephane-caron/palimpsest/Bazel)](https://github.com/stephane-caron/palimpsest/actions)
@@ -14,6 +15,8 @@
 _palimpsest_ is a small C++ library that provides a ``Dictionary`` type meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because these dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
 
 ## Example
+
+Let's build a dictionary:
 
 ```cpp
 using palimpsest::Dictionary;
@@ -31,14 +34,7 @@ bodies("truck")("position") = Eigen::Vector3d{42.0, 0.0, 0.0};
 std::cout << world << std::endl;
 ```
 
-## Overview
-
-The two main assumptions in _palimpsest_ dictionaries are that:
-
-* **Keys** are strings.
-* **Values** hold either a sub-dictionary or a type that can be unambiguously serialized.
-
-Numbers, strings and tensors can be readily serialized, so we can straightforwardly write nested dictionaries like in the example above. This example outputs:
+This snippet outputs:
 
 ```json
 {"bodies": {"truck": {"position": [42, 0.5, 0], "orientation": [1, 0, 0, 0]},
@@ -46,7 +42,7 @@ Numbers, strings and tensors can be readily serialized, so we can straightforwar
 "temperature": 28, "name": "example"}
 ```
 
-We can serialize this dictionary to a binary file using the convenience ``write`` function:
+We can serialize the dictionary to file:
 
 ```cpp
 world.write("world.mpack");
@@ -60,11 +56,16 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-While one-time serialization to a file can be useful, dictionaries are more generally meant to be [serialized to bytes](#serialization-to-bytes) for transmission over your preferred medium (TCP connection, memory-mapped files, transcontinental telegraph line, …).
+Dictionaries can also be [serialized to bytes](#serialization-to-bytes) for transmission over TCP, memory-mapped files, telegraph lines, …
 
 ## Features and non-features
 
-All design decisions have their pros and cons, and the ones in _palimpsest_ are rooted in the robotics applications that prompted its development. Take a look at the features and non-features below to decide if it is also a fit for _your_ use case.
+All design decisions have their pros and cons. Take a look at the features and non-features below to decide if it is also a fit for _your_ use case.
+
+The two main assumptions in _palimpsest_ dictionaries are that:
+
+* **Keys** are strings.
+* **Values** hold either a sub-dictionary or a type that can be unambiguously serialized.
 
 ### Features
 
