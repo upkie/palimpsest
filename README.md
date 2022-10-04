@@ -98,16 +98,22 @@ Check out the existing [alternatives](https://github.com/stephane-caron/palimpse
 
 ### Bazel (recommended)
 
-Call a [`git_repository`](https://bazel.build/rules/lib/repo/git#git_repository) rule in your Bazel ``WORKSPACE``:
+Add the following to your ``WORKSPACE`` file:
 
 ```python
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-git_repository(
+http_archive(
     name = "palimpsest",
-    remote = "https://github.com/stephane-caron/palimpsest.git",
-    tag = "v1.0.0",
+    sha256 = "f3f7c004197ce808f44a3698928d48a317f9b6f11b29397d0b8c0c6f2a7d0c1c",
+    strip_prefix = "palimpsest-1.1.0",
+    url = "https://github.com/stephane-caron/palimpsest/archive/refs/tags/v1.1.0.tar.gz",
 )
+
+load("@palimpsest//tools/workspace:default.bzl", add_palimpsest_repositories = "add_default_repositories")
+
+# This adds dependencies such as @fmt and @mpack for building palimpsest targets
+add_palimpsest_repositories()
 ```
 
 You can then use the ``@palimpsest`` dependency in your C++ targets.
