@@ -1,13 +1,13 @@
 # palimpsest — Fast serializable C++ dictionaries
 
 [**Installation**](https://github.com/stephane-caron/palimpsest/#installation)
-| [**Documentation**](https://scaron.info/doc/palimpsest/)
 | [**Example**](https://github.com/stephane-caron/palimpsest#overview)
 | [**Features**](https://github.com/stephane-caron/palimpsest#features-and-non-features)
 | [**Contributing**](https://github.com/stephane-caron/palimpsest#contributing)
 
 [![Build](https://img.shields.io/github/workflow/status/stephane-caron/palimpsest/Bazel)](https://github.com/stephane-caron/palimpsest/actions)
 [![Coverage](https://coveralls.io/repos/github/stephane-caron/palimpsest/badge.svg?branch=main)](https://coveralls.io/github/stephane-caron/palimpsest?branch=main)
+[![Documentation](https://img.shields.io/badge/docs-online-brightgreen?logo=read-the-docs&style=flat)](https://scaron.info/doc/palimpsest/)
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
 [![Release](https://img.shields.io/github/v/release/stephane-caron/palimpsest.svg?sort=semver)](https://github.com/stephane-caron/palimpsest/releases)
 
