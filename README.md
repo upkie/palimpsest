@@ -6,7 +6,7 @@
 | [**Usage**](https://github.com/stephane-caron/palimpsest#usage)
 | [**Contributing**](https://github.com/stephane-caron/palimpsest#contributing)
 
-[![Build](https://img.shields.io/github/workflow/status/stephane-caron/palimpsest/Bazel)](https://github.com/stephane-caron/palimpsest/actions)
+[![Build](https://img.shields.io/github/actions/workflow/status/stephane-caron/palimpsest/bazel.yml?branch=main)](https://github.com/stephane-caron/palimpsest/actions)
 [![Coverage](https://coveralls.io/repos/github/stephane-caron/palimpsest/badge.svg?branch=main)](https://coveralls.io/github/stephane-caron/palimpsest?branch=main)
 [![Documentation](https://img.shields.io/badge/docs-online-brightgreen?logo=read-the-docs&style=flat)](https://scaron.info/doc/palimpsest/)
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
