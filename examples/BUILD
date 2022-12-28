@@ -12,6 +12,12 @@ cc_binary(
     deps = ["@palimpsest"],
 )
 
+py_binary(
+    name = "cpp_to_python_py",
+    srcs = ["cpp_to_python.py"],
+    main = "cpp_to_python.py",
+)
+
 cc_binary(
     name = "readme",
     srcs = ["readme.cpp"],
