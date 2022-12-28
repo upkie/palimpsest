@@ -18,8 +18,10 @@
 
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
 
-const std::string output_file = "simple_logger.mpack";
+const char output_file[] = "simple_logger.mpack";
 
 using palimpsest::Dictionary;
 
