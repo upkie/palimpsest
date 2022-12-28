@@ -64,13 +64,17 @@ int main() {
   Dictionary world;
   SimpleLogger logger(output_file);
   world("temperature") = 28.0;
+  const unsigned seed = 4242u;
+
   for (unsigned iter = 0; iter < 42; ++iter) {
     double &temperature = world("temperature");
-    const double u = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-    const double noise = (u - 0.5) / 0.5;  // between -1.0 and +1.0
+    const double r = static_cast<float>(rand_r(&seed));
+    const double u = r / static_cast<float>(RAND_MAX);  // between 0.0 and 1.0
+    const double noise = (u - 0.5) / 0.5;               // between -1.0 and +1.0
     temperature += 0.1 * noise;
     logger.write(world);
   }
+
   std::cout << "All dictionaries written to " << output_file << std::endl;
   return EXIT_SUCCESS;
 }
