@@ -64,7 +64,7 @@ int main() {
   Dictionary world;
   SimpleLogger logger(output_file);
   world("temperature") = 28.0;
-  const unsigned seed = 4242u;
+  unsigned seed = 4242u;
 
   for (unsigned iter = 0; iter < 42; ++iter) {
     double &temperature = world("temperature");
