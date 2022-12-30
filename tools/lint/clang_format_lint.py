@@ -41,6 +41,7 @@ def _check_clang_format_idempotence(filename):
         return 0
     print("ERROR: {} needs clang-format".format(filename))
     print(f"You can fix it by `{clang_format} -style=file -i {filename}`")
+    print(f"Full diff: {changes}")
     return 1
 
 
