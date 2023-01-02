@@ -25,6 +25,7 @@
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -50,6 +51,7 @@ template <>
 struct aligned_allocator<Overloaded> : public std::allocator<Overloaded> {
   static bool used;
   Overloaded *allocate(size_t n, const void *hint = nullptr) {
+    std::cout << "CI test" << std::endl;
     used = true;
     return std::allocator<Overloaded>::allocate(n, hint);
   }
