@@ -31,4 +31,4 @@ jobs:
 
             - name: "Check unit tests"
               working-directory: ${{github.workspace}}/build
-              run: make test
+              run: make test --rerun-failed --output-on-failure
