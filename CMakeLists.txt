@@ -30,6 +30,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Dependencies
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+find_package(fmt)
 if(BUILD_MPACK)
     add_subdirectory(third_party)
 endif()
@@ -47,6 +48,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     Eigen3::Eigen
+    fmt
     mpack
 )
 
