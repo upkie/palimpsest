@@ -51,7 +51,6 @@ template <>
 struct aligned_allocator<Overloaded> : public std::allocator<Overloaded> {
   static bool used;
   Overloaded *allocate(size_t n, const void *hint = nullptr) {
-    std::cout << "CI test" << std::endl;
     used = true;
     return std::allocator<Overloaded>::allocate(n, hint);
   }
@@ -258,6 +257,8 @@ TEST(Dictionary, TestRemove) {
   }
 }
 
+// EIGEN_MAKE_ALIGNED_OPERATOR_NEW is no-op in C++17 from 3.4.0
+#if !EIGEN_VERSION_AT_LEAST(3, 4, 0)
 TEST(Dictionary, EigenOverloadOperatorNew) {
   Dictionary dict;
   EXPECT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
@@ -266,6 +267,7 @@ TEST(Dictionary, EigenOverloadOperatorNew) {
   dict.remove("overloaded");
   EXPECT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
 }
+#endif
 
 TEST(Dictionary, Strings) {
   Dictionary dict;
