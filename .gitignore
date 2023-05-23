@@ -7,3 +7,4 @@ bazel-testlogs
 build
 coverage
 doc/html
+tools/bazel
