@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Bazel: Update Bazelisk script
+- Compile in optimized rather than fast-build mode by default
 
 ## [1.1.0] - 2022/10/04
 

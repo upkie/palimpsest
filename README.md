@@ -90,7 +90,7 @@ Check out the existing [alternatives](https://github.com/stephane-caron/palimpse
 
 ## Installation
 
-### Bazel (recommended)
+### Bazel
 
 Add the following to your ``WORKSPACE`` file:
 
