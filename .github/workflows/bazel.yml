@@ -9,11 +9,7 @@ on:
 
 jobs:
     build:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            fail-fast: false
-            matrix:
-                os: [ubuntu-latest]
+        runs-on: ubuntu-latest
         steps:
             - name: "Checkout sources"
               uses: actions/checkout@v3
@@ -25,19 +21,15 @@ jobs:
               env:
                   BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
               run: |
-                  tools/bazelisk build //...
+                  tools/bazelisk build --compilation_mode=fastbuild //...
 
-            - name: "Check code formatting"
-              env:
-                  BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
-              run: |
-                  tools/bazelisk test --config lint //...
-
-            - name: "Check unit tests"
-              env:
-                  BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
-              run: |
-                  tools/bazelisk test //...
+    coverage:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Checkout sources"
+              uses: actions/checkout@v3
+              with:
+                  submodules: recursive
 
             - name: "Report test coverage"
               run: |
@@ -47,4 +39,38 @@ jobs:
               uses: coverallsapp/github-action@1.1.3
               with:
                   github-token: ${{ secrets.github_token }}
-                  path-to-lcov: bazel-out/_coverage/_coverage_report.dat
+                  path-to-lcov: ${{ github.workspace }}/bazel-out/_coverage/_coverage_report.dat
+
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Checkout sources"
+              uses: actions/checkout@v3
+
+            - name: "Check clang-format version"
+              run: |
+                  clang-format --version
+
+            - name: "Check code formatting"
+              env:
+                  BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
+              run: |
+                  tools/bazelisk test --compilation_mode=fastbuild --config lint //...
+
+    test:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, macos-latest]
+        steps:
+            - name: "Checkout sources"
+              uses: actions/checkout@v2
+              with:
+                  submodules: recursive
+
+            - name: "Check unit tests"
+              env:
+                  BAZELISK_GITHUB_TOKEN: ${{ secrets.BAZELISK_GITHUB_TOKEN }}
+              run: |
+                  tools/bazelisk test --compilation_mode=fastbuild //...
