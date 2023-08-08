@@ -12,6 +12,7 @@ test --compilation_mode=dbg
 test --copt="-Werror=return-type"
 test --cxxopt=-std=c++17
 test --test_output=errors
+test --test_tag_filters=-lint
 
 # Run linter only, not unit tests
 # Usage: bazel test --config lint //...
