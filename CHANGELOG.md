@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Bazel: Find clang-format on various operating systems
+
 ### Changed
 
 - Bazel: Update Bazelisk script
