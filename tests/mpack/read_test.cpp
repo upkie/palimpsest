@@ -94,24 +94,12 @@ TEST_F(ReadTest, ReadBool) {
   ASSERT_EQ(output, true);
 }
 
-TEST_F(ReadTest, ReadBoolTypeError) {
-  data_.type = mpack_type_int;
-  bool output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
-}
-
 TEST_F(ReadTest, ReadInt8) {
   data_.type = mpack_type_int;
   data_.value.i = -42;
   int8_t output = 111;
   mpack::read(node_, output);
   ASSERT_EQ(output, -42);
-}
-
-TEST_F(ReadTest, ReadInt8TypeError) {
-  data_.type = mpack_type_bool;
-  int8_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
 
 TEST_F(ReadTest, ReadInt16) {
@@ -122,24 +110,12 @@ TEST_F(ReadTest, ReadInt16) {
   ASSERT_EQ(output, -42);
 }
 
-TEST_F(ReadTest, ReadInt16TypeError) {
-  data_.type = mpack_type_bool;
-  int16_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
-}
-
 TEST_F(ReadTest, ReadInt32) {
   data_.type = mpack_type_int;
   data_.value.i = -42;
   int32_t output = 11111;
   mpack::read(node_, output);
   ASSERT_EQ(output, -42);
-}
-
-TEST_F(ReadTest, ReadInt32TypeError) {
-  data_.type = mpack_type_bool;
-  int32_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
 
 TEST_F(ReadTest, ReadInt64) {
@@ -150,24 +126,12 @@ TEST_F(ReadTest, ReadInt64) {
   ASSERT_EQ(output, -42);
 }
 
-TEST_F(ReadTest, ReadInt64TypeError) {
-  data_.type = mpack_type_bool;
-  int64_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
-}
-
 TEST_F(ReadTest, ReadUInt8) {
   data_.type = mpack_type_uint;
   data_.value.i = 42u;
   uint8_t output = 111u;
   mpack::read(node_, output);
   ASSERT_EQ(output, 42u);
-}
-
-TEST_F(ReadTest, ReadUInt8TypeError) {
-  data_.type = mpack_type_bool;
-  uint8_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
 
 TEST_F(ReadTest, ReadUInt16) {
@@ -178,24 +142,12 @@ TEST_F(ReadTest, ReadUInt16) {
   ASSERT_EQ(output, 42u);
 }
 
-TEST_F(ReadTest, ReadUInt16TypeError) {
-  data_.type = mpack_type_bool;
-  uint16_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
-}
-
 TEST_F(ReadTest, ReadUInt32) {
   data_.type = mpack_type_uint;
   data_.value.i = 42u;
   uint32_t output = 11111u;
   mpack::read(node_, output);
   ASSERT_EQ(output, 42u);
-}
-
-TEST_F(ReadTest, ReadUInt32TypeError) {
-  data_.type = mpack_type_bool;
-  uint32_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
 
 TEST_F(ReadTest, ReadUInt64) {
@@ -206,12 +158,6 @@ TEST_F(ReadTest, ReadUInt64) {
   ASSERT_EQ(output, 42u);
 }
 
-TEST_F(ReadTest, ReadUInt64TypeError) {
-  data_.type = mpack_type_bool;
-  uint64_t output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
-}
-
 TEST_F(ReadTest, ReadFloat) {
   data_.type = mpack_type_float;
   data_.value.f = 42.0f;
@@ -220,18 +166,86 @@ TEST_F(ReadTest, ReadFloat) {
   ASSERT_EQ(output, 42.0f);
 }
 
-TEST_F(ReadTest, ReadFloatTypeError) {
-  data_.type = mpack_type_bool;
-  float output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
-}
-
 TEST_F(ReadTest, ReadDouble) {
   data_.type = mpack_type_double;
   data_.value.d = 42.0;
   double output = 11111.0;
   mpack::read(node_, output);
   ASSERT_EQ(output, 42.0);
+}
+
+struct UnknownType {
+  bool its;
+  int only;
+  float mystery;
+};
+
+TEST_F(ReadTest, ReadUnknownTypeError) {
+  data_.type = mpack_type_bool;
+  UnknownType output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+#ifndef NDEBUG  // other type errors aren't checked in "opt" compilation mode
+
+TEST_F(ReadTest, ReadBoolTypeError) {
+  data_.type = mpack_type_int;
+  bool output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadInt8TypeError) {
+  data_.type = mpack_type_bool;
+  int8_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadInt16TypeError) {
+  data_.type = mpack_type_bool;
+  int16_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadInt32TypeError) {
+  data_.type = mpack_type_bool;
+  int32_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadInt64TypeError) {
+  data_.type = mpack_type_bool;
+  int64_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadUInt8TypeError) {
+  data_.type = mpack_type_bool;
+  uint8_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadUInt16TypeError) {
+  data_.type = mpack_type_bool;
+  uint16_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadUInt32TypeError) {
+  data_.type = mpack_type_bool;
+  uint32_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadUInt64TypeError) {
+  data_.type = mpack_type_bool;
+  uint64_t output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
+}
+
+TEST_F(ReadTest, ReadFloatTypeError) {
+  data_.type = mpack_type_bool;
+  float output;
+  ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
 
 TEST_F(ReadTest, ReadDoubleTypeError) {
@@ -276,16 +290,6 @@ TEST_F(ReadTest, ReadEigenQuaterniondTypeError) {
   ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
 
-struct UnknownType {
-  bool its;
-  int only;
-  float mystery;
-};
-
-TEST_F(ReadTest, ReadUnknownTypeError) {
-  data_.type = mpack_type_bool;
-  UnknownType output;
-  ASSERT_THROW(mpack::read(node_, output), TypeError);
-}
+#endif  // NDEBUG
 
 }  // namespace palimpsest::mpack
