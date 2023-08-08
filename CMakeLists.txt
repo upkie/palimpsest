@@ -17,7 +17,7 @@
 cmake_minimum_required(VERSION 3.1)
 
 project(palimpsest)
-set(PROJECT_URL https://github.com/stephane-caron/palimpsest)
+set(PROJECT_URL https://github.com/tasts-robots/palimpsest)
 set(PROJECT_VERSION 1.1.0)
 
 # CMake options
