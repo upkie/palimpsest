@@ -515,7 +515,7 @@ class Dictionary {
    */
   void write(const std::string &filename) const;
 
-  /*! Extend content from a MessagePack binary file.
+  /*! Update dictionary from a MessagePack binary file.
    *
    * \param[in] filename Path to the input file.
    */
@@ -528,9 +528,6 @@ class Dictionary {
    *
    * \throw TypeError if deserialized data types don't match those of the
    *     corresponding objects in the dictionary.
-   *
-   * \note Key-values from the data that are not already in the dictionary are
-   *     ignored. That is, only values with known (type and) key are updated.
    */
   void update(const char *data, size_t size);
 
@@ -540,40 +537,10 @@ class Dictionary {
    *     dictionary. Keys that don't match will be ignored. Values whose type
    *     does not match will raise an exception.
    *
-   * \throw TypeError if a deserialized object's type did not match
-   *     the type of its counterpart in the dictionary.
-   *
-   * \note If the node is a map, its key-values that are not already in the
-   *     dictionary are ignored. That is, only values with known (type and) key
-   *     are updated.
+   * \throw TypeError if a deserialized object's type does not match the type
+   *     of an existing entry in the dictionary.
    */
   void update(mpack_node_t node);
-
-  /*! Extend dictionary from raw MessagePack data.
-   *
-   * \param[in] data Buffer to read MessagePack from.
-   * \param[in] size Buffer size.
-   *
-   * \throw TypeError if deserialized data types don't match those of the
-   *     corresponding objects in the dictionary.
-   *
-   * \note Contrary to \ref update, this function inserts new key-value pairs
-   *     in the dictionary. If a key is already present, it will warn about it
-   *     but ignore the node value.
-   */
-  void extend(const char *data, size_t size);
-
-  /*! Extend dictionary from an MPack node.
-   *
-   * \param[in] node MPack node.
-   *
-   * \throw TypeError if the dictionary or the MPack node are not maps.
-   *
-   * \note Contrary to \ref update, this function inserts new key-value pairs
-   *     in the dictionary. If a key is already present, it will warn about it
-   *     but ignore the node value.
-   */
-  void extend(mpack_node_t node);
 
   //! Allow implicit conversion to (bool &).
   operator bool &() { return this->as<bool>(); }

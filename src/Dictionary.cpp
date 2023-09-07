@@ -53,27 +53,27 @@ void Dictionary::update(const char *data, size_t size) {
 }
 
 void Dictionary::update(mpack_node_t node) {
-  if (this->is_empty()) {
-    spdlog::warn("Updating an empty dictionary, this will have no effect");
-  } else if (this->is_value()) {
+  if (this->is_value()) {
     value_.deserialize(node);
-  } else /* this->is_map() */ {
-    if (mpack_node_type(node) != mpack_type_map) {
-      throw TypeError(__FILE__, __LINE__,
-                      std::string("Expecting a map, not ") +
-                          mpack_type_to_string(mpack_node_type(node)));
-    }
-    for (size_t i = 0; i < mpack_node_map_count(node); ++i) {
-      const auto key_node = mpack_node_map_key_at(node, i);
-      const std::string key = {mpack_node_str(key_node),
-                               mpack_node_strlen(key_node)};
-      auto it = map_.find(key);
-      if (it == map_.end()) {
-        // Ignore unknow key on an update. Use extend to handle new keys and
-        // infer their value types.
-        continue;
-      }
-      const auto value_node = mpack_node_map_value_at(node, i);
+    return;
+  }
+
+  /* Now we have asserted that this->is_map() */
+  if (mpack_node_type(node) != mpack_type_map) {
+    throw TypeError(__FILE__, __LINE__,
+                    std::string("Expecting a map, not ") +
+                        mpack_type_to_string(mpack_node_type(node)));
+  }
+
+  for (size_t i = 0; i < mpack_node_map_count(node); ++i) {
+    const mpack_node_t key_node = mpack_node_map_key_at(node, i);
+    const mpack_node_t value_node = mpack_node_map_value_at(node, i);
+    const std::string key = {mpack_node_str(key_node),
+                             mpack_node_strlen(key_node)};
+    auto it = map_.find(key);
+    if (it == map_.end()) {
+      this->insert_at_key(key, value_node);
+    } else /* (it != map_.end()) */ {
       try {
         it->second->update(value_node);
       } catch (const TypeError &e) {
@@ -83,91 +83,62 @@ void Dictionary::update(mpack_node_t node) {
   }
 }
 
-void Dictionary::extend(const char *data, size_t size) {
-  mpack_tree_t tree;
-  mpack_tree_init_data(&tree, data, size);
-  mpack_tree_parse(&tree);
-  const auto status = mpack_tree_error(&tree);
-  if (status != mpack_ok) {
-    spdlog::error("MPack tree error: \"{}\", skipping Dictionary::extend",
-                  mpack_error_to_string(status));
-    return;
-  }
-  extend(mpack_tree_root(&tree));
-  mpack_tree_destroy(&tree);
-}
-
-void Dictionary::extend(mpack_node_t node) {
+void Dictionary::insert_at_key(const std::string &key,
+                               const mpack_node_t &value) {
   using mpack::mpack_node_matrix3d;
   using mpack::mpack_node_quaterniond;
   using mpack::mpack_node_vector2d;
   using mpack::mpack_node_vector3d;
   using mpack::mpack_node_vectorXd;
 
-  if (!this->is_map()) {
-    throw TypeError(__FILE__, __LINE__, "Dictionary is not a map");
-  }
-  if (mpack_node_type(node) != mpack_type_map) {
-    throw TypeError(__FILE__, __LINE__,
-                    std::string("Argument should be a map, not ") +
-                        mpack_type_to_string(mpack_node_type(node)));
-  }
-
-  for (size_t i = 0; i < mpack_node_map_count(node); ++i) {
-    const auto key_node = mpack_node_map_key_at(node, i);
-    const auto value = mpack_node_map_value_at(node, i);
-    const std::string key = {mpack_node_str(key_node),
-                             mpack_node_strlen(key_node)};
-    switch (mpack_node_type(value)) {
-      case mpack_type_bool:
-        this->insert<bool>(key, mpack_node_bool(value));
-        break;
-      case mpack_type_int:
-        this->insert<int>(key, mpack_node_int(value));
-        break;
-      case mpack_type_uint:
-        this->insert<unsigned>(key, mpack_node_uint(value));
-        break;
-      case mpack_type_float:
-        this->insert<float>(key, mpack_node_float(value));
-        break;
-      case mpack_type_double:
-        this->insert<double>(key, mpack_node_double(value));
-        break;
-      case mpack_type_str:
-        this->insert<std::string>(
-            key, std::string{mpack_node_str(value), mpack_node_strlen(value)});
-        break;
-      case mpack_type_array:
-        switch (mpack_node_array_length(value)) {
-          case 2:
-            this->insert<Eigen::Vector2d>(key, mpack_node_vector2d(value));
-            break;
-          case 3:
-            this->insert<Eigen::Vector3d>(key, mpack_node_vector3d(value));
-            break;
-          case 4:
-            this->insert<Eigen::Quaterniond>(key,
-                                             mpack_node_quaterniond(value));
-            break;
-          case 9:
-            this->insert<Eigen::Matrix3d>(key, mpack_node_matrix3d(value));
-            break;
-          default:
-            this->insert<Eigen::VectorXd>(key, mpack_node_vectorXd(value));
-            break;
-        }
-        break;
-      case mpack_type_map:
-        this->operator()(key).extend(value);
-        break;
-      case mpack_type_bin:
-      case mpack_type_nil:
-      default:
-        throw TypeError(__FILE__, __LINE__,
-                        std::string("Cannot insert values of type ") +
-                            mpack_type_to_string(mpack_node_type(value)));
-    }
+  switch (mpack_node_type(value)) {
+    case mpack_type_bool:
+      this->insert<bool>(key, mpack_node_bool(value));
+      break;
+    case mpack_type_int:
+      this->insert<int>(key, mpack_node_int(value));
+      break;
+    case mpack_type_uint:
+      this->insert<unsigned>(key, mpack_node_uint(value));
+      break;
+    case mpack_type_float:
+      this->insert<float>(key, mpack_node_float(value));
+      break;
+    case mpack_type_double:
+      this->insert<double>(key, mpack_node_double(value));
+      break;
+    case mpack_type_str:
+      this->insert<std::string>(
+          key, std::string{mpack_node_str(value), mpack_node_strlen(value)});
+      break;
+    case mpack_type_array:
+      switch (mpack_node_array_length(value)) {
+        case 2:
+          this->insert<Eigen::Vector2d>(key, mpack_node_vector2d(value));
+          break;
+        case 3:
+          this->insert<Eigen::Vector3d>(key, mpack_node_vector3d(value));
+          break;
+        case 4:
+          this->insert<Eigen::Quaterniond>(key, mpack_node_quaterniond(value));
+          break;
+        case 9:
+          this->insert<Eigen::Matrix3d>(key, mpack_node_matrix3d(value));
+          break;
+        default:
+          this->insert<Eigen::VectorXd>(key, mpack_node_vectorXd(value));
+          break;
+      }
+      break;
+    case mpack_type_map:
+      this->operator()(key).extend(value);
+      break;
+    case mpack_type_bin:
+    case mpack_type_nil:
+    default:
+      throw TypeError(__FILE__, __LINE__,
+                      std::string("Cannot insert values of type ") +
+                          mpack_type_to_string(mpack_node_type(value)));
   }
 }
 

@@ -10,7 +10,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- **Breaking:** Remove `extend` function
 - **Breaking:** Remove `insert_initializer` function
+- **Breaking:** `update` now inserts keys that are not already present
 - Bazel: Separate coverage, linting and testing jobs
 - Bazel: Update Bazelisk script
 - Compile in optimized rather than fast-build mode by default

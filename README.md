@@ -6,7 +6,7 @@
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
 [![Release](https://img.shields.io/github/v/release/tasts-robots/palimpsest.svg?sort=semver)](https://github.com/tasts-robots/palimpsest/releases)
 
-_palimpsest_ implements a ``Dictionary`` type for C++ meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because these dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow). Dictionaries can be loaded and saved from JSON and MessagePack.
+_palimpsest_ implements a ``Dictionary`` type for C++ meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
 
 ## Example
 
@@ -70,20 +70,20 @@ The two main assumptions in _palimpsest_ dictionaries are that:
 
 ### Features
 
-* Prioritizes speed (over user-friendliness)
-* References to sub-dictionaries or values help avoid key lookups
+* Prioritizes speed over user-friendliness
+* Returns references to any stored value or sub-dictionaries
 * Built for fast inter-process communication with [Python](https://www.python.org/)
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 * Print dictionaries to standard output as [JSON](https://www.json.org/json-en.html)
-* [Extensible](#adding-custom-types) to new types, as long as they deserialize unambiguously
+* [Extensible](#adding-custom-types) to custom types, as long as they deserialize unambiguously
 
 ### Non-features
 
 * Prioritizes speed over user-friendliness
 * Array values are mostly limited to Eigen tensors (matrix, quaternion, vector)
 * Copy constructors are disabled
-* Extensible to new types as long as they deserialize unambiguously
+* Custom types need to deserialize unambiguously
 * Shallow and deep copies are not implemented ([PRs welcome](#contributing))
 
 Check out the existing [alternatives](https://github.com/tasts-robots/palimpsest#alternatives) if any of these choices is a no-go for you.
@@ -147,23 +147,7 @@ The function resizes the buffer automatically if needed, and returns the number 
 
 ### Deserialization from bytes
 
-#### Extensions
-
-Dictionaries can be extended (``palimpsest::Dictionary::extend``) from byte vectors:
-
-```cpp
-std::vector<char> buffer(size);
-some_source.read(buffer.data(), size);
-
-Dictionary dict;
-dict.extend(buffer.data(), size);
-```
-
-A single dictionary can be extended multiple times from different sources. The catch is that key collisions are ignored [for now](#contributing), so that extending ``{"a": 12}`` with ``{"a": 42, "b": 1}`` will result in ``{"a": 12, "b": 1}`` (and a warning).
-
-#### Updates
-
-Dictionaries can be updated (``palimpsest::Dictionary::update``) from byte vectors rather than extended. In that case only the keys that are already in the original dictionary get new values:
+Dictionaries can be updated (``palimpsest::Dictionary::update``) from byte vectors:
 
 ```cpp
 Dictionary foo;
