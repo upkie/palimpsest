@@ -22,9 +22,13 @@
 #include <Eigen/Geometry>
 #include <string>
 
-#include "palimpsest/TypeError.h"
+#include "palimpsest/exceptions/TypeError.h"
 
-namespace palimpsest::mpack {
+namespace palimpsest {
+
+using exceptions::TypeError;
+
+namespace mpack {
 
 /*! Read a value from MessagePack.
  *
@@ -415,4 +419,6 @@ inline void read(const mpack_node_t node, Eigen::Matrix3d& value) {
   }
 }
 
-}  // namespace palimpsest::mpack
+}  // namespace mpack
+
+}  // namespace palimpsest

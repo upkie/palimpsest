@@ -32,7 +32,8 @@
 
 #include "cppcodec/base64_rfc4648.hpp"
 #include "palimpsest/Dictionary.h"
-#include "palimpsest/KeyError.h"
+#include "palimpsest/exceptions/KeyError.h"
+#include "palimpsest/exceptions/TypeError.h"
 #include "palimpsest/mpack/Writer.h"
 
 using base64 = cppcodec::base64_rfc4648;
@@ -90,6 +91,9 @@ void write(std::ostream &stream, const Serializable &s) {
 }  // namespace palimpsest::json
 
 namespace palimpsest {
+
+using exceptions::KeyError;
+using exceptions::TypeError;
 
 class DictionaryTest : public ::testing::Test {
  protected:
