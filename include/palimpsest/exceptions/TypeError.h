@@ -18,12 +18,12 @@
 
 #include <string>
 
-#include "palimpsest/InternalError.h"
+#include "palimpsest/PalimpsestError.h"
 
 namespace palimpsest::exceptions {
 
 //! Requested type doesn't match the one already in the dictionary.
-class TypeError : public InternalError {
+class TypeError : public PalimpsestError {
  public:
   /*! Create a type error.
    *
@@ -32,7 +32,7 @@ class TypeError : public InternalError {
    * \param[in] message Error message.
    */
   TypeError(const std::string& file, unsigned line, const std::string& message)
-      : InternalError(file, line, message) {}
+      : PalimpsestError(file, line, message) {}
 
   /*! Copy an existing error, adding to the error message.
    *
@@ -40,7 +40,7 @@ class TypeError : public InternalError {
    * \param[in] extra_message Additional error message.
    */
   TypeError(const TypeError& other, const std::string& extra_message)
-      : InternalError(other, extra_message) {}
+      : PalimpsestError(other, extra_message) {}
 
   //! Empty destructor
   ~TypeError() throw() {}

@@ -21,7 +21,7 @@
 namespace palimpsest::exceptions {
 
 //! Error with file and line references to the calling code.
-class InternalError : public std::runtime_error {
+class PalimpsestError : public std::runtime_error {
  public:
   /*! Create a new error.
    *
@@ -29,8 +29,8 @@ class InternalError : public std::runtime_error {
    * \param[in] line Line of code in that file where the throw originates from.
    * \param[in] message Error message.
    */
-  InternalError(const std::string& file, unsigned line,
-                const std::string& message)
+  PalimpsestError(const std::string& file, unsigned line,
+                  const std::string& message)
       : std::runtime_error(message) {
     std::ostringstream out;
     out << "[" << file << ":" << line << "] " << message;
@@ -42,12 +42,13 @@ class InternalError : public std::runtime_error {
    * \param[in] other Existing error.
    * \param[in] extra_message Additional error message.
    */
-  InternalError(const InternalError& other, const std::string& extra_message)
+  PalimpsestError(const PalimpsestError& other,
+                  const std::string& extra_message)
       : std::runtime_error(other.message_ + extra_message),
         message_(other.message_ + extra_message) {}
 
   //! Empty destructor
-  ~InternalError() throw() {}
+  ~PalimpsestError() throw() {}
 
   //! Error message
   const char* what() const throw() { return message_.c_str(); }

@@ -7,7 +7,7 @@ package(default_visibility = ["//visibility:public"])
 cc_library(
     name = "exceptions",
     hdrs = [
-        "InternalError.h",
+        "PalimpsestError.h",
         "KeyError.h",
         "TypeError.h",
     ],
