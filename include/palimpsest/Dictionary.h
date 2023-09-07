@@ -684,7 +684,7 @@ class Dictionary {
    */
   template <typename T>
   const T &get_(const std::string &key) const {
-    const auto &child_value = get_child_value(key);
+    const auto &child_value = get_child_value_(key);
     try {
       return child_value.get_reference<T>();
     } catch (const TypeError &e) {
@@ -705,13 +705,13 @@ class Dictionary {
    * \throw KeyError if there is no object at this key.
    * \throw TypeError if there is an object at this key but it is not a value.
    */
-  const Value &get_child_value(const std::string &key) const;
+  const Value &get_child_value_(const std::string &key) const;
 
   /*! Serialize to a MessagePack writer.
    *
    * \param[out] writer Writer to serialize to.
    */
-  void serialize(mpack::Writer &writer) const;
+  void serialize_(mpack::Writer &writer) const;
 
  protected:
   //! Internal value, used if we are a value.
