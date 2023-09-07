@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Bazel: Separate coverage, linting and testing jobs
 - Bazel: Update Bazelisk script
 - Compile in optimized rather than fast-build mode by default
+- Remove Makefile from examples directory
 
 ## [1.1.0] - 2022/10/04
 
