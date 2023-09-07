@@ -18,12 +18,12 @@
 
 #include <string>
 
-#include "palimpsest/exceptions/InternalError.h"
+#include "palimpsest/exceptions/PalimpsestError.h"
 
 namespace palimpsest::exceptions {
 
 //! Requested dictionary key is not found.
-class KeyError : public InternalError {
+class KeyError : public PalimpsestError {
  public:
   /*! Create a key error.
    *
@@ -34,8 +34,9 @@ class KeyError : public InternalError {
    */
   KeyError(const std::string& key, const std::string& file, unsigned line,
            const std::string& message)
-      : InternalError(file, line,
-                      std::string("Key \"") + key + "\" not found. " + message),
+      : PalimpsestError(
+            file, line,
+            std::string("Key \"") + key + "\" not found. " + message),
         key_(key) {}
 
   //! Empty destructor
