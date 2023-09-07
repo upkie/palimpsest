@@ -18,7 +18,7 @@
 
 #include <string>
 
-#include "palimpsest/PalimpsestError.h"
+#include "palimpsest/exceptions/PalimpsestError.h"
 
 namespace palimpsest::exceptions {
 

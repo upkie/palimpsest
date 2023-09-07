@@ -28,7 +28,8 @@
 #include <string>
 #include <vector>
 
-#include "palimpsest/KeyError.h"
+#include "palimpsest/exceptions/KeyError.h"
+#include "palimpsest/exceptions/TypeError.h"
 #include "palimpsest/mpack/eigen.h"
 
 using mpack::mpack_node_matrix3d;
@@ -38,6 +39,9 @@ using mpack::mpack_node_vector3d;
 using mpack::mpack_node_vectorXd;
 
 namespace palimpsest {
+
+using exceptions::KeyError;
+using exceptions::TypeError;
 
 void Dictionary::clear() noexcept {
   assert(this->is_map());
