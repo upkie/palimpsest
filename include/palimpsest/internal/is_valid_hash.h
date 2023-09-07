@@ -29,7 +29,7 @@ namespace palimpsest::internal {
 
 /*! Check if hash code matches that of the template type parameter.
  *
- * \param hash Hash code to check.
+ * @param hash Hash code to check.
  */
 template <typename T>
 bool is_valid_hash(std::size_t hash) {
@@ -38,7 +38,7 @@ bool is_valid_hash(std::size_t hash) {
 
 /*! Check if hash code matches that of the template type parameter.
  *
- * \param hash Hash code to check.
+ * @param hash Hash code to check.
  */
 template <typename T, typename U, typename... Args>
 bool is_valid_hash(std::size_t hash) {

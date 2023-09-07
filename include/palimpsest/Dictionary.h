@@ -53,7 +53,7 @@ namespace palimpsest {
  *
  * This type allows us to store and retrieve C++ objects as follows:
  *
- * \code{cpp}
+ * @code{cpp}
  * Dictionary dict;
  * // create a vector of 4 double-precision numbers with value 42
  * dict.insert<std::vector<double>>("TheAnswer", 4, 42);
@@ -65,7 +65,7 @@ namespace palimpsest {
  * auto &same_answer = dict.get<std::vector<double>>("TheAnswer");
  * same_answer.push_back(0);
  * spdlog::info(answer.size());  // vector now has size 5
- * \endcode
+ * @endcode
  *
  * When retrieving an object using get<T>, checks are performed to ensure that
  * the value type and T are compatible. Hence, once an object is inserted in
@@ -73,7 +73,7 @@ namespace palimpsest {
  *
  * To handle inheritance, we need to explicitely recall the class hierarchy:
  *
- * \code{cpp}
+ * @code{cpp}
  * struct A {};
  * struct B : public A {};
  *
@@ -81,20 +81,20 @@ namespace palimpsest {
  * dict.insert<B, A>("foo");
  * auto & base = dict.get<A>("foo");
  * auto & derived = dict.get<B>("foo");
- * \endcode
+ * @endcode
  *
- * \note Dictionaries are move-only.
+ * @note Dictionaries are move-only.
  *
- * \note We are cheating on the class name a bit: a "dictionary" is actually
+ * @note We are cheating on the class name a bit: a "dictionary" is actually
  * either empty, or a single value, or a map of key-"dictionary" pairs. If that
  * helps, for OCaml-lovers:
  *
- * \code{pseudocaml}
+ * @code{pseudocaml}
  * type Dictionary =
  *     | Empty
  *     | Value of Dictionary::Value
  *     | Map of (std::string -> Dictionary) map
- * \endcode
+ * @endcode
  *
  * This is practical because the root is always an actual dictionary (value
  * insertion in the tree is performed by parents on their children), so that
@@ -106,7 +106,7 @@ namespace palimpsest {
 class Dictionary {
   /*! Internal wrapper around an object and its type information.
    *
-   * \note Dictionary values are move-only.
+   * @note Dictionary values are move-only.
    */
   class Value {
    public:
@@ -141,20 +141,20 @@ class Dictionary {
 
     /*! Update value from an MPack node.
      *
-     * \param[in] node MPack tree node.
-     * \throw TypeError if the deserialized type does not match.
+     * @param[in] node MPack tree node.
+     * @throw TypeError if the deserialized type does not match.
      */
     void deserialize(mpack_node_t node) { deserialize_(*this, node); }
 
     /*! Print value to an output stream;
      *
-     * \param[out] stream Output stream to print to.
+     * @param[out] stream Output stream to print to.
      */
     void print(std::ostream &stream) const { print_(*this, stream); }
 
     /*! Serialize value to a MessagePack writer.
      *
-     * \param[out] writer Writer to serialize to.
+     * @param[out] writer Writer to serialize to.
      */
     void serialize(mpack::Writer &writer) const {
       serialize_(*this, writer.mpack_writer());
@@ -162,7 +162,7 @@ class Dictionary {
 
     /*! Allocate object and register internal functions.
      *
-     * \return Reference to allocated object.
+     * @return Reference to allocated object.
      */
     template <typename T, typename... ArgsT>
     T &setup() {
@@ -190,9 +190,9 @@ class Dictionary {
 
     /*! Cast value to its object's type after checking that it matches T.
      *
-     * \param[out] value Value to cast.
+     * @param[out] value Value to cast.
      *
-     * \throw TypeError if the object's type does not match T.
+     * @throw TypeError if the object's type does not match T.
      */
     template <typename T>
     T &get_reference() const {
@@ -248,7 +248,7 @@ class Dictionary {
 
   /*! Default destructor.
    *
-   * \note Child dictionaries will be recursively destroyed as they are held by
+   * @note Child dictionaries will be recursively destroyed as they are held by
    * unique pointers in an unordered_map;
    */
   ~Dictionary() = default;
@@ -264,9 +264,8 @@ class Dictionary {
 
   /*! Check whether a key is in the dictionary.
    *
-   * \param[in] key Key to look for.
-   *
-   * \return true when the key is in the dictionary.
+   * @param[in] key Key to look for.
+   * @return true when the key is in the dictionary.
    */
   bool has(const std::string &key) const noexcept {
     return (map_.find(key) != map_.end());
@@ -280,8 +279,9 @@ class Dictionary {
 
   /*! Get reference to the internal value.
    *
-   * \return Reference to the object.
-   * \throw TypeError if the dictionary is not a value, or it is but the stored
+   * @return Reference to the object.
+   *
+   * @throw TypeError if the dictionary is not a value, or it is but the stored
    *     value type is not T.
    */
   template <typename T>
@@ -292,10 +292,11 @@ class Dictionary {
     return value_.get_reference<T>();
   }
 
-  /*! Const variant of \ref as.
+  /*! Const variant of @ref as.
    *
-   * \return Reference to the object.
-   * \throw TypeError if the stored object type is not T.
+   * @return Reference to the object.
+   *
+   * @throw TypeError if the stored object type is not T.
    */
   template <typename T>
   const T &as() const {
@@ -307,26 +308,24 @@ class Dictionary {
 
   /*! Get reference to the object at a given key.
    *
-   * \param[in] key Key to the object.
+   * @param[in] key Key to the object.
+   * @return Reference to the object.
    *
-   * \return Reference to the object.
-   *
-   * \throw KeyError if there is no object at this key.
-   * \throw TypeError if there is an object at this key, but its type is not T.
+   * @throw KeyError if there is no object at this key.
+   * @throw TypeError if there is an object at this key, but its type is not T.
    */
   template <typename T>
   T &get(const std::string &key) {
     return const_cast<T &>(get_<T>(key));
   }
 
-  /*! Const variant of \ref get.
+  /*! Const variant of @ref get.
    *
-   * \param[in] key Key to the object.
+   * @param[in] key Key to the object.
+   * @return Reference to the object.
    *
-   * \return Reference to the object.
-   *
-   * \throw KeyError if there is no object at this key.
-   * \throw TypeError if there is an object at this key, but its type is not T.
+   * @throw KeyError if there is no object at this key.
+   * @throw TypeError if there is an object at this key, but its type is not T.
    */
   template <typename T>
   const T &get(const std::string &key) const {
@@ -335,13 +334,12 @@ class Dictionary {
 
   /*! Get object at a given key if it exists, or a default value otherwise.
    *
-   * \param[in] key Key to look for.
-   * \param[in] default_value Default value used if there is no value at this
+   * @param[in] key Key to look for.
+   * @param[in] default_value Default value used if there is no value at this
    * key.
+   * @return Reference to the object if it exists, default_value otherwise.
    *
-   * \return Reference to the object if it exists, default_value otherwise.
-   *
-   * \throw TypeError if the object at this key is not a value, or it is but
+   * @throw TypeError if the object at this key is not a value, or it is but
    *     its type does is not T.
    */
   template <typename T>
@@ -372,15 +370,14 @@ class Dictionary {
   /*! Create an object at a given key and return a reference to it. If there is
    * already a value at this key, return the existing object instead.
    *
-   * \param[in] key Key to create the object at.
-   * \param args Parameters passed to the object's constructor.
+   * @param[in] key Key to create the object at.
+   * @param args Parameters passed to the object's constructor.
+   * @return Reference to the constructed object.
    *
-   * \return Reference to the constructed object.
-   *
-   * \throw TypeError if the dictionary is not a map, and therefore we cannot
+   * @throw TypeError if the dictionary is not a map, and therefore we cannot
    *     insert at a given key inside it.
    *
-   * \note To STL practitioners: although it is named like e.g.
+   * @note To STL practitioners: although it is named like e.g.
    * unordered_map::insert, this function behaves like unordered_map::emplace
    * as it forwards its argument to the constructor T::T() called internally.
    * Also it doesn't return an insertion confirmation boolean.
@@ -409,9 +406,9 @@ class Dictionary {
 
   /*! Assign value directly.
    *
-   * \param[in] new_value New value to assign.
+   * @param[in] new_value New value to assign.
    *
-   * \throw TypeError if the object was already a value of a different type.
+   * @throw TypeError if the object was already a value of a different type.
    *
    * If the object was a dictionary, all entries are cleared and it becomes a
    * value. If a previous value is already present, it will be assigned (not
@@ -433,9 +430,9 @@ class Dictionary {
 
   /*! Assignment operator for C-style strings.
    *
-   * \param[in] c_string C-style string to assign.
+   * @param[in] c_string C-style string to assign.
    *
-   * \throw TypeError if the object was already a value of a different type.
+   * @throw TypeError if the object was already a value of a different type.
    *
    * This specialization avoids "invalid array assignment" errors. Note that
    * the string is cast to an std::string.
@@ -446,7 +443,7 @@ class Dictionary {
 
   /*! Remove a key-value pair from the dictionary.
    *
-   * \param[in] key Key to remove.
+   * @param[in] key Key to remove.
    */
   void remove(const std::string &key) noexcept;
 
@@ -456,27 +453,26 @@ class Dictionary {
   /*! Return a reference to the dictionary at key, performing an insertion if
    * such a key does not already exist.
    *
-   * \param[in] key Key to look at.
-   *
-   * \return Reference to the new dictionary at this key if there was none, or
+   * @param[in] key Key to look at.
+   * @return Reference to the new dictionary at this key if there was none, or
    *     to the existing dictionary otherwise.
    *
-   * \throw TypeError if the dictionary is not a map, and therefore we cannot
+   * @throw TypeError if the dictionary is not a map, and therefore we cannot
    *     look up a key from it.
    *
-   * \note The behavior of this operator is the same as
+   * @note The behavior of this operator is the same as
    * std::unordered_map::operator[]. It differs from that of Python
    * dictionaries, where an exception is throw if the key doesn't exist.
    *
-   * \note The reason why we use operator() instead of operator[] is that the
+   * @note The reason why we use operator() instead of operator[] is that the
    * class includes user-defined conversion functions to value types, so that
    * we can write:
    *
-   * \code{cpp}
+   * @code{cpp}
    * Eigen::Vector3d& position = dict("position");
    * auto& position = dict("position").as<Eigen::Vector3d>();  // equivalent
    * auto& position = dict.get<Eigen::Vector3d>("position");   // equivalent
-   * \endcode
+   * @endcode
    *
    * With operator[], these conversions would be ambiguous as [] is commutative
    * in C (c_str[int] == *(c_str + int) == int[c_str]).
@@ -486,12 +482,11 @@ class Dictionary {
   /*! Return a reference to the dictionary at key, performing an insertion if
    * such a key does not already exist.
    *
-   * \param[in] key Key to look at.
+   * @param[in] key Key to look at.
+   * @return Reference to the dictionary at this key.
    *
-   * \return Reference to the dictionary at this key.
-   *
-   * \throw KeyError if there is no object at this key.
-   * \throw TypeError if the dictionary is not a map, and therefore we cannot
+   * @throw KeyError if there is no object at this key.
+   * @throw TypeError if the dictionary is not a map, and therefore we cannot
    *     lookup a key from it.
    *
    * Since we cannot insert a new element in a const object, this const
@@ -502,42 +497,41 @@ class Dictionary {
 
   /*! Serialize to raw MessagePack data.
    *
-   * \param[out] buffer Buffer that will hold the message data.
-   *
-   * \return Size of the message. Note that it is not the same as
+   * @param[out] buffer Buffer that will hold the message data.
+   * @return Size of the message. Note that it is not the same as
    *     the size of the buffer after execution.
    */
   size_t serialize(std::vector<char> &buffer) const;
 
   /*! Write MessagePack serialization to a binary file.
    *
-   * \param[in] filename Path to the output file.
+   * @param[in] filename Path to the output file.
    */
   void write(const std::string &filename) const;
 
   /*! Update dictionary from a MessagePack binary file.
    *
-   * \param[in] filename Path to the input file.
+   * @param[in] filename Path to the input file.
    */
   void read(const std::string &filename);
 
   /*! Update dictionary from raw MessagePack data.
    *
-   * \param[in] data Buffer to read MessagePack from.
-   * \param[in] size Buffer size.
+   * @param[in] data Buffer to read MessagePack from.
+   * @param[in] size Buffer size.
    *
-   * \throw TypeError if deserialized data types don't match those of the
+   * @throw TypeError if deserialized data types don't match those of the
    *     corresponding objects in the dictionary.
    */
   void update(const char *data, size_t size);
 
   /*! Update existing values from an MPack node.
    *
-   * \param[in] node MPack node. Its key-values should match those of the
+   * @param[in] node MPack node. Its key-values should match those of the
    *     dictionary. Keys that don't match will be ignored. Values whose type
    *     does not match will raise an exception.
    *
-   * \throw TypeError if a deserialized object's type does not match the type
+   * @throw TypeError if a deserialized object's type does not match the type
    *     of an existing entry in the dictionary.
    */
   void update(mpack_node_t node);
@@ -656,10 +650,9 @@ class Dictionary {
 
   /*! Output stream operator for printing.
    *
-   * \param[out] stream Output stream.
-   * \param[in] dict Dictionary to print.
-   *
-   * \return Updated output stream.
+   * @param[out] stream Output stream.
+   * @param[in] dict Dictionary to print.
+   * @return Updated output stream.
    */
   friend std::ostream &operator<<(std::ostream &stream, const Dictionary &dict);
 
@@ -675,12 +668,11 @@ class Dictionary {
  private:
   /*! Get a const reference to the object at a given key.
    *
-   * \param[in] key Key to the object.
+   * @param[in] key Key to the object.
+   * @return Const reference to the object.
    *
-   * \return Const reference to the object.
-   *
-   * \throw KeyError if there is no object at this key.
-   * \throw TypeError if there is an object at this key, but its type is not T.
+   * @throw KeyError if there is no object at this key.
+   * @throw TypeError if there is an object at this key, but its type is not T.
    */
   template <typename T>
   const T &get_(const std::string &key) const {
@@ -698,28 +690,27 @@ class Dictionary {
 
   /*! Get a const reference to the child value at a given key.
    *
-   * \param[in] key Key to the object.
+   * @param[in] key Key to the object.
+   * @return Const reference to the value wrapper.
    *
-   * \return Const reference to the value wrapper.
-   *
-   * \throw KeyError if there is no object at this key.
-   * \throw TypeError if there is an object at this key but it is not a value.
+   * @throw KeyError if there is no object at this key.
+   * @throw TypeError if there is an object at this key but it is not a value.
    */
   const Value &get_child_value_(const std::string &key) const;
 
   /*! Deserialize an MPack value at a given key.
    *
-   * \param[in] key Key to store the deserialized object at.
-   * \param[in] value MPack value to deserialize.
+   * @param[in] key Key to store the deserialized object at.
+   * @param[in] value MPack value to deserialize.
    *
-   * \throw TypeError if the type of the deserialized object cannot be handled.
+   * @throw TypeError if the type of the deserialized object cannot be handled.
    */
   void Dictionary::insert_at_key_(const std::string &key,
                                   const mpack_node_t &value);
 
   /*! Serialize to a MessagePack writer.
    *
-   * \param[out] writer Writer to serialize to.
+   * @param[out] writer Writer to serialize to.
    */
   void serialize_(mpack::Writer &writer) const;
 

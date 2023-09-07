@@ -32,7 +32,7 @@ namespace palimpsest::mpack {
 
 /*! Deserialize an Eigen matrix.
  *
- * \param[in] node Node to deserialize matrix values from.
+ * @param[in] node Node to deserialize matrix values from.
  */
 inline Eigen::Matrix3d mpack_node_matrix3d(mpack_node_t node) {
   assert(mpack_node_array_length(node) == 9);
@@ -47,9 +47,9 @@ inline Eigen::Matrix3d mpack_node_matrix3d(mpack_node_t node) {
 
 /*! Deserialize an Eigen quaternion.
  *
- * \param[in] node Node to deserialize quaternion values from.
+ * @param[in] node Node to deserialize quaternion values from.
  *
- * \note Quaternion coordinates are orderded as `[w x y z]`.
+ * @note Quaternion coordinates are orderded as `[w x y z]`.
  */
 inline Eigen::Quaterniond mpack_node_quaterniond(mpack_node_t node) {
   assert(mpack_node_array_length(node) == 4);
@@ -63,7 +63,7 @@ inline Eigen::Quaterniond mpack_node_quaterniond(mpack_node_t node) {
 
 /*! Deserialize an Eigen 2D vector.
  *
- * \param[in] node Node to deserialize the vector from.
+ * @param[in] node Node to deserialize the vector from.
  */
 inline Eigen::Vector2d mpack_node_vector2d(mpack_node_t node) {
   assert(mpack_node_array_length(node) == 2);
@@ -75,7 +75,7 @@ inline Eigen::Vector2d mpack_node_vector2d(mpack_node_t node) {
 
 /*! Deserialize an Eigen 3D vector.
  *
- * \param[in] node Node to deserialize the vector from.
+ * @param[in] node Node to deserialize the vector from.
  */
 inline Eigen::Vector3d mpack_node_vector3d(mpack_node_t node) {
   assert(mpack_node_array_length(node) == 3);
@@ -88,7 +88,7 @@ inline Eigen::Vector3d mpack_node_vector3d(mpack_node_t node) {
 
 /*! Deserialize an Eigen vector.
  *
- * \param[in] node Node to deserialize the vector from.
+ * @param[in] node Node to deserialize the vector from.
  */
 inline Eigen::VectorXd mpack_node_vectorXd(mpack_node_t node) {
   const unsigned length = mpack_node_array_length(node);

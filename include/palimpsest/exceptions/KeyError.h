@@ -27,10 +27,10 @@ class KeyError : public PalimpsestError {
  public:
   /*! Create a key error.
    *
-   * \param[in] key Key that was not found.
-   * \param[in] file Source file of the instruction that threw the error.
-   * \param[in] line Line of code in that file where the throw originates from.
-   * \param[in] message Error message.
+   * @param[in] key Key that was not found.
+   * @param[in] file Source file of the instruction that threw the error.
+   * @param[in] line Line of code in that file where the throw originates from.
+   * @param[in] message Error message.
    */
   KeyError(const std::string& key, const std::string& file, unsigned line,
            const std::string& message)

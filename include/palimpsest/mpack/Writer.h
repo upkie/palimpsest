@@ -44,14 +44,14 @@ namespace palimpsest::mpack {
  * Writers assume they are given ownership of the bytes buffer. In particular,
  * they may resize it dynamically as needed.
  *
- * \note After a message has been fully written, the writer instance must be
+ * @note After a message has been fully written, the writer instance must be
  * discarded to create a new message.
  */
 class Writer {
  public:
   /*! Constructor.
    *
-   * \param buffer Buffer used to store the data. It may grow if needed.
+   * @param buffer Buffer used to store the data. It may grow if needed.
    */
   explicit Writer(std::vector<char> &buffer);
 
@@ -101,13 +101,13 @@ class Writer {
 
   /*! Write a C-style string.
    *
-   * \param[in] s C-style string.
+   * @param[in] s C-style string.
    */
   void write(const char *s);
 
   /*! Write an Eigen::Vector2d.
    *
-   * \param[in] v Two-dimensional vector.
+   * @param[in] v Two-dimensional vector.
    *
    * Serializes as an array of size 2.
    */
@@ -115,7 +115,7 @@ class Writer {
 
   /*! Write an Eigen::Vector3d.
    *
-   * \param[in] v Three-dimensional vector.
+   * @param[in] v Three-dimensional vector.
    *
    * Serializes as an array of size 3.
    */
@@ -123,7 +123,7 @@ class Writer {
 
   /*! Write an Eigen::VectorXd.
    *
-   * \param[in] v Vector.
+   * @param[in] v Vector.
    *
    * Serializes as an array of size X.
    */
@@ -131,7 +131,7 @@ class Writer {
 
   /*! Write an Eigen::Quaterniond.
    *
-   * \param[in] q Quaternion.
+   * @param[in] q Quaternion.
    *
    * Serializes as an array of size X.
    */
@@ -139,7 +139,7 @@ class Writer {
 
   /*! Write an Eigen::Matrix3d.
    *
-   * \param[in] m Three-by-three matrix.
+   * @param[in] m Three-by-three matrix.
    *
    * Serializes as an array of size 9.
    */
@@ -211,7 +211,7 @@ class Writer {
 
   /*! Start serializing an array.
    *
-   * \param[in] size Size of the array.
+   * @param[in] size Size of the array.
    */
   void start_array(size_t size);
 
@@ -220,7 +220,7 @@ class Writer {
 
   /*! Start serializing a map.
    *
-   * \param[in] size Size of the map, the map must then contains 2 * size
+   * @param[in] size Size of the map, the map must then contains 2 * size
    *     elements.
    */
   void start_map(size_t size);
@@ -230,7 +230,7 @@ class Writer {
 
   /*! Finish building the message. Data cannot be appended afterwards.
    *
-   * \return Effective size of MessagePack data. Note that ``buffer.size()`` is
+   * @return Effective size of MessagePack data. Note that ``buffer.size()`` is
    *     likely different.
    */
   size_t finish();

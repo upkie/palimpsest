@@ -79,8 +79,8 @@ namespace palimpsest::json {
 
 /*! Write custom serializable type as JSON.
  *
- * \param stream Output stream.
- * \param s Instance of the custom Serializable type defined above.
+ * @param[out] stream Output stream.
+ * @param[in] s Instance of the custom Serializable type defined above.
  */
 template <>
 void write(std::ostream &stream, const Serializable &s) {
