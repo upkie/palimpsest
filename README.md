@@ -6,7 +6,7 @@
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
 [![Release](https://img.shields.io/github/v/release/tasts-robots/palimpsest.svg?sort=semver)](https://github.com/tasts-robots/palimpsest/releases)
 
-_palimpsest_ is a small C++ library that provides a ``Dictionary`` type meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because these dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
+_palimpsest_ implements a ``Dictionary`` type for C++ meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because these dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow). Dictionaries can be loaded and saved from JSON and MessagePack.
 
 ## Example
 
@@ -57,7 +57,7 @@ world_bis.read("world.mpack");
 std::cout << world_bis << std::endl;
 ```
 
-Dictionaries can also be [serialized to bytes](#serialization-to-bytes) for transmission over TCP, memory-mapped files, telegraph lines, …
+Dictionaries can also be [serialized to bytes](#serialization-to-bytes) for transmission over TCP, memory-mapped files, telegraph lines, etc.
 
 ## Features and non-features
 
