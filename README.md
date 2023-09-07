@@ -8,9 +8,27 @@
 
 _palimpsest_ implements a ``Dictionary`` type for C++ meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
 
+## API
+
+_palimpsest_ will feel familiar if you are used to Python dictionaries:
+
+| Python ``dict`` | Same in _palimpsest_? |
+|-----------------|-----------------------|
+| `clear`         | :heavy_check_mark:    |
+| `copy`          | :x:                   |
+| `fromkeys`      | :x:                   |
+| `get`           | :heavy_check_mark:    |
+| `items`         | :x:                   |
+| `keys`          | :heavy_check_mark:    |
+| `pop`           | TODO(scaron): remove  |
+| `popitem`       | :x:                   |
+| `setdefault`    | TODO(scaron)          |
+| `update`        | :heavy_check_mark:    |
+| `values`        | :heavy_check_mark:    |
+
 ## Example
 
-Let's build a dictionary:
+Let's fill a dictionary and print it to the standard output:
 
 ```cpp
 #include <iostream>
