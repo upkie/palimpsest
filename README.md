@@ -20,11 +20,13 @@ _palimpsest_ will feel familiar if you are used to Python dictionaries:
 | `get`           | :heavy_check_mark:    |
 | `items`         | :x:                   |
 | `keys`          | :heavy_check_mark:    |
-| `pop`           | TODO(scaron): remove  |
+| `pop`           | :x:                   |
 | `popitem`       | :x:                   |
-| `setdefault`    | TODO(scaron)          |
+| `setdefault`    | :x:                   |
 | `update`        | :heavy_check_mark:    |
 | `values`        | :heavy_check_mark:    |
+
+Implementing one of the functions marked with :x: is a great way to [contribute](CONTRIBUTING.md) to this project.
 
 ## Example
 
@@ -102,7 +104,7 @@ The two main assumptions in _palimpsest_ dictionaries are that:
 * Array values are mostly limited to Eigen tensors (matrix, quaternion, vector)
 * Copy constructors are disabled
 * Custom types need to deserialize unambiguously
-* Shallow and deep copies are not implemented ([PRs welcome](#contributing))
+* Shallow and deep copies are not implemented ([PRs welcome](CONTRIBUTING.md))
 
 Check out the existing [alternatives](https://github.com/tasts-robots/palimpsest#alternatives) if any of these choices is a no-go for you.
 
@@ -218,7 +220,3 @@ The main blocker is that we set a custom flush function ``mpack_std_vector_write
 * [RapidJSON](https://github.com/Tencent/rapidjson/) - low memory footprint, can serialize to MessagePack using other [related projects](https://github.com/Tencent/rapidjson/wiki/Related-Projects), but has linear lookup complexity as it stores dictionaries [as lists of key-value pairs](https://github.com/Tencent/rapidjson/issues/102).
 * [`std::map`](https://www.cplusplus.com/reference/map/map/) - best pick if your values all have the same type and you don't need nested dictionaries.
 * [`std::unordered_map`](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant usually performs faster on average.
-
-## Contributing
-
-There are many open leads to improve this project, as you already know if you landed here from a link in the README 😉 All contributions are welcome, big or small! Make sure you read the 👷 [contribution guidelines](CONTRIBUTING.md).
