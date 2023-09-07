@@ -707,6 +707,16 @@ class Dictionary {
    */
   const Value &get_child_value_(const std::string &key) const;
 
+  /*! Deserialize an MPack value at a given key.
+   *
+   * \param[in] key Key to store the deserialized object at.
+   * \param[in] value MPack value to deserialize.
+   *
+   * \throw TypeError if the type of the deserialized object cannot be handled.
+   */
+  void Dictionary::insert_at_key_(const std::string &key,
+                                  const mpack_node_t &value);
+
   /*! Serialize to a MessagePack writer.
    *
    * \param[out] writer Writer to serialize to.
