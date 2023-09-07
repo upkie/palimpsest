@@ -160,32 +160,6 @@ TEST(Dictionary, TestDictionary) {
   EXPECT_FALSE(dict.has("key"));
   EXPECT_TRUE(dict.has("data"));
 
-  // Test insertion with an inline initializer list
-  dict.insert_initializer<CustomType>("key", 42, "Test");
-  ASSERT_EQ(dict.get<CustomType>("key").answer, 42);
-  ASSERT_EQ(dict.get<CustomType>("key").name, "Test");
-
-  // Trying to re-create the object returns the existing one
-  auto &previous_object =
-      dict.insert_initializer<CustomType>("key", 51, "Test");
-  ASSERT_EQ(previous_object.answer, 42);
-  ASSERT_EQ(previous_object.name, "Test");
-  ASSERT_EQ(dict.get<CustomType>("key").answer, 42);
-  ASSERT_EQ(dict.get<CustomType>("key").name, "Test");
-
-  // Recreate it with the same name and directly assign some value to it
-  dict.remove("key");
-  dict.insert_initializer<CustomType>("key", 42, "Test").name = "Test2";
-  ASSERT_TRUE(dict.get<CustomType>("key").name == "Test2");
-
-  // Check creating object of a different type with same name
-  dict.remove("key");
-  dict.insert_initializer<std::vector<double>>("key", 1., 2.);
-  auto &v = dict.get<std::vector<double>>("key");
-  ASSERT_EQ(v.size(), 2);
-  ASSERT_EQ(v[0], 1);
-  ASSERT_EQ(v[1], 2);
-
   // Test getters
   dict.insert<double>("assign", 42);
   double value = 0;
@@ -326,7 +300,7 @@ TEST(Dictionary, WriteMoreJSON) {
 
 TEST(Dictionary, WriteCustomTypeJSON) {
   Dictionary dict;
-  dict.insert_initializer<Serializable>("foo", 1, "bar");
+  dict.insert<Serializable>("foo", Serializable{1, "bar"});
   std::ostringstream oss;
   oss << dict;
   ASSERT_EQ(oss.str(), "{\"foo\": {\"a\": 1, \"b\": \"bar\"}}");
@@ -337,7 +311,7 @@ TEST(Dictionary, WriteUnknownTypeJSON) {
     std::string mystery;
   };
   Dictionary dict;
-  dict.insert_initializer<UnknownType>("unknown", "???");
+  dict.insert<UnknownType>("unknown", UnknownType{"???"});
   std::ostringstream oss;
   oss << dict;
   ASSERT_TRUE(oss.str().find("<typeid:") != std::string::npos);
@@ -485,7 +459,7 @@ TEST(Dictionary, SerializeUnknownType) {
     std::string mystery;
   };
   Dictionary dict;
-  dict.insert_initializer<UnknownType>("unknown", "???");
+  dict.insert<UnknownType>("unknown", UnknownType{"???"});
   std::vector<char> buffer;
   auto size = dict.serialize(buffer);
   Dictionary checker;
@@ -541,7 +515,6 @@ TEST(Dictionary, CannotInsertInsideValues) {
 
   // Cannot insert a value inside a value
   ASSERT_THROW(dict("well").insert<int>("aleph", 0), TypeError);
-  ASSERT_THROW(dict("well").insert_initializer<int>("aleph", 0), TypeError);
 
   // Cannot insert/lookup a dictionary inside a value
   ASSERT_THROW(dict("well")("well..."), std::runtime_error);

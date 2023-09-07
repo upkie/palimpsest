@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- **Breaking:** Remove `insert_initializer` function
 - Bazel: Separate coverage, linting and testing jobs
 - Bazel: Update Bazelisk script
 - Compile in optimized rather than fast-build mode by default

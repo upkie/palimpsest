@@ -407,41 +407,6 @@ class Dictionary {
     return ret;
   }
 
-  /*! Create an object using list initialization and return a reference to it.
-   *
-   * \param[in] key Key to create the object at.
-   * \param args Parameters to the constructor passed by list initialization.
-   *
-   * \return A reference to the constructed object
-   *
-   * \throw TypeError if the dictionary is not a map, and therefore we cannot
-   *     insert at a given key inside it.
-   *
-   * \note The difference between this function and \sa insert is that it calls
-   * the type constructor T::T() with a braced-enclosed list of initializers,
-   * rather than forwarding its arguments directly.
-   */
-  template <typename T, typename... ArgsT, typename... Args>
-  T &insert_initializer(const std::string &key, Args &&...args) {
-    if (this->is_value()) {
-      throw TypeError(__FILE__, __LINE__,
-                      "Cannot insert at key \"" + key +
-                          "\" in non-dictionary object of type \"" +
-                          value_.type_name() + "\".");
-    }
-    auto &child = this->operator()(key);
-    if (!child.is_empty()) {
-      spdlog::warn(
-          "[Dictionary::insert] Key \"{}\" already exists. Returning existing "
-          "value rather than creating a new one.",
-          key);
-      return get<T>(key);
-    }
-    child.value_.allocate<T>();
-    new (child.value_.buffer.get()) T{std::forward<Args>(args)...};
-    return child.value_.setup<T, ArgsT...>();
-  }
-
   /*! Assign value directly.
    *
    * \param[in] new_value New value to assign.
