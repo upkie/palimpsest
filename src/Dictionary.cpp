@@ -31,6 +31,12 @@
 #include "palimpsest/KeyError.h"
 #include "palimpsest/mpack/eigen.h"
 
+using mpack::mpack_node_matrix3d;
+using mpack::mpack_node_quaterniond;
+using mpack::mpack_node_vector2d;
+using mpack::mpack_node_vector3d;
+using mpack::mpack_node_vectorXd;
+
 namespace palimpsest {
 
 void Dictionary::clear() noexcept {
@@ -72,7 +78,7 @@ void Dictionary::update(mpack_node_t node) {
                              mpack_node_strlen(key_node)};
     auto it = map_.find(key);
     if (it == map_.end()) {
-      this->insert_at_key(key, value_node);
+      this->insert_at_key_(key, value_node);
     } else /* (it != map_.end()) */ {
       try {
         it->second->update(value_node);
@@ -83,14 +89,8 @@ void Dictionary::update(mpack_node_t node) {
   }
 }
 
-void Dictionary::insert_at_key(const std::string &key,
-                               const mpack_node_t &value) {
-  using mpack::mpack_node_matrix3d;
-  using mpack::mpack_node_quaterniond;
-  using mpack::mpack_node_vector2d;
-  using mpack::mpack_node_vector3d;
-  using mpack::mpack_node_vectorXd;
-
+void Dictionary::insert_at_key_(const std::string &key,
+                                const mpack_node_t &value) {
   switch (mpack_node_type(value)) {
     case mpack_type_bool:
       this->insert<bool>(key, mpack_node_bool(value));
