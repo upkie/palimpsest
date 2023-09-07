@@ -19,8 +19,14 @@ py_binary(
 )
 
 cc_binary(
-    name = "readme",
-    srcs = ["readme.cpp"],
+    name = "save_load_dictionary",
+    srcs = ["save_load_dictionary.cpp"],
+    deps = ["@palimpsest"],
+)
+
+cc_binary(
+    name = "simple_dictionary",
+    srcs = ["simple_dictionary.cpp"],
     deps = ["@palimpsest"],
 )
 
