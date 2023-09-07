@@ -20,9 +20,9 @@
 #include <Eigen/Geometry>
 #include <iostream>
 
-int main() {
-  using palimpsest::Dictionary;
+using palimpsest::Dictionary;
 
+int main() {
   Dictionary world;
   world("name") = "example";
   world("temperature") = 28.0;
@@ -34,12 +34,5 @@ int main() {
   bodies("truck")("position") = Eigen::Vector3d{42.0, 0.5, 0.0};
 
   std::cout << world << std::endl;
-
-  world.write("serialized.mpack");
-
-  Dictionary world_bis;
-  world_bis.read("serialized.mpack");
-  std::cout << world_bis << std::endl;
-
   return EXIT_SUCCESS;
 }
