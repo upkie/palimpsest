@@ -52,7 +52,7 @@ using Index = Eigen::DenseIndex;
  * In the first two cases, we grow the buffer by at least double, enough
  * to ensure that new data will fit. We ignore the teardown flush.
  *
- * \note Inspired by mpack.c @ version 1.0
+ * @note Inspired by mpack.c @ version 1.0
  */
 static void mpack_std_vector_writer_flush(mpack_writer_t *writer,
                                           const char *data, size_t count) {

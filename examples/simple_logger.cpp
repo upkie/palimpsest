@@ -30,7 +30,7 @@ class SimpleLogger {
  public:
   /*! Open file to log to.
    *
-   * \param[in] path Path to log file.
+   * @param[in] path Path to log file.
    */
   explicit SimpleLogger(const std::string &path) {
     file_.open(path, std::ofstream::binary);
@@ -44,7 +44,7 @@ class SimpleLogger {
 
   /*! Write a dictionary to the log.
    *
-   * \param dict Dictionary to write.
+   * @param[in] dict Dictionary to write.
    */
   void write(const Dictionary &dict) {
     size_t size = dict.serialize(serialization_buffer_);
@@ -56,7 +56,7 @@ class SimpleLogger {
   //! Output file stream.
   std::ofstream file_;
 
-  //! Internal buffer used by \ref write(const Dictionary&).
+  //! Internal buffer used by @ref write(const Dictionary&).
   std::vector<char> serialization_buffer_;
 };
 

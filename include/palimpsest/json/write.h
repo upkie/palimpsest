@@ -31,10 +31,10 @@ namespace palimpsest::json {
 
 /*! Write a value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  *
- * \note This is the non-specialized version of this function.
+ * @note This is the non-specialized version of this function.
  */
 template <typename T>
 void write(std::ostream &stream, const T &value) {
@@ -44,8 +44,8 @@ void write(std::ostream &stream, const T &value) {
 
 /*! Write a boolean value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const bool &value) {
@@ -54,8 +54,8 @@ inline void write(std::ostream &stream, const bool &value) {
 
 /*! Write an integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const int8_t &value) {
@@ -64,8 +64,8 @@ inline void write(std::ostream &stream, const int8_t &value) {
 
 /*! Write an integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const int16_t &value) {
@@ -74,8 +74,8 @@ inline void write(std::ostream &stream, const int16_t &value) {
 
 /*! Write an integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const int32_t &value) {
@@ -84,8 +84,8 @@ inline void write(std::ostream &stream, const int32_t &value) {
 
 /*! Write an integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const int64_t &value) {
@@ -94,8 +94,8 @@ inline void write(std::ostream &stream, const int64_t &value) {
 
 /*! Write an unsigned integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const uint8_t &value) {
@@ -104,8 +104,8 @@ inline void write(std::ostream &stream, const uint8_t &value) {
 
 /*! Write an unsigned integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const uint16_t &value) {
@@ -114,8 +114,8 @@ inline void write(std::ostream &stream, const uint16_t &value) {
 
 /*! Write an unsigned integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const uint32_t &value) {
@@ -124,8 +124,8 @@ inline void write(std::ostream &stream, const uint32_t &value) {
 
 /*! Write an unsigned integral value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const uint64_t &value) {
@@ -134,8 +134,8 @@ inline void write(std::ostream &stream, const uint64_t &value) {
 
 /*! Write a single-precision floating-point value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const float &value) {
@@ -144,8 +144,8 @@ inline void write(std::ostream &stream, const float &value) {
 
 /*! Write a double-precision floating-point value as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const double &value) {
@@ -154,8 +154,8 @@ inline void write(std::ostream &stream, const double &value) {
 
 /*! Write a string as JSON to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] value Value to write.
+ * @param[out] stream Output stream.
+ * @param[in] value Value to write.
  */
 template <>
 inline void write(std::ostream &stream, const std::string &value) {
@@ -164,8 +164,8 @@ inline void write(std::ostream &stream, const std::string &value) {
 
 /*! Write a 2D vector as a JSON array to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] vector Vector to write.
+ * @param[out] stream Output stream.
+ * @param[in] vector Vector to write.
  */
 template <>
 inline void write(std::ostream &stream, const Eigen::Vector2d &vector) {
@@ -174,8 +174,8 @@ inline void write(std::ostream &stream, const Eigen::Vector2d &vector) {
 
 /*! Write a 3D vector as a JSON array to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] vector Vector to write.
+ * @param[out] stream Output stream.
+ * @param[in] vector Vector to write.
  */
 template <>
 inline void write(std::ostream &stream, const Eigen::Vector3d &vector) {
@@ -185,8 +185,8 @@ inline void write(std::ostream &stream, const Eigen::Vector3d &vector) {
 
 /*! Write a vector as a JSON array to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] vector Vector to write.
+ * @param[out] stream Output stream.
+ * @param[in] vector Vector to write.
  */
 template <>
 inline void write(std::ostream &stream, const Eigen::VectorXd &vector) {
@@ -202,8 +202,8 @@ inline void write(std::ostream &stream, const Eigen::VectorXd &vector) {
 
 /*! Write a quaternion as a JSON array to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] quat Quaternion.
+ * @param[out] stream Output stream.
+ * @param[in] quat Quaternion.
  */
 template <>
 inline void write(std::ostream &stream, const Eigen::Quaterniond &quat) {
@@ -213,8 +213,8 @@ inline void write(std::ostream &stream, const Eigen::Quaterniond &quat) {
 
 /*! Write a 3x3 matrix as nested JSON arrays to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] quat Quaternion.
+ * @param[out] stream Output stream.
+ * @param[in] quat Quaternion.
  */
 template <>
 inline void write(std::ostream &stream, const Eigen::Matrix3d &matrix) {
@@ -237,8 +237,8 @@ inline void write(std::ostream &stream, const Eigen::Matrix3d &matrix) {
 
 /*! Write a standard vector as a JSON array to an output stream.
  *
- * \param[out] stream Output stream.
- * \param[in] vector Standard vector to write.
+ * @param[out] stream Output stream.
+ * @param[in] vector Standard vector to write.
  */
 template <typename T>
 inline void write(std::ostream &stream, const std::vector<T> &vector) {
