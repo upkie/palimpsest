@@ -17,9 +17,9 @@ Let's build a dictionary:
 
 #include <palimpsest/Dictionary.h>
 
-int main() {
-  using palimpsest::Dictionary;
+using palimpsest::Dictionary;
 
+int main() {
   Dictionary world;
   world("name") = "example";
   world("temperature") = 28.0;
@@ -31,6 +31,7 @@ int main() {
   bodies("truck")("position") = Eigen::Vector3d{42.0, 0.0, 0.0};
 
   std::cout << world << std::endl;
+  return EXIT_SUCCESS;
 }
 ```
 
@@ -75,16 +76,15 @@ The two main assumptions in _palimpsest_ dictionaries are that:
 * Built-in support for [Eigen](https://eigen.tuxfamily.org/)
 * Serialize to and deserialize from [MessagePack](https://msgpack.org/)
 * Print dictionaries to standard output as [JSON](https://www.json.org/json-en.html)
-* [Extensible](#adding-custom-types) to new types (as long as they deserialize unambiguously)
+* [Extensible](#adding-custom-types) to new types, as long as they deserialize unambiguously
 
 ### Non-features
 
-* (Prioritizes speed) over user-friendliness
+* Prioritizes speed over user-friendliness
 * Array values are mostly limited to Eigen tensors (matrix, quaternion, vector)
 * Copy constructors are disabled
-* (Extensible to new types) as long as they deserialize unambiguously
-* [PRs welcome](#contributing): key collisions are pretty much left up to the user
-* [PRs welcome](#contributing): shallow and deep copies are not implemented
+* Extensible to new types as long as they deserialize unambiguously
+* Shallow and deep copies are not implemented ([PRs welcome](#contributing))
 
 Check out the existing [alternatives](https://github.com/tasts-robots/palimpsest#alternatives) if any of these choices is a no-go for you.
 
