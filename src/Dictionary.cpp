@@ -209,7 +209,7 @@ void Dictionary::write(const std::string &filename) const {
 
 size_t Dictionary::serialize(std::vector<char> &buffer) const {
   mpack::Writer writer(buffer);
-  serialize(writer);
+  serialize_(writer);
   return writer.finish();
 }
 
@@ -229,7 +229,7 @@ void Dictionary::serialize(mpack::Writer &writer) const {
   writer.finish_map();
 }
 
-const Dictionary::Value &Dictionary::get_child_value(
+const Dictionary::Value &Dictionary::get_child_value_(
     const std::string &key) const {
   const auto it = map_.find(key);
   if (it == map_.end()) {
