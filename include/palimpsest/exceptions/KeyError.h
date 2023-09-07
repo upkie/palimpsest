@@ -18,32 +18,35 @@
 
 #include <string>
 
-#include "palimpsest/InternalError.h"
+#include "palimpsest/exceptions/InternalError.h"
 
-namespace palimpsest {
+namespace palimpsest::exceptions {
 
-//! Requested type doesn't match the one already in the dictionary.
-class TypeError : public InternalError {
+//! Requested dictionary key is not found.
+class KeyError : public InternalError {
  public:
-  /*! Create a type error.
+  /*! Create a key error.
    *
+   * \param[in] key Key that was not found.
    * \param[in] file Source file of the instruction that threw the error.
    * \param[in] line Line of code in that file where the throw originates from.
    * \param[in] message Error message.
    */
-  TypeError(const std::string& file, unsigned line, const std::string& message)
-      : InternalError(file, line, message) {}
-
-  /*! Copy an existing error, adding to the error message.
-   *
-   * \param[in] other Existing error.
-   * \param[in] extra_message Additional error message.
-   */
-  TypeError(const TypeError& other, const std::string& extra_message)
-      : InternalError(other, extra_message) {}
+  KeyError(const std::string& key, const std::string& file, unsigned line,
+           const std::string& message)
+      : InternalError(file, line,
+                      std::string("Key \"") + key + "\" not found. " + message),
+        key_(key) {}
 
   //! Empty destructor
-  ~TypeError() throw() {}
+  ~KeyError() throw() {}
+
+  //! Key that was not found
+  const std::string& key() const throw() { return key_; }
+
+ private:
+  //! Key that was not found
+  std::string key_;
 };
 
-}  // namespace palimpsest
+}  // namespace palimpsest::exceptions
