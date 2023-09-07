@@ -14,6 +14,7 @@ cc_library(
     ],
     include_prefix = "palimpsest/mpack",
     deps = [
+        "//include/palimpsest/exceptions",
         "@eigen",
         "@mpack",
     ],
