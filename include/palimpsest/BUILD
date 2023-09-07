@@ -11,6 +11,7 @@ cc_library(
     ],
     include_prefix = "palimpsest",
     deps = [
+        "//include/palimpsest/exceptions",
         "//include/palimpsest/internal",
         "//include/palimpsest/json",
         "//include/palimpsest/mpack",
