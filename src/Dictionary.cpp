@@ -32,16 +32,15 @@
 #include "palimpsest/exceptions/TypeError.h"
 #include "palimpsest/mpack/eigen.h"
 
+namespace palimpsest {
+
+using exceptions::KeyError;
+using exceptions::TypeError;
 using mpack::mpack_node_matrix3d;
 using mpack::mpack_node_quaterniond;
 using mpack::mpack_node_vector2d;
 using mpack::mpack_node_vector3d;
 using mpack::mpack_node_vectorXd;
-
-namespace palimpsest {
-
-using exceptions::KeyError;
-using exceptions::TypeError;
 
 void Dictionary::clear() noexcept {
   assert(this->is_map());
