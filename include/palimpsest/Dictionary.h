@@ -707,8 +707,7 @@ class Dictionary {
    *
    * @throw TypeError if the type of the deserialized object cannot be handled.
    */
-  void Dictionary::insert_at_key_(const std::string &key,
-                                  const mpack_node_t &value);
+  void insert_at_key_(const std::string &key, const mpack_node_t &value);
 
   /*! Serialize to a MessagePack writer.
    *
