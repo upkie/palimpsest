@@ -197,7 +197,7 @@ void Dictionary::read(const std::string &filename) {
   std::vector<char> buffer(size);
   input.read(buffer.data(), size);
   input.close();
-  this->extend(buffer.data(), size);
+  this->update(buffer.data(), size);
 }
 
 void Dictionary::write(const std::string &filename) const {

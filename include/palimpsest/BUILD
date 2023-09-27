@@ -15,7 +15,6 @@ cc_library(
         "//include/palimpsest/internal",
         "//include/palimpsest/json",
         "//include/palimpsest/mpack",
-        ":exceptions",
         "@fmt",
         "@spdlog",
     ],
