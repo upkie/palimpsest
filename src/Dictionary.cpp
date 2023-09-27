@@ -134,7 +134,7 @@ void Dictionary::insert_at_key_(const std::string &key,
       }
       break;
     case mpack_type_map:
-      this->operator()(key).extend(value);
+      this->operator()(key).update(value);
       break;
     case mpack_type_bin:
     case mpack_type_nil:
