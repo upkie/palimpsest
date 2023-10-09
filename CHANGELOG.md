@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [2.0.0] - 2023/10/09
+
+### Breaking changes
+
+- Remove `extend` function
+- Remove `insert_initializer` function
+- The `update` function now inserts keys that are not already present
 
 ### Added
 
@@ -10,9 +16,6 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- **Breaking:** `update` now inserts keys that are not already present
-- **Breaking:** Remove `extend` function
-- **Breaking:** Remove `insert_initializer` function
 - Add underscore suffix to private functions
 - Bazel: Separate coverage, linting and testing jobs
 - Bazel: Update Bazelisk script
