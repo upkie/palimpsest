@@ -8,26 +8,6 @@
 
 _palimpsest_ implements a ``Dictionary`` type for C++ meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
 
-## API
-
-_palimpsest_ will feel familiar if you are used to Python dictionaries:
-
-| Python ``dict`` | Same in _palimpsest_? |
-|-----------------|-----------------------|
-| `clear`         | :heavy_check_mark:    |
-| `copy`          | :x:                   |
-| `fromkeys`      | :x:                   |
-| `get`           | :heavy_check_mark:    |
-| `items`         | :x:                   |
-| `keys`          | :heavy_check_mark:    |
-| `pop`           | :x:                   |
-| `popitem`       | :x:                   |
-| `setdefault`    | :x:                   |
-| `update`        | :heavy_check_mark:    |
-| `values`        | :heavy_check_mark:    |
-
-Implementing one of the functions marked with :x: is a great way to [contribute](CONTRIBUTING.md) to this project.
-
 ## Example
 
 Let's fill a dictionary and print it to the standard output:
@@ -78,6 +58,28 @@ std::cout << world_bis << std::endl;
 ```
 
 Dictionaries can also be [serialized to bytes](#serialization-to-bytes) for transmission over TCP, memory-mapped files, telegraph lines, etc.
+
+## Link with Python dictionaries
+
+_palimpsest_ will feel familiar if you are used to Python dictionaries, as its API is a subset of Python's ``dict``:
+
+| Python ``dict`` | In _palimpsest_? |
+|-----------------|------------------|
+| `clear`         | ✔️  |
+| `copy`          | ✖️  |
+| `fromkeys`      | ✖️  |
+| `get`           | ✔️  |
+| `items`         | ✖️  |
+| `keys`          | ✔️  |
+| `pop`           | ✖️  |
+| `popitem`       | ✖️  |
+| `setdefault`    | ✖️  |
+| `update`        | ✔️  |
+| `values`        | ✔️  |
+
+Implementing one of the functions marked with a ✖️  is a great way to [contribute](CONTRIBUTING.md) to this project.
+
+Code in the [examples/](examples/) directory shows how to save and load dictionaries to and from C++ and Python.
 
 ## Features and non-features
 
