@@ -79,7 +79,7 @@ _palimpsest_ will feel familiar if you are used to Python dictionaries, as its A
 
 Implementing one of the functions marked with a ✖️  is a great way to [contribute](CONTRIBUTING.md) to this project.
 
-Code in the [examples/](examples/) directory shows how to save and load dictionaries to and from C++ and Python.
+Code in the [examples/](https://github.com/tasts-robots/palimpsest/tree/main/examples) directory shows how to save and load dictionaries to and from C++ and Python.
 
 ## Features and non-features
 
