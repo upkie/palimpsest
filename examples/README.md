@@ -12,14 +12,14 @@
 ./tools/bazelisk run //examples:save_load_dictionary
 ```
 
-[Simple dictionary](simple_dictionary.cpp): write a simple dictionary to the standard output.
-
-```
-./tools/bazelisk run //examples:simple_dictionary
-```
-
 [Simple logger](simple_logger.cpp): log dictionaries to a MessagePack file (the output will be located in your Bazel cache, check out ``find ./bazel-out/ -name 'simple_logger.mpack'``):
 
 ```
 ./tools/bazelisk run //examples:simple_logger
+```
+
+[Write dictionary](write_dictionary.cpp): write a small dictionary to the standard output.
+
+```
+./tools/bazelisk run //examples:write_dictionary
 ```
