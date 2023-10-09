@@ -9,6 +9,7 @@ on:
 
 jobs:
     build:
+        name: "Build"
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout sources"
@@ -24,6 +25,7 @@ jobs:
                   tools/bazelisk build --compilation_mode=fastbuild //...
 
     coverage:
+        name: "Coverage"
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout sources"
@@ -42,6 +44,7 @@ jobs:
                   path-to-lcov: ${{ github.workspace }}/bazel-out/_coverage/_coverage_report.dat
 
     lint:
+        name: "Lint"
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout sources"
@@ -58,6 +61,7 @@ jobs:
                   tools/bazelisk test --compilation_mode=fastbuild --config lint //...
 
     test:
+        name: "Test"
         runs-on: ${{ matrix.os }}
         strategy:
             fail-fast: false
