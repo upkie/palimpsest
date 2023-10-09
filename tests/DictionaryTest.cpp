@@ -745,10 +745,9 @@ TEST(Dictionary, Update) {
   // There's extra data, but intersection key types match so we don't throw
   ASSERT_NO_THROW(incomplete.update(buffer.data(), size));
   ASSERT_EQ(incomplete("compact").as<bool>(), true);
-
-  // Now types don't match so we throw
-  incomplete("schema")("make_it_a_map") = "foo";
-  ASSERT_THROW(incomplete.update(buffer.data(), size), TypeError);
+  ASSERT_TRUE(incomplete.has("schema"));
+  ASSERT_THROW(incomplete("schema")("use_uint_as_a_map") = "foo",
+               std::runtime_error);
 }
 
 TEST(Dictionary, UpdateSignedInt) {
