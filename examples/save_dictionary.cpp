@@ -20,9 +20,9 @@
 #include <Eigen/Geometry>
 #include <iostream>
 
-int main() {
-  using palimpsest::Dictionary;
+using palimpsest::Dictionary;
 
+int main() {
   Dictionary world;
   world("name") = "example";
   world("temperature") = 28.0;
@@ -36,6 +36,5 @@ int main() {
   world.write("serialized.mpack");
   std::cout << "Serialized dictionary: " << world << std::endl;
 
-  // You can now run the `cpp_to_python.py` reader
   return EXIT_SUCCESS;
 }
