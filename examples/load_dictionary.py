@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright 2022 Stéphane Caron
+# Copyright 2023 Inria
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,22 +16,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
+
 import msgpack
-import os
 
 if __name__ == "__main__":
-    if not os.path.exists("serialized.mpack"):
-        raise FileNotFoundError(
-            "Compile and execute `cpp_to_python.cpp` first"
-        )
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help="MessagePack file to load")
+    args = parser.parse_args()
     unpacker = msgpack.Unpacker(raw=False)
     unpacked = 0
-    world = {}
-    with open("serialized.mpack", "rb") as buffer:
+    dictionary = {}
+    with open(args.file, "rb") as buffer:
         data = buffer.read()
         unpacker.feed(data)
     for new_dict in unpacker:
-        world.update(new_dict)
+        dictionary.update(new_dict)
+        print(dictionary)
         unpacked += 1
-    assert unpacked == 1
-    print(f"Unserialized dictionary: {world}")
