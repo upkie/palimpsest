@@ -216,22 +216,32 @@ TEST(Dictionary, TestDictionaryInheritance) {
 }
 
 TEST(Dictionary, TestRemove) {
-  struct ToLiveAndDieInLA {
-    explicit ToLiveAndDieInLA(const std::string &name) : name_(name) {
-      spdlog::info("Object {} constructed", name_);
+  constexpr int kBeforeConstructor = 0;
+  constexpr int kAfterConstructor = 1;
+  constexpr int kAfterDestructor = 2;
+
+  struct TokenHolder {
+    TokenHolder(const std::string &token, int &int_ref)
+        : token(token), int_ref(int_ref) {
+      int_ref = kAfterConstructor;
     }
-    ~ToLiveAndDieInLA() { spdlog::info("Object {} destructed", name_); }
-    std::string name_;
+    ~TokenHolder() { int_ref = kAfterDestructor; }
+    std::string token;
+    int &int_ref;
   };
 
+  int stage = kBeforeConstructor;
   Dictionary dict;
-  dict.insert<ToLiveAndDieInLA>("2Pac", "2Pac");
+  ASSERT_EQ(stage, kBeforeConstructor);
+  dict.insert<TokenHolder>("some_key", "token_value", stage);
   {
-    auto &r = dict.get<ToLiveAndDieInLA>("2Pac");
-    ASSERT_EQ(r.name_, "2Pac");
-    EXPECT_TRUE(dict.has("2Pac"));
-    dict.remove("2Pac");
-    EXPECT_TRUE(!dict.has("2Pac"));
+    ASSERT_EQ(stage, kAfterConstructor);
+    auto &object = dict.get<TokenHolder>("some_key");
+    ASSERT_EQ(object.token, "token_value");
+    EXPECT_TRUE(dict.has("some_key"));
+    dict.remove("some_key");
+    ASSERT_EQ(stage, kAfterDestructor);
+    EXPECT_TRUE(!dict.has("some_key"));
   }
 }
 
