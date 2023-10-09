@@ -216,7 +216,7 @@ size_t Dictionary::serialize(std::vector<char> &buffer) const {
   return writer.finish();
 }
 
-void Dictionary::serialize(mpack::Writer &writer) const {
+void Dictionary::serialize_(mpack::Writer &writer) const {
   if (this->is_value()) {
     value_.serialize(writer);
     return;
