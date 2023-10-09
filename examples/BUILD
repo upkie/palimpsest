@@ -6,16 +6,15 @@ load("//tools/lint:lint.bzl", "add_lint_tests")
 
 package(default_visibility = ["//visibility:public"])
 
-cc_binary(
-    name = "cpp_to_python",
-    srcs = ["cpp_to_python.cpp"],
-    deps = ["@palimpsest"],
+py_binary(
+    name = "load_dictionary",
+    srcs = ["load_dictionary.py"],
 )
 
-py_binary(
-    name = "cpp_to_python_py",
-    srcs = ["cpp_to_python.py"],
-    main = "cpp_to_python.py",
+cc_binary(
+    name = "save_dictionary",
+    srcs = ["save_dictionary.cpp"],
+    deps = ["@palimpsest"],
 )
 
 cc_binary(
