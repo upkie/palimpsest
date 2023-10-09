@@ -62,6 +62,10 @@ void Dictionary::update(const char *data, size_t size) {
 }
 
 void Dictionary::update(mpack_node_t node) {
+  if (mpack_node_type(node) == mpack_type_nil) {
+    return;
+  }
+
   if (this->is_value()) {
     value_.deserialize(node);
     return;
