@@ -227,7 +227,7 @@ void Dictionary::serialize_(mpack::Writer &writer) const {
     const auto &key = key_child.first;
     const auto &child = *key_child.second;
     writer.write(key);
-    child.serialize(writer);
+    child.serialize_(writer);
   }
   writer.finish_map();
 }
