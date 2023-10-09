@@ -24,14 +24,14 @@ cc_binary(
 )
 
 cc_binary(
-    name = "simple_dictionary",
-    srcs = ["simple_dictionary.cpp"],
+    name = "simple_logger",
+    srcs = ["simple_logger.cpp"],
     deps = ["@palimpsest"],
 )
 
 cc_binary(
-    name = "simple_logger",
-    srcs = ["simple_logger.cpp"],
+    name = "write_dictionary",
+    srcs = ["write_dictionary.cpp"],
     deps = ["@palimpsest"],
 )
 
