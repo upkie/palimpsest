@@ -818,12 +818,9 @@ TEST(Dictionary, UpdateFromNilNode) {
   ASSERT_EQ(mpack_node_type(nil_node), mpack_type_nil);
 
   Dictionary dict;
-  // shapes match, nothing happens
-  ASSERT_NO_THROW(dict.update(nil_node));
-
+  ASSERT_NO_THROW(dict.update(nil_node));  // dict empty
   dict("foo") = "bar";
-  // shapes don't match, TypeError thrown
-  ASSERT_THROW(dict.update(nil_node), TypeError);
+  ASSERT_NO_THROW(dict.update(nil_node));  // dict non-empty
 }
 
 TEST(Dictionary, WriteAndRead) {
