@@ -1,10 +1,10 @@
 # palimpsest — Fast serializable C++ dictionaries
 
-[![Build](https://img.shields.io/github/actions/workflow/status/tasts-robots/palimpsest/bazel.yml?branch=main)](https://github.com/tasts-robots/palimpsest/actions)
-[![Coverage](https://coveralls.io/repos/github/tasts-robots/palimpsest/badge.svg?branch=main)](https://coveralls.io/github/tasts-robots/palimpsest?branch=main)
+[![Build](https://img.shields.io/github/actions/workflow/status/upkie/palimpsest/bazel.yml?branch=main)](https://github.com/upkie/palimpsest/actions)
+[![Coverage](https://coveralls.io/repos/github/upkie/palimpsest/badge.svg?branch=main)](https://coveralls.io/github/upkie/palimpsest?branch=main)
 [![Documentation](https://img.shields.io/badge/docs-online-brightgreen?style=flat)](https://scaron.info/doc/palimpsest/)
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
-[![Release](https://img.shields.io/github/v/release/tasts-robots/palimpsest.svg?sort=semver)](https://github.com/tasts-robots/palimpsest/releases)
+[![Release](https://img.shields.io/github/v/release/upkie/palimpsest.svg?sort=semver)](https://github.com/upkie/palimpsest/releases)
 
 _palimpsest_ implements a ``Dictionary`` type for C++ meant for fast value updates and serialization. It is called [palimpsest](https://en.wiktionary.org/wiki/palimpsest#Noun) because dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
 
@@ -79,7 +79,7 @@ _palimpsest_ will feel familiar if you are used to Python dictionaries, as its A
 
 Implementing one of the functions marked with a ✖️  is a great way to [contribute](CONTRIBUTING.md) to this project.
 
-Code in the [examples/](https://github.com/tasts-robots/palimpsest/tree/main/examples) directory shows how to save and load dictionaries to and from C++ and Python.
+Code in the [examples/](https://github.com/upkie/palimpsest/tree/main/examples) directory shows how to save and load dictionaries to and from C++ and Python.
 
 ## Features and non-features
 
@@ -108,7 +108,7 @@ The two main assumptions in _palimpsest_ dictionaries are that:
 * Custom types need to deserialize unambiguously
 * Shallow and deep copies are not implemented ([PRs welcome](CONTRIBUTING.md))
 
-Check out the existing [alternatives](https://github.com/tasts-robots/palimpsest#alternatives) if any of these choices is a no-go for you.
+Check out the existing [alternatives](https://github.com/upkie/palimpsest#alternatives) if any of these choices is a no-go for you.
 
 ## Installation
 
@@ -123,7 +123,7 @@ http_archive(
     name = "palimpsest",
     sha256 = "f3f7c004197ce808f44a3698928d48a317f9b6f11b29397d0b8c0c6f2a7d0c1c",
     strip_prefix = "palimpsest-1.1.0",
-    url = "https://github.com/tasts-robots/palimpsest/archive/refs/tags/v1.1.0.tar.gz",
+    url = "https://github.com/upkie/palimpsest/archive/refs/tags/v1.1.0.tar.gz",
 )
 
 load("@palimpsest//tools/workspace:default.bzl", add_palimpsest_repositories = "add_default_repositories")
@@ -151,7 +151,7 @@ make -j4
 make install
 ```
 
-Note that by default [MPack](https://github.com/ludocode/mpack) will be built and installed from the [``third_party``](https://github.com/tasts-robots/palimpsest/tree/main/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack 1.1 or later installed on your system.
+Note that by default [MPack](https://github.com/ludocode/mpack) will be built and installed from the [``third_party``](https://github.com/upkie/palimpsest/tree/main/third_party) folder. Set ``-DBUILD_MPACK=OFF`` if you already have MPack 1.1 or later installed on your system.
 
 ## Usage
 
