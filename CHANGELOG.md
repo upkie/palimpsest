@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Changed
+
+- Raise a TypeError when trying to serialize an unknown type
+
 ## [2.0.0] - 2023/10/09
 
 ### Breaking changes

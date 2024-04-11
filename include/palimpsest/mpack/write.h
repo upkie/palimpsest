@@ -12,6 +12,7 @@
 #pragma once
 
 #include <mpack.h>
+#include <palimpsest/exceptions/TypeError.h>
 
 #include <string>
 
@@ -32,8 +33,9 @@ namespace palimpsest::mpack {
  */
 template <typename T>
 void write(mpack_writer_t* writer, const T& value) {
-  auto type_name = std::string("<typeid:") + typeid(T).name() + ">";
-  return write<std::string>(writer, type_name);
+  throw TypeError(__FILE__, __LINE__,
+                  std::string("No known serialization function for typeid \"") +
+                      typeid(T).name() + "\"");
 }
 
 //! Specialization of @ref mpack_write<T>(writer, value)
