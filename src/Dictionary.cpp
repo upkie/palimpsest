@@ -106,25 +106,43 @@ void Dictionary::insert_at_key_(const std::string &key,
       this->insert<std::string>(
           key, std::string{mpack_node_str(value), mpack_node_strlen(value)});
       break;
-    case mpack_type_array:
-      switch (mpack_node_array_length(value)) {
-        case 2:
-          this->insert<Eigen::Vector2d>(key, mpack_node_vector2d(value));
-          break;
-        case 3:
-          this->insert<Eigen::Vector3d>(key, mpack_node_vector3d(value));
-          break;
-        case 4:
-          this->insert<Eigen::Quaterniond>(key, mpack_node_quaterniond(value));
-          break;
-        case 9:
-          this->insert<Eigen::Matrix3d>(key, mpack_node_matrix3d(value));
-          break;
-        default:
-          this->insert<Eigen::VectorXd>(key, mpack_node_vectorXd(value));
-          break;
+    case mpack_type_array: {
+      size_t length = mpack_node_array_length(value);
+      if (length == 0) {
+        throw TypeError(__FILE__, __LINE__,
+                        std::string("Cannot deserialize an empty list "
+                                    "(precludes type inference) at key \"") +
+                            key + "\"");
+      }
+      mpack_node_t first_item = mpack_node_array_at(value, 0);
+      mpack_type_t array_type = mpack_node_type(first_item);
+      if (array_type == mpack_type_double) {
+        switch (length) {
+          case 2:
+            this->insert<Eigen::Vector2d>(key, mpack_node_vector2d(value));
+            break;
+          case 3:
+            this->insert<Eigen::Vector3d>(key, mpack_node_vector3d(value));
+            break;
+          case 4:
+            this->insert<Eigen::Quaterniond>(key,
+                                             mpack_node_quaterniond(value));
+            break;
+          case 9:
+            this->insert<Eigen::Matrix3d>(key, mpack_node_matrix3d(value));
+            break;
+          default:
+            this->insert<Eigen::VectorXd>(key, mpack_node_vectorXd(value));
+            break;
+        }
+      } else {
+        throw TypeError(__FILE__, __LINE__,
+                        std::string("Unsupported array type \"") +
+                            mpack_type_to_string(array_type) + "\" at key \"" +
+                            key + "\"");
       }
       break;
+    }
     case mpack_type_map:
       this->operator()(key).update(value);
       break;
@@ -135,7 +153,7 @@ void Dictionary::insert_at_key_(const std::string &key,
                       std::string("Cannot insert values of type ") +
                           mpack_type_to_string(mpack_node_type(value)));
   }
-}
+}  // namespace palimpsest
 
 std::vector<std::string> Dictionary::keys() const noexcept {
   std::vector<std::string> out;

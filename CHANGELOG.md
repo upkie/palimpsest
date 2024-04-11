@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Type check arrays at deserialization based on first element
 - Writer for vectors of strings
 
 ### Changed
