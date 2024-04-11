@@ -456,19 +456,14 @@ TEST(Dictionary, KnownMessagePackSize) {
   ASSERT_EQ(size, 5);
 }
 
-TEST(Dictionary, SerializeUnknownType) {
+TEST(Dictionary, TypeErrorWhenSerializingUnknownType) {
   struct UnknownType {
     std::string mystery;
   };
   Dictionary dict;
   dict.insert<UnknownType>("unknown", UnknownType{"???"});
   std::vector<char> buffer;
-  auto size = dict.serialize(buffer);
-  Dictionary checker;
-  checker("unknown") = std::string("");
-  checker.update(buffer.data(), size);
-  ASSERT_TRUE(checker("unknown").as<std::string>().find("<typeid:") !=
-              std::string::npos);
+  ASSERT_THROW(dict.serialize(buffer), TypeError);
 }
 
 TEST(Dictionary, DeserializeUnsignedWhenPossible) {
