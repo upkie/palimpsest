@@ -179,4 +179,15 @@ inline void write(mpack_writer_t* writer, const Eigen::Matrix3d& value) {
   mpack_finish_array(writer);
 }
 
+//! Specialization of @ref mpack_write<T>(writer, value)
+template <>
+inline void write(mpack_writer_t* writer,
+                  const std::vector<std::string>& value) {
+  mpack_start_array(writer, value.size());
+  for (const auto& str : value) {
+    mpack_write_str(writer, str.c_str(), static_cast<uint32_t>(str.size()));
+  }
+  mpack_finish_array(writer);
+}
+
 }  // namespace palimpsest::mpack

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Writer for vectors of strings
+
 ### Changed
 
 - Raise a TypeError when trying to serialize an unknown type
