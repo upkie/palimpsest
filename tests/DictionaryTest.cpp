@@ -118,13 +118,13 @@ TEST(Dictionary, TestDictionary) {
   dict.insert<std::vector<double>>("data", 4, 42.0);
   auto &data = dict.get<std::vector<double>>("data");
   ASSERT_EQ(data.size(), 4);
-  EXPECT_NEAR(data[0], 42, 1e-10);
-  EXPECT_NEAR(data[1], 42, 1e-10);
-  EXPECT_NEAR(data[2], 42, 1e-10);
-  EXPECT_NEAR(data[3], 42, 1e-10);
-  EXPECT_THROW(dict.get<double>("data"), TypeError);
-  EXPECT_THROW(dict.get<std::vector<int>>("data"), TypeError);
-  EXPECT_THROW(dict.get<std::vector<double>>("inexistent"), KeyError);
+  ASSERT_NEAR(data[0], 42, 1e-10);
+  ASSERT_NEAR(data[1], 42, 1e-10);
+  ASSERT_NEAR(data[2], 42, 1e-10);
+  ASSERT_NEAR(data[3], 42, 1e-10);
+  ASSERT_THROW(dict.get<double>("data"), TypeError);
+  ASSERT_THROW(dict.get<std::vector<int>>("data"), TypeError);
+  ASSERT_THROW(dict.get<std::vector<double>>("inexistent"), KeyError);
 
   data.resize(100);
   auto &data2 = dict.get<std::vector<double>>("data");
@@ -144,13 +144,13 @@ TEST(Dictionary, TestDictionary) {
 
   // Remove object
   dict.remove("key");
-  EXPECT_FALSE(dict.has("key"));
-  EXPECT_TRUE(dict.has("data"));
+  ASSERT_FALSE(dict.has("key"));
+  ASSERT_TRUE(dict.has("data"));
 
   // Try to remove when it's not there
   dict.remove("key");
-  EXPECT_FALSE(dict.has("key"));
-  EXPECT_TRUE(dict.has("data"));
+  ASSERT_FALSE(dict.has("key"));
+  ASSERT_TRUE(dict.has("data"));
 
   // Test getters
   dict.insert<double>("assign", 42);
@@ -226,10 +226,10 @@ TEST(Dictionary, TestRemove) {
     ASSERT_EQ(stage, kAfterConstructor);
     auto &object = dict.get<TokenHolder>("some_key");
     ASSERT_EQ(object.token, "token_value");
-    EXPECT_TRUE(dict.has("some_key"));
+    ASSERT_TRUE(dict.has("some_key"));
     dict.remove("some_key");
     ASSERT_EQ(stage, kAfterDestructor);
-    EXPECT_TRUE(!dict.has("some_key"));
+    ASSERT_TRUE(!dict.has("some_key"));
   }
 }
 
@@ -237,11 +237,11 @@ TEST(Dictionary, TestRemove) {
 #if !EIGEN_VERSION_AT_LEAST(3, 4, 0)
 TEST(Dictionary, EigenOverloadOperatorNew) {
   Dictionary dict;
-  EXPECT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
+  ASSERT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
   dict.insert<Overloaded>("overloaded");
-  EXPECT_TRUE(Eigen::aligned_allocator<Overloaded>::used);
+  ASSERT_TRUE(Eigen::aligned_allocator<Overloaded>::used);
   dict.remove("overloaded");
-  EXPECT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
+  ASSERT_FALSE(Eigen::aligned_allocator<Overloaded>::used);
 }
 #endif
 
@@ -822,12 +822,12 @@ TEST(Dictionary, WriteAndRead) {
 
   Dictionary check;
   check.read(tmp_file);
+  ::close(fd);
+  ::unlink(tmp_file);
+
   ASSERT_EQ(dict.get<std::string>("foo"), check.get<std::string>("foo"));
   ASSERT_EQ(dict("bar").get<unsigned>("num"),
             check("bar").get<unsigned>("num"));
-
-  ::close(fd);
-  ::unlink(tmp_file);
 }
 
 }  // namespace palimpsest
