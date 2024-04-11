@@ -825,4 +825,22 @@ TEST(Dictionary, WriteAndRead) {
             check("bar").get<unsigned>("num"));
 }
 
+TEST(Dictionary, WriteVectorOfStrings) {
+  Dictionary dict;
+  dict("foo").insert<std::vector<std::string>>("bar", 22, "left_wheel");
+
+  char tmp_file[] = "/tmp/dictXXXXXX";
+  int fd = ::mkstemp(tmp_file);
+  dict.write(tmp_file);
+
+  Dictionary check;
+  ASSERT_THROW(check.read(tmp_file), TypeError);  // not implemented
+  ::close(fd);
+  ::unlink(tmp_file);
+
+  // if we implement a reader in the future, we can test:
+  // ASSERT_EQ(dict("foo").get<std::vector<double>>("bar").size(),
+  // check("foo").get<std::vector<double>>("bar").size());
+}
+
 }  // namespace palimpsest
