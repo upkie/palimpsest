@@ -137,9 +137,9 @@ void Dictionary::insert_at_key_(const std::string &key,
         }
       } else {
         throw TypeError(__FILE__, __LINE__,
-                        std::string("Unsupported array type \"") +
-                            mpack_type_to_string(array_type) + "\" at key \"" +
-                            key + "\"");
+                        std::string("Unsupported array of ") +
+                            mpack_type_to_string(array_type) +
+                            " elements encountered at key \"" + key + "\"");
       }
       break;
     }
