@@ -15,6 +15,7 @@
 #include <palimpsest/exceptions/TypeError.h>
 
 #include <string>
+#include <vector>
 
 namespace palimpsest::mpack {
 
