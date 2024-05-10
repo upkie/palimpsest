@@ -843,4 +843,22 @@ TEST(Dictionary, WriteVectorOfStrings) {
   // check("foo").get<std::vector<double>>("bar").size());
 }
 
+/* This test checks what happens when serializing size_t integers on various
+ * platforms, as size_t is not necessarily the same as uint64_t.
+ *
+ * See https://github.com/upkie/vulp/issues/96
+ */
+TEST(Dictionary, SerializeSizeT) {
+  Dictionary serialized, deserialized;
+  std::vector<char> buffer;
+
+  serialized("logger")("last_size") = static_cast<size_t>(42);
+  size_t buffer_size = serialized.serialize(buffer);
+  deserialized.update(buffer.data(), buffer_size);
+
+  size_t before = serialized("logger")("last_size");
+  unsigned after = deserialized("logger")("last_size");
+  ASSERT_EQ(before, after);
+}
+
 }  // namespace palimpsest
