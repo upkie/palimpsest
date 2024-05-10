@@ -856,11 +856,9 @@ TEST(Dictionary, SerializeSizeT) {
   size_t buffer_size = serialized.serialize(buffer);
   deserialized.update(buffer.data(), buffer_size);
 
-  // On some systems, conversion from 'Dictionary' to 'size_t' (typically
-  // 'unsigned long') is ambiguous, so we go directly for unsigned
-  unsigned before = serialized("logger")("last_size");
+  size_t before = serialized("logger")("last_size").as<size_t>();
   unsigned after = deserialized("logger")("last_size");
-  ASSERT_EQ(before, after);
+  ASSERT_EQ(static_cast<unsigned>(before), after);
 }
 
 }  // namespace palimpsest
