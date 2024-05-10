@@ -843,11 +843,23 @@ TEST(Dictionary, WriteVectorOfStrings) {
   // check("foo").get<std::vector<double>>("bar").size());
 }
 
-/* This test checks what happens when serializing size_t integers on various
- * platforms, as size_t is not necessarily the same as uint64_t.
+#if __APPLE__
+/*
+ * The following test is disabled on macOS GitHub Actions runners where size_t
+ * and uint64_t are two distinct types and palimpsest has no serialization
+ * function for size_t. (Defining one would make the overload an error on
+ * systems where size_t and uint64_t are the same type.)
  *
- * See https://github.com/upkie/vulp/issues/96
+ * In general, it is recommended not to serialize size_t in palimpsest
+ * dictionaries. They would be deserialized as unsigned integers anyway, as
+ * MessagePack only has two types for integers (signed and unsigned).
+ *
+ * See also https://github.com/upkie/palimpsest/pull/6 and
+ * https://github.com/upkie/vulp/issues/96
  */
+#else
+/* This test checks what happens when serializing size_t integers on platforms
+ * where size_t is a generic uintXX_t. */
 TEST(Dictionary, SerializeSizeT) {
   Dictionary serialized, deserialized;
   std::vector<char> buffer;
@@ -860,5 +872,6 @@ TEST(Dictionary, SerializeSizeT) {
   unsigned after = deserialized("logger")("last_size");
   ASSERT_EQ(static_cast<unsigned>(before), after);
 }
+#endif
 
 }  // namespace palimpsest
