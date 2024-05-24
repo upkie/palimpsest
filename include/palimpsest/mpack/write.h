@@ -204,10 +204,54 @@ inline void write(mpack_writer_t* writer, const std::vector<double>& value) {
 //! Specialization of @ref mpack_write<T>(writer, value)
 template <>
 inline void write(mpack_writer_t* writer,
+                  const std::vector<Eigen::Vector2d>& value) {
+  mpack_start_array(writer, value.size());
+  for (const Eigen::Vector2d& vec : value) {
+    write(writer, vec);
+  }
+  mpack_finish_array(writer);
+}
+
+//! Specialization of @ref mpack_write<T>(writer, value)
+template <>
+inline void write(mpack_writer_t* writer,
+                  const std::vector<Eigen::Vector3d>& value) {
+  mpack_start_array(writer, value.size());
+  for (const Eigen::Vector3d& vec : value) {
+    write(writer, vec);
+  }
+  mpack_finish_array(writer);
+}
+
+//! Specialization of @ref mpack_write<T>(writer, value)
+template <>
+inline void write(mpack_writer_t* writer,
                   const std::vector<Eigen::VectorXd>& value) {
   mpack_start_array(writer, value.size());
   for (const Eigen::VectorXd& vec : value) {
     write(writer, vec);
+  }
+  mpack_finish_array(writer);
+}
+
+//! Specialization of @ref mpack_write<T>(writer, value)
+template <>
+inline void write(mpack_writer_t* writer,
+                  const std::vector<Eigen::Quaterniond>& value) {
+  mpack_start_array(writer, value.size());
+  for (const Eigen::Quaterniond& quaternion : value) {
+    write(writer, quaternion);
+  }
+  mpack_finish_array(writer);
+}
+
+//! Specialization of @ref mpack_write<T>(writer, value)
+template <>
+inline void write(mpack_writer_t* writer,
+                  const std::vector<Eigen::Matrix3d>& value) {
+  mpack_start_array(writer, value.size());
+  for (const Eigen::Matrix3d& matrix : value) {
+    write(writer, matrix);
   }
   mpack_finish_array(writer);
 }
