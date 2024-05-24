@@ -193,6 +193,16 @@ inline void write(mpack_writer_t* writer,
 
 //! Specialization of @ref mpack_write<T>(writer, value)
 template <>
+inline void write(mpack_writer_t* writer, const std::vector<double>& value) {
+  mpack_start_array(writer, value.size());
+  for (const double& v : value) {
+    write<double>(writer, v);
+  }
+  mpack_finish_array(writer);
+}
+
+//! Specialization of @ref mpack_write<T>(writer, value)
+template <>
 inline void write(mpack_writer_t* writer,
                   const std::vector<Eigen::VectorXd>& value) {
   mpack_start_array(writer, value.size());
