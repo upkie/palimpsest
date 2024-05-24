@@ -135,6 +135,27 @@ void Dictionary::insert_at_key_(const std::string &key,
             this->insert<Eigen::VectorXd>(key, mpack_node_vectorXd(value));
             break;
         }
+      } else if (array_type == mpack_type_array) {
+        // We only handle lists of Eigen::VectorXd vectors for now
+        auto &new_vec_vec =
+            this->insert<std::vector<Eigen::VectorXd>>(key, length);
+        for (unsigned index = 0; index < length; ++index) {
+          mpack_node_t sub_array = mpack_node_array_at(value, index);
+          mpack_type_t sub_type = mpack_node_type(sub_array);
+          if (sub_type != mpack_type_array) {
+            throw TypeError(__FILE__, __LINE__,
+                            std::string("Encountered non-array item ") +
+                                mpack_type_to_string(sub_type) +
+                                " while parsing array of arrays at key \"" +
+                                key + "\"");
+          }
+          unsigned sub_length = mpack_node_array_length(sub_array);
+          Eigen::VectorXd &vector = new_vec_vec[index];
+          vector.resize(sub_length);
+          for (Eigen::Index j = 0; j < sub_length; ++j) {
+            vector(j) = mpack_node_double(mpack_node_array_at(sub_array, j));
+          }
+        }
       } else {
         throw TypeError(__FILE__, __LINE__,
                         std::string("Unsupported array of ") +
