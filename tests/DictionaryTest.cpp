@@ -874,4 +874,24 @@ TEST(Dictionary, SerializeSizeT) {
 }
 #endif
 
+TEST(Dictionary, SerializeVectorDouble) {
+  Dictionary source;
+  source.insert<std::vector<double>>("vector_double",
+                                     std::vector<double>{1.0, 2.0});
+
+  // Serialize to buffer
+  std::vector<char> buffer;
+  size_t size = source.serialize(buffer);
+  ASSERT_GT(buffer.size(), 0);
+  ASSERT_LT(size, buffer.size());  // size is usually < MPACK_BUFFER_SIZE
+
+  // Deserialize and check that we recover all serialized values
+  Dictionary deserialized;
+  deserialized.update(buffer.data(), size);
+  ASSERT_DOUBLE_EQ(
+      deserialized("vector_double").as<std::vector<double>>().at(0), 1.0);
+  ASSERT_DOUBLE_EQ(
+      deserialized("vector_double").as<std::vector<double>>().at(1), 2.0);
+}
+
 }  // namespace palimpsest
