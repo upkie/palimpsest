@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- CICD: Unit test for the serialization of ``std::vector<double>``
+- CICD: Unit tests for vectors and vectors-of-vectors serialization
+- Serialization for ``std::vector<Eigen::VectorXd>``
 - Type check arrays at deserialization based on first element
 - Writer for vectors of strings
 
