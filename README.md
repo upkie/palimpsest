@@ -2,7 +2,7 @@
 
 [![Build](https://img.shields.io/github/actions/workflow/status/upkie/palimpsest/bazel.yml?branch=main)](https://github.com/upkie/palimpsest/actions)
 [![Coverage](https://coveralls.io/repos/github/upkie/palimpsest/badge.svg?branch=main)](https://coveralls.io/github/upkie/palimpsest?branch=main)
-[![Documentation](https://img.shields.io/badge/docs-online-brightgreen?style=flat)](https://scaron.info/doc/palimpsest/)
+[![Documentation](https://img.shields.io/badge/docs-online-brightgreen?style=flat)](https://upkie.github.io/palimpsest/)
 ![C++ version](https://img.shields.io/badge/C++-17/20-blue.svg?style=flat)
 [![Release](https://img.shields.io/github/v/release/upkie/palimpsest.svg?sort=semver)](https://github.com/upkie/palimpsest/releases)
 
