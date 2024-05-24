@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- CICD: Documentation workflow
+
 ## [2.1.0] - 2024/05/24
 
 ### Added
