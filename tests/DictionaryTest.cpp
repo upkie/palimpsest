@@ -895,4 +895,19 @@ TEST(Dictionary, SerializeVectorXd) {
   }
 }
 
+TEST(Dictionary, SerializeVectorOfVectorXd) {
+  Eigen::VectorXd vec(5);
+  vec << 1.0, 2.0, 3.0, 4.0, 5.0;
+
+  Dictionary source;
+  source.insert<std::vector<Eigen::VectorXd>>(
+      "vector_of_vectors", std::vector<Eigen::VectorXd>{vec, vec, vec});
+
+  // Serialize to buffer
+  std::vector<char> buffer;
+  size_t size = source.serialize(buffer);
+  ASSERT_GT(buffer.size(), 0);
+  ASSERT_LT(size, buffer.size());  // size is usually < MPACK_BUFFER_SIZE
+}
+
 }  // namespace palimpsest
