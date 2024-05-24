@@ -874,10 +874,11 @@ TEST(Dictionary, SerializeSizeT) {
 }
 #endif
 
-TEST(Dictionary, SerializeVectorDouble) {
+TEST(Dictionary, SerializeVectorXd) {
   Dictionary source;
-  source.insert<std::vector<double>>("vector_double",
-                                     std::vector<double>{1.0, 2.0});
+  Eigen::VectorXd vec(5);
+  vec << 1.0, 2.0, 3.0, 4.0, 5.0;
+  source.insert<Eigen::VectorXd>("vector_xd", vec);
 
   // Serialize to buffer
   std::vector<char> buffer;
@@ -888,10 +889,10 @@ TEST(Dictionary, SerializeVectorDouble) {
   // Deserialize and check that we recover all serialized values
   Dictionary deserialized;
   deserialized.update(buffer.data(), size);
-  ASSERT_DOUBLE_EQ(
-      deserialized("vector_double").as<std::vector<double>>().at(0), 1.0);
-  ASSERT_DOUBLE_EQ(
-      deserialized("vector_double").as<std::vector<double>>().at(1), 2.0);
+  for (unsigned i = 0; i < 5; ++i) {
+    ASSERT_DOUBLE_EQ(deserialized("vector_xd").as<Eigen::VectorXd>()(i),
+                     static_cast<double>(i + 1));
+  }
 }
 
 }  // namespace palimpsest
