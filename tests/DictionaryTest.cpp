@@ -901,13 +901,28 @@ TEST(Dictionary, SerializeVectorOfVectorXd) {
 
   Dictionary source;
   source.insert<std::vector<Eigen::VectorXd>>(
-      "vector_of_vectors", std::vector<Eigen::VectorXd>{vec, vec, vec});
+      "vec_vec", std::vector<Eigen::VectorXd>{vec, vec, vec});
+  const auto &serialized_vec_vec =
+      source("vec_vec").as<std::vector<Eigen::VectorXd>>();
+  ASSERT_EQ(serialized_vec_vec.size(), 3);
 
   // Serialize to buffer
   std::vector<char> buffer;
   size_t size = source.serialize(buffer);
   ASSERT_GT(buffer.size(), 0);
   ASSERT_LT(size, buffer.size());  // size is usually < MPACK_BUFFER_SIZE
+
+  // Deserialize and check that we recover all serialized values
+  Dictionary deserialized;
+  deserialized.update(buffer.data(), size);
+  const auto &deserialized_vec_vec =
+      deserialized("vec_vec").as<std::vector<Eigen::VectorXd>>();
+  ASSERT_EQ(deserialized_vec_vec.size(), 3);
+  for (unsigned i = 0; i < 3; ++i) {
+    for (unsigned j = 0; j < 5; ++j) {
+      ASSERT_DOUBLE_EQ(deserialized_vec_vec[i](j), static_cast<double>(j + 1));
+    }
+  }
 }
 
 }  // namespace palimpsest
