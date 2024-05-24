@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Serialization of ``std::vector<Eigen::VectorXd>``
 - Serialization of ``std::vector<double>`` deserializing to ``Eigen::VectorXd``
 - Type check arrays at deserialization based on first element
+- WIP: Serialization of ``std::vector``'s of other Eigen types
 - Writer for vectors of strings
 
 ### Changed
