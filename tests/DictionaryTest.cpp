@@ -874,6 +874,30 @@ TEST(Dictionary, SerializeSizeT) {
 }
 #endif
 
+TEST(Dictionary, SerializeVectorDouble) {
+  Dictionary source;
+  source.insert<std::vector<double>>(
+      "vector_double", std::vector<double>{1.0, 2.0, 3.0, 4.0, 5.0});
+
+  // Serialize to buffer
+  std::vector<char> buffer;
+  size_t size = source.serialize(buffer);
+  ASSERT_GT(buffer.size(), 0);
+  ASSERT_LT(size, buffer.size());  // size is usually < MPACK_BUFFER_SIZE
+
+  // Deserialize and check that we recover all serialized values. Note that
+  // std::vector<double> is deserialized as Eigen::VectorXd We allow
+  // serialization for convenience, but expect Eigen vectors to be used
+  // primarily.
+  Dictionary deserialized;
+  deserialized.update(buffer.data(), size);
+  const auto &deserialized_vector_xd =
+      deserialized("vector_double").as<Eigen::VectorXd>();
+  for (unsigned i = 0; i < 5; ++i) {
+    ASSERT_DOUBLE_EQ(deserialized_vector_xd(i), static_cast<double>(i + 1));
+  }
+}
+
 TEST(Dictionary, SerializeVectorXd) {
   Dictionary source;
   Eigen::VectorXd vec(5);
@@ -889,9 +913,10 @@ TEST(Dictionary, SerializeVectorXd) {
   // Deserialize and check that we recover all serialized values
   Dictionary deserialized;
   deserialized.update(buffer.data(), size);
+  const auto &deserialized_vector_xd =
+      deserialized("vector_xd").as<Eigen::VectorXd>();
   for (unsigned i = 0; i < 5; ++i) {
-    ASSERT_DOUBLE_EQ(deserialized("vector_xd").as<Eigen::VectorXd>()(i),
-                     static_cast<double>(i + 1));
+    ASSERT_DOUBLE_EQ(deserialized_vector_xd(i), static_cast<double>(i + 1));
   }
 }
 
