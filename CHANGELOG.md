@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [Unreleased]
+
+## [2.1.0] - 2024/05/24
 
 ### Added
 
@@ -18,7 +20,7 @@ All notable changes to this project will be documented in this file.
 
 - Raise a TypeError when trying to serialize an unknown type
 
-## [2.0.0] - 2023/10/09
+## [2.0.0] - 2023-10-09
 
 ### Breaking changes
 
@@ -38,7 +40,7 @@ All notable changes to this project will be documented in this file.
 - Compile in optimized rather than fast-build mode by default
 - Remove Makefile from examples directory
 
-## [1.1.0] - 2022/10/04
+## [1.1.0] - 2022-10-04
 
 ### Added
 
@@ -52,6 +54,12 @@ All notable changes to this project will be documented in this file.
 
 - Bazel: Label ``build_file`` attributes for downstream dependencies
 
-## [1.0.0] - 2022/04/25
+## [1.0.0] - 2022-04-25
 
 This is the initial release of _palimpsest_, a small C++ library that provides a ``Dictionary`` type meant for fast value updates and serialization. It is called palimpsest because these dictionaries are designed for frequent rewritings (values change fast) on the same support (keys change slow).
+
+[unreleased]: https://github.com/qpsolvers/qpsolvers/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/qpsolvers/qpsolvers/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/qpsolvers/qpsolvers/compare/v1.1.0...v2.0.0
+[1.1.0]: https://github.com/qpsolvers/qpsolvers/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/qpsolvers/qpsolvers/releases/tag/v1.0.0
