@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- CICD: Add changelog check
 - CICD: Unit tests for vectors and vectors-of-vectors serialization
 - Serialization of ``std::vector<Eigen::VectorXd>``
 - Serialization of ``std::vector<double>`` deserializing to ``Eigen::VectorXd``
