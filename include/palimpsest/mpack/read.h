@@ -41,14 +41,12 @@ void read(const mpack_node_t node, T& value) {
  */
 template <>
 inline void read(const mpack_node_t node, bool& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_bool) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting bool, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_bool(node);
 }
 
@@ -61,7 +59,6 @@ inline void read(const mpack_node_t node, bool& value) {
  */
 template <>
 inline void read(const mpack_node_t node, int8_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -69,7 +66,6 @@ inline void read(const mpack_node_t node, int8_t& value) {
         std::string("Expecting int8_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_i8(node);
 }
 
@@ -82,7 +78,6 @@ inline void read(const mpack_node_t node, int8_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, int16_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -90,7 +85,6 @@ inline void read(const mpack_node_t node, int16_t& value) {
         std::string("Expecting int16_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_i16(node);
 }
 
@@ -103,7 +97,6 @@ inline void read(const mpack_node_t node, int16_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, int32_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -111,7 +104,6 @@ inline void read(const mpack_node_t node, int32_t& value) {
         std::string("Expecting int32_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_i32(node);
 }
 
@@ -124,7 +116,6 @@ inline void read(const mpack_node_t node, int32_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, int64_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_int &&
       mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
@@ -132,7 +123,6 @@ inline void read(const mpack_node_t node, int64_t& value) {
         std::string("Expecting int64_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_i64(node);
 }
 
@@ -145,14 +135,12 @@ inline void read(const mpack_node_t node, int64_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, uint8_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting uint8_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_u8(node);
 }
 
@@ -165,14 +153,12 @@ inline void read(const mpack_node_t node, uint8_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, uint16_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting uint16_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_u16(node);
 }
 
@@ -185,14 +171,12 @@ inline void read(const mpack_node_t node, uint16_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, uint32_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting uint32_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_u32(node);
 }
 
@@ -205,14 +189,12 @@ inline void read(const mpack_node_t node, uint32_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, uint64_t& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_uint) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting uint64_t, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_u64(node);
 }
 
@@ -225,7 +207,6 @@ inline void read(const mpack_node_t node, uint64_t& value) {
  */
 template <>
 inline void read(const mpack_node_t node, float& value) {
-#ifndef NDEBUG
   switch (mpack_node_type(node)) {
     case mpack_type_int:
     case mpack_type_uint:
@@ -238,7 +219,6 @@ inline void read(const mpack_node_t node, float& value) {
           std::string("Expecting float, but deserialized node has type ") +
               mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_float(node);
 }
 
@@ -251,7 +231,6 @@ inline void read(const mpack_node_t node, float& value) {
  */
 template <>
 inline void read(const mpack_node_t node, double& value) {
-#ifndef NDEBUG
   switch (mpack_node_type(node)) {
     case mpack_type_int:
     case mpack_type_uint:
@@ -264,7 +243,6 @@ inline void read(const mpack_node_t node, double& value) {
           std::string("Expecting double, but deserialized node has type ") +
               mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = mpack_node_double(node);
 }
 
@@ -277,14 +255,12 @@ inline void read(const mpack_node_t node, double& value) {
  */
 template <>
 inline void read(const mpack_node_t node, std::string& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_str) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting std::string, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   value = std::string{mpack_node_str(node), mpack_node_strlen(node)};
 }
 
@@ -297,14 +273,12 @@ inline void read(const mpack_node_t node, std::string& value) {
  */
 template <>
 inline void read(const mpack_node_t node, Eigen::Vector2d& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting an array, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   assert(mpack_node_array_length(node) == 2);
   read<double>(mpack_node_array_at(node, 0), value.x());
   read<double>(mpack_node_array_at(node, 1), value.y());
@@ -319,14 +293,12 @@ inline void read(const mpack_node_t node, Eigen::Vector2d& value) {
  */
 template <>
 inline void read(const mpack_node_t node, Eigen::Vector3d& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting an array, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   assert(mpack_node_array_length(node) == 3);
   read<double>(mpack_node_array_at(node, 0), value.x());
   read<double>(mpack_node_array_at(node, 1), value.y());
@@ -342,14 +314,12 @@ inline void read(const mpack_node_t node, Eigen::Vector3d& value) {
  */
 template <>
 inline void read(const mpack_node_t node, Eigen::VectorXd& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting an array, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   const unsigned length = mpack_node_array_length(node);
   assert(length == value.size());
   for (size_t i = 0; i < length; ++i) {
@@ -366,14 +336,12 @@ inline void read(const mpack_node_t node, Eigen::VectorXd& value) {
  */
 template <>
 inline void read(const mpack_node_t node, Eigen::Quaterniond& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting an array, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   assert(mpack_node_array_length(node) == 4);
   read<double>(mpack_node_array_at(node, 0), value.w());
   read<double>(mpack_node_array_at(node, 1), value.x());
@@ -390,14 +358,12 @@ inline void read(const mpack_node_t node, Eigen::Quaterniond& value) {
  */
 template <>
 inline void read(const mpack_node_t node, Eigen::Matrix3d& value) {
-#ifndef NDEBUG
   if (mpack_node_type(node) != mpack_type_array) {
     throw TypeError(
         __FILE__, __LINE__,
         std::string("Expecting an array, but deserialized node has type ") +
             mpack_type_to_string(mpack_node_type(node)));
   }
-#endif
   assert(mpack_node_array_length(node) == 9);
   for (Eigen::Index i = 0; i < 3; ++i) {
     for (Eigen::Index j = 0; j < 3; ++j) {

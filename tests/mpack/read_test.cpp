@@ -173,8 +173,6 @@ TEST_F(ReadTest, ReadUnknownTypeError) {
   ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
 
-#ifndef NDEBUG  // other type errors aren't checked in "opt" compilation mode
-
 TEST_F(ReadTest, ReadBoolTypeError) {
   data_.type = mpack_type_int;
   bool output;
@@ -276,7 +274,5 @@ TEST_F(ReadTest, ReadEigenQuaterniondTypeError) {
   Eigen::Quaterniond output;
   ASSERT_THROW(mpack::read(node_, output), TypeError);
 }
-
-#endif  // NDEBUG
 
 }  // namespace palimpsest::mpack
