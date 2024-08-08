@@ -79,7 +79,7 @@ void Dictionary::update(mpack_node_t node) {
       try {
         it->second->update(value_node);
       } catch (const TypeError &e) {
-        throw TypeError(e, "(at key \"" + key + "\") ");
+        throw TypeError(e, " ← at key \"" + key + "\"");
       }
     }
   }
