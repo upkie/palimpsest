@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - CICD: Documentation workflow
+- Unit test for one-dimensional vector deserialization
 
 ### Changed
 

@@ -951,4 +951,29 @@ TEST(Dictionary, SerializeVectorOfVectorXd) {
   }
 }
 
+TEST(Dictionary, OneDimensionalVector) {
+  Dictionary source;
+  Eigen::VectorXd vec(1);
+  vec << 0.42;
+  source.insert<Eigen::VectorXd>("vector", vec);
+
+  // Serialize to buffer
+  std::vector<char> buffer;
+  size_t size = source.serialize(buffer);
+  ASSERT_GT(buffer.size(), 0);
+  ASSERT_LT(size, buffer.size());
+
+  // Deserialize and check that we recover the serialized vector
+  Dictionary deserialized;
+  deserialized.update(buffer.data(), size);
+  const auto &deserialized_vector =
+      deserialized("vector").as<Eigen::VectorXd>();
+  ASSERT_EQ(deserialized_vector.size(), 1);
+  ASSERT_DOUBLE_EQ(deserialized_vector(0), 0.42);
+
+  // We should not be able to deserialize it as a double
+  ASSERT_THROW(deserialized.get<double>("vector"),
+               palimpsest::exceptions::TypeError);
+}
+
 }  // namespace palimpsest
