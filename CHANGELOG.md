@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Always check types when deserializing
 - docs: Don't show include files
 
 ## [2.1.0] - 2024/05/24
