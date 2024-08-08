@@ -955,7 +955,7 @@ TEST(Dictionary, OneDimensionalVector) {
   Dictionary source;
   Eigen::VectorXd vec(1);
   vec << 0.42;
-  source.insert<Eigen::VectorXd>("vector", vec);
+  source.insert<Eigen::VectorXd>("foo", vec);
 
   // Serialize to buffer
   std::vector<char> buffer;
@@ -966,13 +966,17 @@ TEST(Dictionary, OneDimensionalVector) {
   // Deserialize and check that we recover the serialized vector
   Dictionary deserialized;
   deserialized.update(buffer.data(), size);
-  const auto &deserialized_vector =
-      deserialized("vector").as<Eigen::VectorXd>();
+  const auto &deserialized_vector = deserialized("foo").as<Eigen::VectorXd>();
   ASSERT_EQ(deserialized_vector.size(), 1);
   ASSERT_DOUBLE_EQ(deserialized_vector(0), 0.42);
 
   // We should not be able to deserialize it as a double
-  ASSERT_THROW(deserialized.get<double>("vector"),
+  ASSERT_THROW(deserialized.get<double>("foo"),
+               palimpsest::exceptions::TypeError);
+
+  Dictionary bar;
+  bar("foo") = 1.2;  // different from above
+  ASSERT_THROW(bar.update(buffer.data(), size),
                palimpsest::exceptions::TypeError);
 }
 
