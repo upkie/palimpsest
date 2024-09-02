@@ -217,8 +217,7 @@ The main blocker is that we set a custom flush function ``mpack_std_vector_write
 * [`mc_rtc::Configuration`](https://github.com/jrl-umi3218/mc_rtc/blob/master/include/mc_rtc/Configuration.h) - similar API to palimpsest, based on RapidJSON (see below).
 * [`mc_rtc::DataStore`](https://github.com/jrl-umi3218/mc_rtc/blob/master/include/mc_rtc/DataStore.h) - can hold more general value types, like lambda functions, but does not serialize.
 * [`mjlib::telemetry`](https://github.com/mjbots/mjlib/tree/master/mjlib/telemetry#readme) - if your use case is more specifically telemetry in robotics or embedded systems.
-* [`nlohmann::json`](https://github.com/nlohmann/json) - most user-friendly library of this list, serializes to MessagePack and other binary formats, but not designed for speed.
+* [JSON for Modern C++](https://github.com/nlohmann/json) - most user-friendly library of this list, serializes to MessagePack and other binary formats, but not designed for speed.
 * [Protocol Buffers](https://developers.google.com/protocol-buffers/) - good fit if you have a fixed schema (keys don't change at all) that you want to serialize to and from.
 * [RapidJSON](https://github.com/Tencent/rapidjson/) - low memory footprint, can serialize to MessagePack using other [related projects](https://github.com/Tencent/rapidjson/wiki/Related-Projects), but has linear lookup complexity as it stores dictionaries [as lists of key-value pairs](https://github.com/Tencent/rapidjson/issues/102).
-* [`std::map`](https://www.cplusplus.com/reference/map/map/) - best pick if your values all have the same type and you don't need nested dictionaries.
-* [`std::unordered_map`](https://www.cplusplus.com/reference/unordered_map/unordered_map/) - similar use case to ``std::map``, this variant usually performs faster on average.
+* [simdjson](https://github.com/simdjson/simdjson/) - uses SIMD instructions and microparallel algorithms to parse JSON (reportedly 4x faster than RapidJSON and 25x faster than JSON for Modern C++).
